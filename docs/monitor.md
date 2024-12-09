@@ -1,7 +1,7 @@
 # Create a Monitor for Application/Service
 
 ## Add a new AWS SNS Topic if required
-- Config SNS Topic File: [topics.json](https://github.com/BCDevOps/nr-apm-stack/blob/main/terraform/topics.json)
+- Config SNS Topic File: [topics.json](https://github.com/bcgov/nr-apm-stack/blob/main/terraform/topics.json)
 
 | Field Name  | Description                                  | Example                     |
 |-------------|----------------------------------------------|-----------------------------|
@@ -16,13 +16,13 @@ After deployment the new SNS topic should be displayed in OpenSearch->Notificati
 
 - Command to generate file monitors.json from [nr-funbucks](https://github.com/bcgov-nr/nr-funbucks): ./bin/dev monitors
 
-- Copy monitors.json to [nr-apm-stack](https://github.com/BCDevOps/nr-apm-stack) under terraform
+- Copy monitors.json to [nr-apm-stack](https://github.com/bcgov/nr-apm-stack) under terraform
 
-- PR for [nr-apm-stack](https://github.com/BCDevOps/nr-apm-stack) for OneTeam to review and deploy to AWS
+- PR for [nr-apm-stack](https://github.com/bcgov/nr-apm-stack) for OneTeam to review and deploy to AWS
 
 ## Create a Monitor for Application/Service with Terraform
 
-- Configuration File for application alerts: [app-alert.yaml](https://github.com/BCDevOps/nr-apm-stack/blob/main/terraform/app-alert.yaml)
+- Configuration File for application alerts: [app-alert.yaml](https://github.com/bcgov/nr-apm-stack/blob/main/terraform/app-alert.yaml)
 
 - Add/Modify entries for monitors in the file with query and fields listed below
 

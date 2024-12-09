@@ -24,12 +24,12 @@ The 'nrm - (type) - (qualifier)' portion (or without the qualifier) will be refe
 | nrm-audit-vault      	| Vault audit data         	|            	|                                                                                      	|
 | nrm-metrics          	| Server & Process metrics 	|            	|                                                                                      	|
 | nrm-tomcat-catalina  	| Tomcat catalina logs     	|            	|                                                                                      	|
-| nrm-tomcat-localhost 	| Tomcat localhost logs    	|            	|                                                                                      	|	
+| nrm-tomcat-localhost 	| Tomcat localhost logs    	|            	|                                                                                      	|
 
 Aliases: The index name is always an alias as well.
 
 ## Index Lifecycle
-Generally, fresher data is examined more often so more resources are utilized to make that faster. All indices start on hot data nodes. 
+Generally, fresher data is examined more often so more resources are utilized to make that faster. All indices start on hot data nodes.
 
 | Index Name           | Performance | Scale Down at | Merge at | Warm at | Delete at | Rollup |
 |----------------------|-------------|---------------|----------|---------|-----------|--------|
@@ -62,7 +62,7 @@ Explanation of why certain qualifiers are used or not
 | audit | (blank)   | Never. Audit logs are specific to an application so a generic type would not make sense.                           |
 
 ## Standard Lifecycle Modifiers
-These modifiers are for edge cases where the long term cost of a subset of the data greatly outweighs the utility of keeping it around. Lifecycle modifiers are not recommended because fewer indices decreases the overall data size and speeds query response. A fair bit of analysis should go into any decision to use one. 
+These modifiers are for edge cases where the long term cost of a subset of the data greatly outweighs the utility of keeping it around. Lifecycle modifiers are not recommended because fewer indices decreases the overall data size and speeds query response. A fair bit of analysis should go into any decision to use one.
 
 | Modifier | Description                                                                                                                                                                                                                                                                  |
 |----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -71,9 +71,9 @@ These modifiers are for edge cases where the long term cost of a subset of the d
 ## Index Format & Lifecycle Implementation
 The above information is an adaption of the infrastructure code.
 
-Index templates: [https://github.com/BCDevOps/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/index_template](https://github.com/BCDevOps/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/index_template)
+Index templates: [https://github.com/bcgov/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/index_template](https://github.com/bcgov/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/index_template)
 
-Index policies: [https://github.com/BCDevOps/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/state_management_policy](https://github.com/BCDevOps/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/state_management_policy)
+Index policies: [https://github.com/bcgov/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/state_management_policy](https://github.com/bcgov/nr-apm-stack/tree/master/workflow-cli/configuration-opensearch/state_management_policy)
 
 ## Reference
 [Troubleshooting Elasticsearch ILM: Common issues and fixes](https://www.elastic.co/blog/troubleshooting-elasticsearch-ilm-common-issues-and-fixes)
