@@ -2,7 +2,7 @@
 
 [NR APM (Application Performance and Monitoring) Stack](https://apm.io.nrs.gov.bc.ca/_plugin/_dashboards) allows teams to tactically respond to potential issues and strategically investigate their KPIs. It is delivered using OpenSearch hosted on AWS. OpenSearch is a open source search and analytics suite derived from Elasticsearch & Kibana.
 
-<b>This README is for developers deploying NR APM Stack. See our Github site for [integration documentation](https://bcdevops.github.io/nr-apm-stack/).</b>
+<b>This README is for developers deploying NR APM Stack. See our Github site for [integration documentation](https://bcgov.github.io/nr-apm-stack/).</b>
 
 # More Documentation
 
@@ -16,11 +16,11 @@ https://apps.nrs.gov.bc.ca/int/confluence/x/GaRvBQ
 
 For developers and product owners, our integration documentation is located here:
 
-https://bcdevops.github.io/nr-apm-stack/
+https://bcgov.github.io/nr-apm-stack/
 
 # Getting Started
 
-This project contains all the source code and supporting files for the APM Stack. It consists of a AWS SAM template, GitHub Actions and a Workflow CLI. 
+This project contains all the source code and supporting files for the APM Stack. It consists of a AWS SAM template, GitHub Actions and a Workflow CLI.
 
 AWS SAM is used to deploy the infrastructure on AWS. The infrastructure includes an AWS Lambda application that retrieves documents from an Kinesis endpoint, processes them and passes them on to OpenSearch. GitHub Actions are used to automate the deployment and maintaince of the product.
 
