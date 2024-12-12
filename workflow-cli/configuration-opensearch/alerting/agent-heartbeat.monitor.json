@@ -81,7 +81,7 @@
         "actions": [
           {
             "id": "<%= idgen('action-teams', server.name, agent.index) %>",
-            "name": "Notify Teams Channel",
+            "name": "Notify Appinfra Teams Channel",
             "destination_id": "appinfra-msteams",
             "message_template": {
               "source": "{ \"text\": \"Monitor {{ctx.monitor.name}} just entered alert status. Please investigate the issue.\n  - Trigger: {{ctx.trigger.name}}\n  - Severity: {{ctx.trigger.severity}}\n  - Period start: {{ctx.periodStart}}\n  - Period end: {{ctx.periodEnd}}\" }",
@@ -118,7 +118,7 @@
           {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('nonproduction') ? 'true' : 'false' %>",
             "id": "<%= idgen('action-nonprod-wf', server.name, agent.index) %>",
-            "name": "notify",
+            "name": "Notify Wildfire Nonprod Teams Channel",
             "destination_id": "wf-nonprod-msteams",
             "message_template": {
               "source": "{\"text\": \"No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
@@ -137,7 +137,7 @@
           {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('production') ? 'true' : 'false' %>",
             "id": "<%= idgen('action-prod-wf', server.name, agent.index) %>",
-            "name": "notify",
+            "name": "Notify Wildfire Prod Teams Channel",
             "destination_id": "wf-prod-msteams",
             "message_template": {
               "source": "{\"text\": \"No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
