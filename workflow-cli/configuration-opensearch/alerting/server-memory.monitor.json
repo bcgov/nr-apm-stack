@@ -1,5 +1,4 @@
 {
-  "$$OMIT": "<%= server.name != 'beneath' ? 'true' : 'false' %>",
   "name": "nrids_server_memory_<%= server.name %>",
   "type": "monitor",
   "monitor_type": "query_level_monitor",
