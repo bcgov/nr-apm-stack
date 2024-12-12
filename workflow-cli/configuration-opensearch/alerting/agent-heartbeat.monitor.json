@@ -5,8 +5,8 @@
   "enabled": true,
   "schedule": {
     "period": {
-    "interval": 1,
-    "unit": "MINUTES"
+      "interval": 1,
+      "unit": "MINUTES"
     }
   },
   "inputs": [
@@ -85,7 +85,7 @@
             "destination_id": "appinfra-msteams",
             "message_template": {
               "source": "{ \"text\": \"Monitor {{ctx.monitor.name}} just entered alert status. Please investigate the issue.\n  - Trigger: {{ctx.trigger.name}}\n  - Severity: {{ctx.trigger.severity}}\n  - Period start: {{ctx.periodStart}}\n  - Period end: {{ctx.periodEnd}}\" }",
-              "lang" : "mustache"
+              "lang": "mustache"
             },
             "throttle_enabled": true,
             "throttle": {
@@ -94,7 +94,7 @@
             },
             "subject_template": {
               "source": "",
-              "lang" : "mustache"
+              "lang": "mustache"
             }
           },
           {
@@ -103,7 +103,7 @@
             "destination_id": "automation-sqs-sns",
             "message_template": {
               "source": "{ \"type\": \"agent_down\", \"server\": \"<%= server.name %>\", \"agent\": \"fluent-bit.<%= agent.index %>\", \"periodStart\": \"{{ctx.periodStart}}\", \"periodEnd\": \"{{ctx.periodEnd}}\" }",
-              "lang" : "mustache"
+              "lang": "mustache"
             },
             "throttle_enabled": true,
             "throttle": {
@@ -112,30 +112,11 @@
             },
             "subject_template": {
               "source": "Notify",
-              "lang" : "mustache"
+              "lang": "mustache"
             }
           },
           {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('nonproduction') ? 'true' : 'false' %>",
-            "id": "<%= idgen('action-nonprod-wf', server.name, agent.index) %>",
-            "name": "notify",
-            "destination_id": "wf-nonprod-msteams",
-            "message_template": {
-               "source": "{\"text\": \"No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
-               "lang": "mustache"
-            },
-            "throttle_enabled": true,
-            "subject_template": {
-               "source": "",
-               "lang": "mustache"
-            },
-            "throttle": {
-               "value": 240,
-               "unit": "MINUTES"
-            }
-         },
-         {
-            "$$OMIT": "<%= !serverTag('wildfire') || serverTag('production') ? 'true' : 'false' %>",
             "id": "<%= idgen('action-nonprod-wf', server.name, agent.index) %>",
             "name": "notify",
             "destination_id": "wf-nonprod-msteams",
@@ -159,19 +140,19 @@
             "name": "notify",
             "destination_id": "wf-prod-msteams",
             "message_template": {
-               "source": "{\"text\": \"No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
-               "lang": "mustache"
+              "source": "{\"text\": \"No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
+              "lang": "mustache"
             },
             "throttle_enabled": true,
             "subject_template": {
-               "source": "",
-               "lang": "mustache"
+              "source": "",
+              "lang": "mustache"
             },
             "throttle": {
-               "value": 30,
-               "unit": "MINUTES"
+              "value": 30,
+              "unit": "MINUTES"
             }
-         }
+          }
         ]
       }
     }
