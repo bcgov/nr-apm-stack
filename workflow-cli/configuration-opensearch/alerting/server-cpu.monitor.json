@@ -1,0 +1,125 @@
+{
+  "$$OMIT": "<%= server.name != 'beneath' ? 'true' : 'false' %>",
+  "name": "nrids_cpu_<%= server.name %>",
+  "type": "monitor",
+  "monitor_type": "query_level_monitor",
+  "enabled": true,
+  "schedule": {
+    "period": {
+    "interval": 15,
+    "unit": "MINUTES"
+    }
+  },
+  "inputs": [
+    {
+      "search": {
+        "indices": [
+          "nrm-metrics-*"
+        ],
+        "query": {
+          "size": 0,
+          "aggregations": {
+            "metric": {
+               "avg": {
+                  "field": "host.cpu.usage"
+               }
+            }
+          },
+          "query": {
+            "bool": {
+              "filter": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "from": "{{period_end}}||-30m",
+                      "to": "{{period_end}}",
+                      "include_lower": true,
+                      "include_upper": true,
+                      "format": "epoch_millis",
+                      "boost": 1.0
+                    }
+                  }
+                },
+                {
+                  "term": {
+                    "host.hostname": {
+                      "value": "<%= server.name %>",
+                      "boost": 1.0
+                    }
+                  }
+                }
+              ],
+              "adjust_pure_negative": true,
+              "boost": 1.0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "query_level_trigger": {
+        "id": "<%= idgen('trigger', server.name) %>",
+        "name": "AbnormalCPU from server <%= server.name %>",
+        "severity": "4",
+        "condition": {
+          "script": {
+            "source": "return ctx.results[0].aggregations.metric.value == null ? false : ctx.results[0].aggregations.metric.value > 95",
+            "lang": "painless"
+          }
+        },
+        "actions": [
+          {
+            "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('nonproduction') ? 'true' : 'false' %>",
+            "id": "<%= idgen('action-nonprod-wf', server.name) %>",
+            "name": "notify",
+            "destination_id": "wf-nonprod-msteams",
+            "message_template": {
+               "source": "{\"text\": \"Abnormal high CPU usage alerting received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
+               "lang": "mustache"
+            },
+            "throttle_enabled": true,
+            "subject_template": {
+               "source": "<%= server.name %> CPU Usage Alert",
+               "lang": "mustache"
+            },
+            "throttle": {
+               "value": 1440,
+               "unit": "MINUTES"
+            }
+         },
+          {
+            "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('production') ? 'true' : 'false' %>",
+            "id": "<%= idgen('action-prod-wf', server.name) %>",
+            "name": "notify",
+            "destination_id": "wf-prod-msteams",
+            "message_template": {
+               "source": "{\"text\": \"Abnormal high CPU usage alerting received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
+               "lang": "mustache"
+            },
+            "throttle_enabled": true,
+            "subject_template": {
+               "source": "<%= server.name %> CPU Usage Alert",
+               "lang": "mustache"
+            },
+            "throttle": {
+               "value": 30,
+               "unit": "MINUTES"
+            }
+         }
+        ]
+      }
+    }
+  ],
+  "data_sources": {
+    "alerts_history_index": ".opendistro-alerting-alert-history-write",
+    "alerts_history_index_pattern": "<.opendistro-alerting-alert-history-{now/d}-1>",
+    "alerts_index": ".opendistro-alerting-alerts",
+    "findings_enabled": false,
+    "findings_index": ".opensearch-alerting-finding-history-write",
+    "findings_index_pattern": "<.opensearch-alerting-finding-history-{now/d}-1>",
+    "query_index": ".opensearch-alerting-queries",
+    "query_index_mappings_by_type": {}
+  }
+}
