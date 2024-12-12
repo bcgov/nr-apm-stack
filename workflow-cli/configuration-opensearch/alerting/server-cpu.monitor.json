@@ -1,6 +1,6 @@
 {
   "$$OMIT": "<%= server.name != 'beneath' ? 'true' : 'false' %>",
-  "name": "nrids_cpu_<%= server.name %>",
+  "name": "nrids_server_cpu_<%= server.name %>",
   "type": "monitor",
   "monitor_type": "query_level_monitor",
   "enabled": true,
@@ -71,9 +71,27 @@
         },
         "actions": [
           {
+            "id": "<%= idgen('action-teams', server.name) %>",
+            "name": "Notify Appinfra Teams Channel",
+            "destination_id": "appinfra-msteams",
+            "message_template": {
+              "source": "{ \"text\": \"Monitor {{ctx.monitor.name}} just entered alert status. Please investigate the issue.\n  - Trigger: {{ctx.trigger.name}}\n  - Severity: {{ctx.trigger.severity}}\n  - Period start: {{ctx.periodStart}}\n  - Period end: {{ctx.periodEnd}}\" }",
+              "lang" : "mustache"
+            },
+            "throttle_enabled": true,
+            "throttle": {
+              "value": 15,
+              "unit": "MINUTES"
+            },
+            "subject_template": {
+              "source": "",
+              "lang" : "mustache"
+            }
+          },
+          {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('nonproduction') ? 'true' : 'false' %>",
             "id": "<%= idgen('action-nonprod-wf', server.name) %>",
-            "name": "notify",
+            "name": "Notify Wildfire Nonprod Teams Channel",
             "destination_id": "wf-nonprod-msteams",
             "message_template": {
                "source": "{\"text\": \"Abnormal high CPU usage alerting received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
@@ -92,7 +110,7 @@
           {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('production') ? 'true' : 'false' %>",
             "id": "<%= idgen('action-prod-wf', server.name) %>",
-            "name": "notify",
+            "name": "Notify Wildfire Prod Teams Channel",
             "destination_id": "wf-prod-msteams",
             "message_template": {
                "source": "{\"text\": \"Abnormal high CPU usage alerting received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
