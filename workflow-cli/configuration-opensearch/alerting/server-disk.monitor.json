@@ -1,11 +1,11 @@
 {
-  "name": "nrids_agent_fluentbit_<%= server.name %>_<%= agent.index %>",
+  "name": "nrids_server_disk_<%= server.name %>",
   "type": "monitor",
   "monitor_type": "query_level_monitor",
   "enabled": true,
   "schedule": {
     "period": {
-    "interval": 1,
+    "interval": 15,
     "unit": "MINUTES"
     }
   },
@@ -13,18 +13,24 @@
     {
       "search": {
         "indices": [
-          "nrm-metrics"
+          "nrm-metrics-*"
         ],
         "query": {
           "size": 0,
-          "aggregations": {},
+          "aggregations": {
+            "metric": {
+               "avg": {
+                  "field": "host.disk.used_percentage"
+               }
+            }
+          },
           "query": {
             "bool": {
               "filter": [
                 {
                   "range": {
                     "@timestamp": {
-                      "from": "{{period_end}}||-5m",
+                      "from": "{{period_end}}||-30m",
                       "to": "{{period_end}}",
                       "include_lower": true,
                       "include_upper": true,
@@ -40,26 +46,8 @@
                       "boost": 1.0
                     }
                   }
-                },
-                {
-                  "term": {
-                    "agent.name": {
-                      "value": "fluent-bit.<%= agent.index %>",
-                      "boost": 1.0
-                    }
-                  }
-                },
-                {
-                  "term": {
-                    "event.dataset": {
-                      "value": "process.info",
-                      "boost": 1.0
-                    }
-                  }
                 }
-              ],
-              "adjust_pure_negative": true,
-              "boost": 1.0
+              ]
             }
           }
         }
@@ -69,18 +57,18 @@
   "triggers": [
     {
       "query_level_trigger": {
-        "id": "<%= idgen('trigger', server.name, agent.index) %>",
-        "name": "No logs from server <%= server.name %>, agent fluent-bit.<%= agent.index %>",
-        "severity": "1",
+        "id": "<%= idgen('trigger', server.name) %>",
+        "name": "AbnormalDisk from server <%= server.name %>",
+        "severity": "4",
         "condition": {
           "script": {
-            "source": "ctx.results[0].hits.total.value == 0",
+            "source": "return ctx.results[0].aggregations.metric.value == null ? false : ctx.results[0].aggregations.metric.value > 0.999",
             "lang": "painless"
           }
         },
         "actions": [
           {
-            "id": "<%= idgen('action-teams', server.name, agent.index) %>",
+            "id": "<%= idgen('action-teams', server.name) %>",
             "name": "Notify Appinfra Teams Channel",
             "destination_id": "appinfra-msteams",
             "message_template": {
@@ -89,7 +77,7 @@
             },
             "throttle_enabled": true,
             "throttle": {
-              "value": 10,
+              "value": 15,
               "unit": "MINUTES"
             },
             "subject_template": {
@@ -98,54 +86,36 @@
             }
           },
           {
-            "id": "<%= idgen('action-sqs', server.name, agent.index) %>",
-            "name": "Notify Automation Queue",
-            "destination_id": "automation-sqs-sns",
-            "message_template": {
-              "source": "{ \"type\": \"agent_down\", \"server\": \"<%= server.name %>\", \"agent\": \"fluent-bit.<%= agent.index %>\", \"periodStart\": \"{{ctx.periodStart}}\", \"periodEnd\": \"{{ctx.periodEnd}}\" }",
-              "lang" : "mustache"
-            },
-            "throttle_enabled": true,
-            "throttle": {
-              "value": 10,
-              "unit": "MINUTES"
-            },
-            "subject_template": {
-              "source": "Notify",
-              "lang" : "mustache"
-            }
-          },
-          {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('nonproduction') ? 'true' : 'false' %>",
-            "id": "<%= idgen('action-nonprod-wf', server.name, agent.index) %>",
+            "id": "<%= idgen('action-nonprod-wf', server.name) %>",
             "name": "Notify Wildfire Nonprod Teams Channel",
             "destination_id": "wf-nonprod-msteams",
             "message_template": {
-               "source": "{\"text\": \"Monitor {{ctx.monitor.name}}: No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
+               "source": "{\"text\": \"AbnormalDisk alerting received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
                "lang": "mustache"
             },
             "throttle_enabled": true,
             "subject_template": {
-               "source": "",
+               "source": "<%= server.name %> Low Disk Space",
                "lang": "mustache"
             },
             "throttle": {
-               "value": 240,
+               "value": 1440,
                "unit": "MINUTES"
             }
          },
           {
             "$$OMIT": "<%= !serverTag('wildfire') || !serverTag('production') ? 'true' : 'false' %>",
-            "id": "<%= idgen('action-prod-wf', server.name, agent.index) %>",
+            "id": "<%= idgen('action-prod-wf', server.name) %>",
             "name": "Notify Wildfire Prod Teams Channel",
             "destination_id": "wf-prod-msteams",
             "message_template": {
-               "source": "{\"text\": \"Monitor {{ctx.monitor.name}}: No logs received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
+               "source": "{\"text\": \"AbnormalDisk alerting received from <%= server.name %> between {{ctx.periodStart}} and {{ctx.periodEnd}}\"}",
                "lang": "mustache"
             },
             "throttle_enabled": true,
             "subject_template": {
-               "source": "",
+               "source": "<%= server.name %> Low Disk Space",
                "lang": "mustache"
             },
             "throttle": {
