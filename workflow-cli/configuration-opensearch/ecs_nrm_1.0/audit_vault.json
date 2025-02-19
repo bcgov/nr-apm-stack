@@ -34,6 +34,9 @@
               "ignore_above": 1024,
               "type": "keyword"
             },
+            "entity_created": {
+              "type": "boolean"
+            },
             "policies": {
               "ignore_above": 1024,
               "type": "keyword"
