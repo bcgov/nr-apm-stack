@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { Parser } from '../types/parser';
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 import { OsDocument } from '../types/os-document';
 import cleanDeep from 'clean-deep';
 
