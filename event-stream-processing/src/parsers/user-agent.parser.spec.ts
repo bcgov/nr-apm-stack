@@ -1,6 +1,6 @@
 import { OsDocument } from '../types/os-document';
 import { UserAgentParser } from './user-agent.parser';
-import UAParser, { IResult } from 'ua-parser-js';
+import { UAParser, IResult } from 'ua-parser-js';
 
 jest.mock('ua-parser-js');
 
