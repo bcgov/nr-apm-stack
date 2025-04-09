@@ -553,4 +553,31 @@ DESCRIPTION
 EXAMPLES
   $ workflow-cli snapshot
 ```
+
+## `workflow-cli opensearch-sync-rollup`
+
+OpenSearch Rollup Job Creates/Updates
+
+```
+USAGE
+  $ workflow-cli opensearch-sync-rollup -u <value> -d <value> --region <value> --accessId <value> --accessKey <value>
+    --accountNumber <value> [--arn <value>]  [-h] [--dryRun]
+
+FLAGS
+  -d, --domainName=<value>      (required) OpenSearch Domain
+  -h, --help                    Show CLI help.
+  -u, --hostname=<value>        (required) OpenSearch url
+      --accessId=<value>        (required) AWS access key id
+      --accessKey=<value>       (required) AWS secret access key
+      --accountNumber=<value>   (required) AWS account number
+      --arn=<value>             AWS ARN      
+      --dryRun                  Enables dry run
+      --region=<value>          (required) AWS region
+
+DESCRIPTION
+  OpenSearch Rollup Job Creates/Updates
+
+EXAMPLES
+  $ workflow-cli opensearch-sync-rollup
+```
 <!-- commandsstop -->
