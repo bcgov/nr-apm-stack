@@ -1,0 +1,36 @@
+{
+    "index_patterns": ["nrm-access-url-rollup*"],
+    "template": {
+      "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      },
+      "mappings": {
+        "properties": {
+          "url.path": {
+            "type": "keyword"
+          },
+          "url.domain": {
+            "type": "keyword"
+          },
+          "@timestamp": {
+            "type": "date"
+          },
+          "event.outcome": {
+            "type": "integer"
+          },
+          "event.duration": {
+            "properties": {
+              "avg": {
+                "type": "double"
+              }
+            }
+          }
+        }
+      }
+    },
+    "version": 1,
+    "_meta": {
+        "description": "NRM Access Url Rollup indices"
+    }
+  }

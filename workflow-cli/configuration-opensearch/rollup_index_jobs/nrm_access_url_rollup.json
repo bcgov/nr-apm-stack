@@ -1,0 +1,48 @@
+{    
+    "rollup": {
+      "source_index": "nrm-access-external-*",
+      "target_index": "nrm-access-url-rollup",
+      "description": "Rollup job for NRM access URL data",
+      "enabled": true,
+      "schedule": {
+        "interval": {
+          "period": 1,
+          "unit": "Days"
+        }
+      },
+      "page_size": 1000,
+      "delay": 0,
+      "continuous": false,
+      "dimensions": [
+        {
+          "date_histogram": {
+            "source_field": "@timestamp",
+            "target_field": "@timestamp",
+            "fixed_interval": "1d"
+          }
+        },
+        {
+          "terms": {
+            "source_field": "url.path",
+            "target_field": "url.path"
+          }
+        },
+        {
+          "terms": {
+            "source_field": "url.domain",
+            "target_field": "url.domain"
+          }
+        }        
+      ],
+      "metrics": [
+        {
+          "source_field": "event.outcome",
+          "metrics": [{"value_count":{}}]
+        },
+        {
+          "source_field": "event.duration",
+          "metrics": [{"avg": {}}]
+        }
+      ]
+    }
+}
