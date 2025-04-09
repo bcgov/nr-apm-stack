@@ -1,5 +1,5 @@
 {
-    "index_patterns": ["nrm-access-url-rollup*"],
+    "index_patterns": ["nrm-accessrollup"],
     "template": {
       "settings": {
         "number_of_shards": 1,

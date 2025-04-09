@@ -80,16 +80,6 @@ jobs:
           AWS_ACCOUNT_NUMBER: ${{ secrets.AWS_ACCOUNT_NUMBER }}
         run: |
           ./bin/run snapshot setup
-      
-      - name: workflow-cli rollup job setup
-        working-directory: ./workflow-cli
-        env:
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          OS_URL: apm.io.nrs.gov.bc.ca
-          OS_DOMAIN: nress-prod
-          AWS_ACCOUNT_NUMBER: ${{ secrets.AWS_ACCOUNT_NUMBER }}
-        run: |
-          ./bin/run opensearch-sync-rollup
 
       - name: Close intention
         uses: bcgov-nr/action-broker-intention-close@v2

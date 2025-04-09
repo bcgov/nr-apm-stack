@@ -12,13 +12,62 @@
         "actions": [],
         "transitions": [
           {
-            "state_name": "scaled",
+            "state_name": "rp",
             "conditions": {
-              "min_index_age": "4d"
+              "min_index_age": "1d"
             }
           }
         ]
       },
+      { 
+        "name": "rp", 
+        "actions": [
+          { 
+            "rollup": { 
+              "ism_rollup": { 
+                "target_index": "nrm-accessrollup", 
+                "description": "nrm access external rollup job", 
+                "page_size": 200, 
+                "dimensions": [ 
+                  { 
+                    "date_histogram": { 
+                      "source_field": "@timestamp", 
+                      "fixed_interval": "60m", 
+                      "timezone": "America/Vancouver" 
+                    } 
+                  }, 
+                  { 
+                    "terms": { 
+                      "source_field": "url.path"
+                    } 
+                  },
+                  { 
+                    "terms": { 
+                      "source_field": "url.domain" 
+                    } 
+                  }
+                ], 
+                "metrics": [ 
+                  {
+                    "source_field": "event.outcome",
+                    "metrics": [{"value_count":{}}]
+                  },
+                  {
+                    "source_field": "event.duration",
+                    "metrics": [{"avg": {}}]
+                  }
+                ]
+              } 
+            } 
+          } 
+        ], 
+        "transitions": [{
+          "state_name": "scaled",
+          "conditions": {
+            "min_index_age": "4d"
+          }
+        }] 
+      }, 
       {
         "name": "scaled",
         "actions": [
