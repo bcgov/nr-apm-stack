@@ -10,7 +10,7 @@ import {
   help,
   hostname,
   region,
-  dryRun,  
+  dryRun,
 } from '../flags';
 import OpenSearchRollupService from '../services/opensearch-rollup.service';
 import OpenSearchDomainService from '../services/opensearch-domain.service';
@@ -38,7 +38,7 @@ export default class OpenSearchRollup extends Command {
 
     const service = new OpenSearchRollupService();
     const domainService = new OpenSearchDomainService();
-  
+
     await domainService.getDomain(flags);
     await service.createOrUpdateRollupJob(flags);
   }
