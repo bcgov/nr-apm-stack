@@ -17,7 +17,11 @@
             "type": "date"
           },
           "event.outcome": {
-            "type": "integer"
+            "properties": {
+              "value_count": {
+                "type": "long"
+            }
+          }
           },
           "event.duration": {
             "properties": {
