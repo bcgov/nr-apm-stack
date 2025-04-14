@@ -14,7 +14,7 @@
           {
             "state_name": "rp",
             "conditions": {
-              "min_index_age": "1d"
+              "min_index_age": "14d"
             }
           }
         ]
@@ -64,7 +64,7 @@
         "transitions": [{
           "state_name": "scaled",
           "conditions": {
-            "min_index_age": "4d"
+            "min_index_age": "16d"
           }
         }] 
       }, 
