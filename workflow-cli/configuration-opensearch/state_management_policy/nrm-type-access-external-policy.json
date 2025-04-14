@@ -14,7 +14,7 @@
           {
             "state_name": "rp",
             "conditions": {
-              "min_index_age": "2d"
+              "min_index_age": "1d"
             }
           }
         ]
@@ -27,7 +27,6 @@
               "ism_rollup": { 
                 "target_index": "nrm-accessrollup", 
                 "description": "nrm access external rollup job",
-                "delay": "1d",
                 "page_size": 200, 
                 "dimensions": [ 
                   { 
