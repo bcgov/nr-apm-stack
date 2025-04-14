@@ -1,11 +1,15 @@
 {
-    "index_patterns": ["nrm-accessrollup"],
+    "index_patterns": ["nrm-accessrollup-*"],
     "template": {
+      "aliases": {
+        "nrm-accessrollup": {}
+     },
       "settings": {
         "number_of_shards": 1,
         "number_of_replicas": 1
       },
       "mappings": {
+        "dynamic": "strict",
         "properties": {
           "url.path": {
             "type": "keyword"
@@ -34,6 +38,7 @@
       }
     },
     "version": 1,
+    "priority": 300,
     "_meta": {
         "description": "NRM Access Url Rollup indices"
     }
