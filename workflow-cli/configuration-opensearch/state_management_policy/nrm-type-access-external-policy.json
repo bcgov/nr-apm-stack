@@ -12,6 +12,29 @@
         "actions": [],
         "transitions": [
           {
+            "state_name": "scaled",
+            "conditions": {
+              "min_index_age": "4d"
+            }
+          }
+        ]
+      },
+      {
+        "name": "scaled",
+        "actions": [
+          {
+            "retry": {
+              "count": 60,
+              "backoff": "exponential",
+              "delay": "1m"
+            },
+            "replica_count": {
+              "number_of_replicas": 1
+            }
+          }
+        ],
+        "transitions": [
+          {
             "state_name": "rp",
             "conditions": {
               "min_index_age": "14d"
@@ -62,35 +85,12 @@
           } 
         ], 
         "transitions": [{
-          "state_name": "scaled",
+          "state_name": "force_merge_standby",
           "conditions": {
-            "min_index_age": "4d"
+            "min_index_age": "36d"
           }
         }] 
-      }, 
-      {
-        "name": "scaled",
-        "actions": [
-          {
-            "retry": {
-              "count": 60,
-              "backoff": "exponential",
-              "delay": "1m"
-            },
-            "replica_count": {
-              "number_of_replicas": 1
-            }
-          }
-        ],
-        "transitions": [
-          {
-            "state_name": "force_merge_standby",
-            "conditions": {
-              "min_index_age": "36d"
-            }
-          }
-        ]
-      },
+      },       
       {
         "name": "force_merge_standby",
         "actions": [],
