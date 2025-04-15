@@ -64,7 +64,7 @@
         "transitions": [{
           "state_name": "scaled",
           "conditions": {
-            "min_index_age": "16d"
+            "min_index_age": "4d"
           }
         }] 
       }, 
