@@ -1,0 +1,45 @@
+{
+    "index_patterns": ["nrm-accessrollup-*"],
+    "template": {
+      "aliases": {
+        "nrm-accessrollup": {}
+     },
+      "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1
+      },
+      "mappings": {
+        "dynamic": "strict",
+        "properties": {
+          "url.path": {
+            "type": "keyword"
+          },
+          "url.domain": {
+            "type": "keyword"
+          },
+          "@timestamp": {
+            "type": "date"
+          },
+          "event.outcome": {
+            "properties": {
+              "value_count": {
+                "type": "long"
+            }
+          }
+          },
+          "event.duration": {
+            "properties": {
+              "avg": {
+                "type": "double"
+              }
+            }
+          }
+        }
+      }
+    },
+    "version": 1,
+    "priority": 300,
+    "_meta": {
+        "description": "NRM Access Url Rollup indices"
+    }
+  }
