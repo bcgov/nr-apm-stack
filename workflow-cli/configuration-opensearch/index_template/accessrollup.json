@@ -11,7 +11,7 @@
       "mappings": {
         "dynamic": "strict",
         "properties": {
-          "url.path": {
+          "url.full.keyword": {
             "type": "keyword"
           },
           "url.domain": {
