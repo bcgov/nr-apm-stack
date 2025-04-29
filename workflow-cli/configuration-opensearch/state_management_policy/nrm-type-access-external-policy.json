@@ -42,55 +42,65 @@
           }
         ]
       },
-      { 
-        "name": "rp", 
+      {
+        "name": "rp",
         "actions": [
-          { 
-            "rollup": { 
-              "ism_rollup": { 
-                "target_index": "nrm-accessrollup", 
+          {
+            "rollup": {
+              "ism_rollup": {
+                "target_index": "nrm-accessrollup",
                 "description": "nrm access external rollup job",
-                "page_size": 200, 
-                "dimensions": [ 
-                  { 
-                    "date_histogram": { 
-                      "source_field": "@timestamp", 
-                      "fixed_interval": "60m", 
-                      "timezone": "America/Vancouver" 
-                    } 
-                  }, 
-                  { 
-                    "terms": { 
-                      "source_field": "url.full.keyword"
-                    } 
+                "page_size": 200,
+                "dimensions": [
+                  {
+                    "date_histogram": {
+                      "source_field": "@timestamp",
+                      "fixed_interval": "60m",
+                      "timezone": "America/Vancouver"
+                    }
                   },
-                  { 
-                    "terms": { 
-                      "source_field": "url.domain" 
-                    } 
+                  {
+                    "terms": {
+                      "source_field": "url.full.keyword"
+                    }
+                  },
+                  {
+                    "terms": {
+                      "source_field": "url.domain"
+                    }
                   }
-                ], 
-                "metrics": [ 
+                ],
+                "metrics": [
                   {
                     "source_field": "event.outcome",
-                    "metrics": [{"value_count":{}}]
+                    "metrics": [
+                      {
+                        "value_count": {}
+                      }
+                    ]
                   },
                   {
                     "source_field": "event.duration",
-                    "metrics": [{"avg": {}}]
+                    "metrics": [
+                      {
+                        "avg": {}
+                      }
+                    ]
                   }
                 ]
-              } 
-            } 
-          } 
-        ], 
-        "transitions": [{
-          "state_name": "force_merge_standby",
-          "conditions": {
-            "min_index_age": "36d"
+              }
+            }
           }
-        }] 
-      },       
+        ],
+        "transitions": [
+          {
+            "state_name": "force_merge_standby",
+            "conditions": {
+              "min_index_age": "36d"
+            }
+          }
+        ]
+      },
       {
         "name": "force_merge_standby",
         "actions": [],
@@ -138,9 +148,9 @@
           {
             "timeout": "12h",
             "retry": {
-                "count": 60,
-                "backoff": "exponential",
-                "delay": "1m"
+              "count": 60,
+              "backoff": "exponential",
+              "delay": "1m"
             },
             "warm_migration": {}
           }

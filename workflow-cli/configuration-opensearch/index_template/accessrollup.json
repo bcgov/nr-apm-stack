@@ -1,44 +1,70 @@
 {
-    "index_patterns": ["nrm-accessrollup-*"],
-    "template": {
-      "aliases": {
-        "nrm-accessrollup": {}
-     },
-      "settings": {
-        "number_of_shards": 1,
-        "number_of_replicas": 1
-      },
-      "mappings": {
-        "properties": {
-          "url.full.keyword": {
-            "type": "keyword"
-          },
-          "url.domain": {
-            "type": "keyword"
-          },
-          "@timestamp": {
-            "type": "date"
-          },
-          "event.outcome": {
-            "properties": {
-              "value_count": {
-                "type": "long"
+  "index_patterns": [
+    "nrm-accessrollup-*"
+  ],
+  "template": {
+    "aliases": {
+      "nrm-accessrollup": {}
+    },
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "@timestamp": {
+          "properties": {
+            "date_histogram": {
+              "type": "date"
             }
           }
-          },
-          "event.duration": {
-            "properties": {
-              "avg": {
-                "type": "double"
+        },
+        "url": {
+          "properties": {
+            "full": {
+              "properties": {
+                "keyword": {
+                  "properties": {
+                    "terms": {
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "domain": {
+              "properties": {
+                "terms": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "event": {
+          "properties": {
+            "outcome": {
+              "properties": {
+                "value_count": {
+                  "type": "long"
+                }
+              }
+            },
+            "duration": {
+              "properties": {
+                "avg": {
+                  "type": "double"
+                }
               }
             }
           }
         }
       }
-    },
-    "version": 1,
-    "priority": 300,
-    "_meta": {
-        "description": "NRM Access Url Rollup indices"
     }
+  },
+  "version": 1,
+  "priority": 300,
+  "_meta": {
+    "description": "NRM Access Url Rollup indices"
   }
+}
