@@ -9,7 +9,6 @@
         "number_of_replicas": 1
       },
       "mappings": {
-        "dynamic": "strict",
         "properties": {
           "url.full.keyword": {
             "type": "keyword"
