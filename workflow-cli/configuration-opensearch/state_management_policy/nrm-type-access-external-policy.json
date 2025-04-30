@@ -55,18 +55,21 @@
                   {
                     "date_histogram": {
                       "source_field": "@timestamp",
+                      "target_field": "timestamp_date_histogram",
                       "fixed_interval": "60m",
                       "timezone": "America/Vancouver"
                     }
                   },
                   {
                     "terms": {
-                      "source_field": "url.full.keyword"
+                      "source_field": "url.full.keyword",
+                      "target_field": "url_full_keyword"
                     }
                   },
                   {
                     "terms": {
-                      "source_field": "url.domain"
+                      "source_field": "url.domain",
+                      "target_field": "url_domain"
                     }
                   }
                 ],
@@ -77,7 +80,8 @@
                       {
                         "value_count": {}
                       }
-                    ]
+                    ],
+                    "target_field": "event_outcome_count"
                   },
                   {
                     "source_field": "event.duration",
@@ -85,7 +89,8 @@
                       {
                         "avg": {}
                       }
-                    ]
+                    ],
+                    "target_field": "event_duration_avg"
                   }
                 ]
               }

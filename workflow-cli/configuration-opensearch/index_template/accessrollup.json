@@ -12,57 +12,25 @@
     },
     "mappings": {
       "properties": {
-        "@timestamp": {
-          "properties": {
-            "date_histogram": {
-              "type": "date"
-            }
-          }
+        "timestamp_date_histogram": {
+          "type": "date"
         },
-        "url": {
-          "properties": {
-            "full": {
-              "properties": {
-                "keyword": {
-                  "properties": {
-                    "terms": {
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            },
-            "domain": {
-              "properties": {
-                "terms": {
-                  "type": "keyword"
-                }
-              }
-            }
-          }
+        "url_full_keyword": {
+          "type": "keyword"
         },
-        "event": {
-          "properties": {
-            "outcome": {
-              "properties": {
-                "value_count": {
-                  "type": "long"
-                }
-              }
-            },
-            "duration": {
-              "properties": {
-                "avg": {
-                  "type": "double"
-                }
-              }
-            }
-          }
+        "url_domain": {
+          "type": "keyword"
+        },
+        "event_outcome_count": {
+          "type": "long"
+        },
+        "event_duration_avg": {
+          "type": "double"
         }
       }
     }
   },
-  "version": 1,
+  "version": 2,
   "priority": 300,
   "_meta": {
     "description": "NRM Access Url Rollup indices"
