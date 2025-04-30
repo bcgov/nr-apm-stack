@@ -55,7 +55,6 @@
                   {
                     "date_histogram": {
                       "source_field": "@timestamp",
-                      "target_field": "timestamp_date_histogram",
                       "fixed_interval": "60m",
                       "timezone": "America/Vancouver"
                     }
