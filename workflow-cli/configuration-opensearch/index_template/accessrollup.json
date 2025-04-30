@@ -12,8 +12,12 @@
     },
     "mappings": {
       "properties": {
-        "timestamp_date_histogram": {
-          "type": "date"
+        "@timestamp": {
+          "properties": {
+            "date_histogram": {
+              "type": "date"
+            }
+          }
         },
         "url_full_keyword": {
           "type": "keyword"
