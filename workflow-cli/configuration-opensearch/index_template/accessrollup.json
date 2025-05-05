@@ -19,11 +19,19 @@
             }
           }
         },
-        "url_full_keyword": {
-          "type": "keyword"
+        "url_path_keyword": {
+          "properties": {
+            "terms": {
+              "type": "keyword"
+            }
+          }
         },
         "url_domain": {
-          "type": "keyword"
+          "properties": {
+            "terms": {
+              "type": "keyword"
+            }
+          }
         },
         "event_outcome_count": {
           "type": "long"
