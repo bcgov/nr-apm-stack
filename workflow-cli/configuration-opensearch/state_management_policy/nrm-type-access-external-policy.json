@@ -61,8 +61,8 @@
                   },
                   {
                     "terms": {
-                      "source_field": "url.full.keyword",
-                      "target_field": "url_full_keyword"
+                      "source_field": "url.path.keyword",
+                      "target_field": "url_path_keyword"
                     }
                   },
                   {
