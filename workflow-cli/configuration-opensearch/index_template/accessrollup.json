@@ -3,9 +3,6 @@
     "nrm-accessrollup-*"
   ],
   "template": {
-    "aliases": {
-      "nrm-accessrollup": {}
-    },
     "settings": {
       "plugins.index_state_management.rollover_alias": "nrm-accessrollup",
       "number_of_shards": 1,
