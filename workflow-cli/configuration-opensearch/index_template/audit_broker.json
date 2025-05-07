@@ -135,6 +135,10 @@
         },
         "package": {
           "properties": {
+            "id": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
             "build_guid": {
               "ignore_above": 1024,
               "type": "keyword"
