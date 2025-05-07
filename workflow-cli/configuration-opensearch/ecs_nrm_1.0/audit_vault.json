@@ -243,6 +243,9 @@
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
+                "entity_created": {
+                  "type": "boolean"
+                },
                 "token_issue_time": {
                   "type": "date"
                 },
