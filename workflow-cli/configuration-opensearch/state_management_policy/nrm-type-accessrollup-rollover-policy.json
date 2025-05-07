@@ -16,6 +16,28 @@
             }
           }
         ],
+        "transitions": [{
+            "state_name": "alias",
+            "conditions": {
+              "min_doc_count": "2"
+            }
+          }]
+      },
+      {
+        "name": "alias",
+        "actions": [
+          {
+            "alias": {
+              "actions": [
+                {
+                  "remove": {
+                      "alias": "nrm-accessrollup"
+                  }
+                }
+              ]
+            }
+          }
+        ],
         "transitions": [
           {
             "state_name": "force_merge_standby",
