@@ -12,7 +12,7 @@
         "actions": [
           {
             "rollover": {
-              "min_index_age": "1d"
+              "min_index_age": "23h"
             }
           }
         ],
