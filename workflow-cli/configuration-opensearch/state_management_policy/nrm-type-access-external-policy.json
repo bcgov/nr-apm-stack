@@ -35,69 +35,6 @@
         ],
         "transitions": [
           {
-            "state_name": "rp",
-            "conditions": {
-              "min_index_age": "14d"
-            }
-          }
-        ]
-      },
-      {
-        "name": "rp",
-        "actions": [
-          {
-            "rollup": {
-              "ism_rollup": {
-                "target_index": "nrm-accessrollup",
-                "description": "nrm access external rollup job",
-                "page_size": 200,
-                "dimensions": [
-                  {
-                    "date_histogram": {
-                      "source_field": "@timestamp",
-                      "fixed_interval": "60m",
-                      "timezone": "America/Vancouver"
-                    }
-                  },
-                  {
-                    "terms": {
-                      "source_field": "url.path.keyword",
-                      "target_field": "url_path_keyword"
-                    }
-                  },
-                  {
-                    "terms": {
-                      "source_field": "url.domain",
-                      "target_field": "url_domain"
-                    }
-                  }
-                ],
-                "metrics": [
-                  {
-                    "source_field": "event.outcome",
-                    "metrics": [
-                      {
-                        "value_count": {}
-                      }
-                    ],
-                    "target_field": "event_outcome_count"
-                  },
-                  {
-                    "source_field": "event.duration",
-                    "metrics": [
-                      {
-                        "avg": {}
-                      }
-                    ],
-                    "target_field": "event_duration_avg"
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "transitions": [
-          {
             "state_name": "force_merge_standby",
             "conditions": {
               "min_index_age": "36d"
