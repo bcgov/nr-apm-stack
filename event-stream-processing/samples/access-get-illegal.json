@@ -1,133 +1,109 @@
 {
-    "host": {
-      "name": [
-        "agent-b.hs.advsol.tech",
-        "agent.dmz",
-        "agent-m.hs.advsol.tech"
-      ],
-      "domain": [
-        "dmz",
-        "hs",
-        "advsol",
-        "tech",
-        "hs.advsol.tech"
-      ],
-      "os": {
-        "full": "Red Hat Enterprise Linux 9.5 (Plow)",
-        "name": "Red Hat Enterprise Linux",
-        "family": "rhel",
-        "version": "9.5",
-        "kernel": "5.14.0-503.34.1.el9_5.x86_64",
-        "type": "linux"
-      },
-      "architecture": "x86_64",
-      "mac": [
-        "00:50:56:83:76:9d",
-        "00:50:56:83:d9:4a",
-        "00:50:56:83:35:83"
-      ],
-      "hostname": "agent",
-      "ip": [
-        "142.34.217.232",
-        "142.34.217.233",
-        "172.31.24.229",
-        "172.30.68.229"
-      ]
+  "host": {
+    "name": [
+      "agent-b.hs.advsol.tech",
+      "agent.dmz",
+      "agent-m.hs.advsol.tech"
+    ],
+    "domain": [
+      "dmz",
+      "hs",
+      "advsol",
+      "tech",
+      "hs.advsol.tech"
+    ],
+    "os": {
+      "full": "Red Hat Enterprise Linux 9.5 (Plow)",
+      "name": "Red Hat Enterprise Linux",
+      "family": "rhel",
+      "version": "9.5",
+      "kernel": "5.14.0-503.34.1.el9_5.x86_64",
+      "type": "linux"
     },
-    "log": {
-      "file": {
-        "path": "/sw_ux/httpd01/logs/hot/agent-httpd01-default-443-access-20250829.log"
-      }
-    },
-    "agent": {
-      "type": "fluentbit",
-      "version": "2.2.2",
-      "name": "fluent-bit.0"
-    },
-    "@metadata": {
-      "keyAsPath": "true",
-      "hash": "host.hostname,basename(log.file.path),event.sequence,event.original",
-      "docId": "basename(log.file.path),event.sequence,event.hash",
-      "index": "nrm-access-external-<%=YYYY.MM.DD=%>",
-      "indexPreprodQualifier": true,
-      "timestampFormat": "DD/MMM/YYYY:HH:mm:ss Z",
-      "timestampGuard": "P8D",
-      "apacheAccessLog": true,
-      "appClassification": true,
-      "deslash": true,
-      "environmentStandardize": true,
-      "urlExplode": true,
-      "geoIp": true,
-      "httpStatusOutcome": true,
-      "threatPhp": true,
-      "userAgent": true
-    },
-    "event": {
-      "sequence": 4524903,
-      "original": "v1.0 20120211 \"https://142.34.217.232:443\" \"3.98.92.117\" [29/Aug/2025:21:41:02 -0700] \"GET %. HTTP/1.1\" 400 945 bytes 6141 bytes \"-\" \"-\" 0 ms, \"TLSv1.2\" \"ECDHE-RSA-AES256-GCM-SHA384\"",
-      "dataset": "apache.access",
-      "category": "web",
-      "created": "2025-09-02T19:06:39.540Z",
-      "kind": "event",
-      "ingested": "2025-09-02T20:05:21.830+00:00",
-      "duration": "0",
-      "outcome": "failure"
-    },
-    "ecs": {
-      "version": "8.11"
-    },
-    "service": {
-      "environment": "production",
-      "name": "apache-reverse-proxy",
-      "type": "apache",
-      "version": "20120211"
-    },
-    "url": {
-      "scheme": "https",
-      "domain": "142.34.217.232",
-      "port": "443",
-      "original": "%."
-    },
-    "source": {
-      "ip": "3.98.92.117",
-      "geo": {
-        "continent_name": "North America",
-        "continent_code": "NA",
-        "country_name": "Canada",
-        "country_iso_code": "CA",
-        "location": {
-          "lat": 45.4995,
-          "lon": -73.5848
-        },
-        "timezone": "America/Toronto",
-        "postal_code": "H3H",
-        "city_name": "Montreal",
-        "region_name": "Quebec",
-        "region_iso_code": "QC"
-      },
-      "as": {
-        "number": 16509,
-        "organization": {
-          "name": "AMAZON-02"
-        }
-      }
-    },
-    "http": {
-      "response": {
-        "status_code": "400",
-        "bytes": "6141"
-      },
-      "request": {
-        "bytes": "945",
-        "method": "GET"
-      },
-      "version": "1.1"
-    },
-    "tls": {
-      "version_protocol": "TLSv1.2",
-      "cipher": "ECDHE-RSA-AES256-GCM-SHA384"
-    },
-    "labels": {
-      "environment_alias": "wfprd"
+    "architecture": "x86_64",
+    "mac": [
+      "00:50:56:83:76:9d",
+      "00:50:56:83:d9:4a",
+      "00:50:56:83:35:83"
+    ],
+    "hostname": "agent",
+    "ip": [
+      "142.34.217.232",
+      "142.34.217.233",
+      "172.31.24.229",
+      "172.30.68.229"
+    ]
+  },
+  "log": {
+    "file": {
+      "path": "/sw_ux/httpd01/logs/hot/agent-httpd01-default-443-access-20250829.log"
     }
+  },
+  "agent": {
+    "type": "fluentbit",
+    "version": "2.2.2",
+    "name": "fluent-bit.0"
+  },
+  "@metadata": {
+    "keyAsPath": "true",
+    "hash": "host.hostname,basename(log.file.path),event.sequence,event.original",
+    "docId": "basename(log.file.path),event.sequence,event.hash",
+    "index": "nrm-access-external-<%=YYYY.MM.DD=%>",
+    "indexPreprodQualifier": true,
+    "timestampFormat": "DD/MMM/YYYY:HH:mm:ss Z",
+    "timestampGuard": "P8D",
+    "apacheAccessLog": true,
+    "appClassification": true,
+    "deslash": true,
+    "environmentStandardize": true,
+    "urlExplode": true,
+    "geoIp": true,
+    "httpStatusOutcome": true,
+    "threatPhp": true,
+    "userAgent": true
+  },
+  "event": {
+    "sequence": 4524903,
+    "original": "v1.0 20120211 \"https://142.34.217.232:443\" \"3.98.92.117\" [29/Aug/2025:21:41:02 -0700] \"GET %. HTTP/1.1\" 400 945 bytes 6141 bytes \"-\" \"-\" 0 ms, \"TLSv1.2\" \"ECDHE-RSA-AES256-GCM-SHA384\"",
+    "dataset": "apache.access",
+    "category": "web",
+    "created": "2025-09-02T19:06:39.540Z",
+    "kind": "event",
+    "ingested": "2025-09-02T20:05:21.830+00:00",
+    "duration": "0",
+    "outcome": "failure"
+  },
+  "ecs": {
+    "version": "8.11"
+  },
+  "service": {
+    "environment": "production",
+    "name": "apache-reverse-proxy",
+    "type": "apache",
+    "version": "20120211"
+  },
+  "url": {
+    "scheme": "https",
+    "domain": "142.34.217.232",
+    "port": "443",
+    "original": "%."
+  },
+  "http": {
+    "response": {
+      "status_code": "400",
+      "bytes": "6141"
+    },
+    "request": {
+      "bytes": "945",
+      "method": "GET"
+    },
+    "version": "1.1"
+  },
+  "tls": {
+    "version_protocol": "TLSv1.2",
+    "cipher": "ECDHE-RSA-AES256-GCM-SHA384"
+  },
+  "labels": {
+    "environment_alias": "wfprd"
   }
+}
