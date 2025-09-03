@@ -32,4 +32,50 @@ describe('ApacheParser', () => {
     );
     expect(service.applyRegex).toHaveBeenCalledTimes(1);
   });
+
+  it('should parse a standard HTTP request line', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const regexService = new RegexService({ debug: () => {} } as any);
+    const parser = new ApacheParser(regexService);
+    const doc: OsDocument = {
+      data: {
+        '@metadata': { apacheAccessLog: true },
+        event: {
+          original:
+            '127.0.0.1 - - [01/Sep/2025:10:00:00 -0700] "GET /foo HTTP/1.1" 200 123 "-" "curl/7.68.0" 5',
+        },
+      },
+    } as unknown as OsDocument;
+
+    parser.apply(doc);
+
+    expect(doc.data.http?.request?.method).toBe('GET');
+    expect(doc.data.url?.original).toBe('/foo');
+    expect(doc.data.http?.version).toBe('1.1');
+    expect(doc.data.http?.request?.body).toBeUndefined();
+  });
+
+  it('should parse a JSON-RPC body', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const regexService = new RegexService({ debug: () => {} } as any);
+    const parser = new ApacheParser(regexService);
+    const doc: OsDocument = {
+      data: {
+        '@metadata': { apacheAccessLog: true },
+        event: {
+          original:
+            'v1.0 20120211 "https://142.34.217.234:443" "152.32.189.121" [01/Sep/2025:05:41:17 -0700] "{\\"id\\":1,\\"jsonrpc\\":\\"2.0\\",\\"method\\":\\"login\\",\\"params\\":{\\"param1\\":\\"blue1\\",\\"param2\\":\\"none\\",\\"agent\\":\\"Windows NT 6.1; Win64; x64\\"}}\\n" 400 482 bytes 6141 bytes "-" "-" 0 ms, "TLSv1.2" "ECDHE-RSA-AES256-GCM-SHA384"',
+        },
+      },
+    } as unknown as OsDocument;
+
+    parser.apply(doc);
+
+    expect(doc.data.http?.request?.method).toBeUndefined();
+    expect(doc.data.http?.request?.body?.content).toBe(
+      '{"id":1,"jsonrpc":"2.0","method":"login","params":{"param1":"blue1","param2":"none","agent":"Windows NT 6.1; Win64; x64"}}\n',
+    );
+    expect(doc.data.network?.protocol).toBe('rpc');
+    expect(doc.data.network?.application).toBe('jsonrpc');
+  });
 });

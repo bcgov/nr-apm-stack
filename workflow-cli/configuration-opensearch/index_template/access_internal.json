@@ -23,6 +23,7 @@
     "ecs_host_8.11",
     "ecs_http_8.11",
     "ecs_log_8.11",
+    "ecs_network_8.11",
     "ecs_organization_8.11",
     "ecs_service_8.11",
     "ecs_source_8.11",
