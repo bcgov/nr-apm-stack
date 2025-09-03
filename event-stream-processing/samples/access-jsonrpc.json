@@ -1,0 +1,113 @@
+{
+      "host": {
+        "os": {
+          "kernel": "5.14.0-503.34.1.el9_5.x86_64",
+          "version": "9.5",
+          "full": "Red Hat Enterprise Linux 9.5 (Plow)",
+          "name": "Red Hat Enterprise Linux",
+          "type": "linux",
+          "family": "rhel"
+        },
+        "hostname": "deputy",
+        "name": [
+          "deputy-b.hs.advsol.tech",
+          "deputy.dmz",
+          "deputy-m.hs.advsol.tech"
+        ],
+        "domain": [
+          "dmz",
+          "hs",
+          "advsol",
+          "tech",
+          "hs.advsol.tech"
+        ],
+        "ip": [
+          "142.34.217.234",
+          "142.34.217.235",
+          "172.31.24.228",
+          "172.30.68.228"
+        ],
+        "architecture": "x86_64",
+        "mac": [
+          "00:50:56:83:1e:b9",
+          "00:50:56:83:b7:c5",
+          "00:50:56:83:98:56"
+        ]
+      },
+      "event": {
+        "kind": "event",
+        "category": "web",
+        "dataset": "apache.access",
+        "sequence": 306373,
+        "original": "v1.0 20120211 \"https://142.34.217.234:443\" \"152.32.189.121\" [01/Sep/2025:05:41:17 -0700] \"{\\\"id\\\":1,\\\"jsonrpc\\\":\\\"2.0\\\",\\\"method\\\":\\\"login\\\",\\\"params\\\":{\\\"login\\\":\\\"blue1\\\",\\\"pass\\\":\\\"x\\\",\\\"agent\\\":\\\"Windows NT 6.1; Win64; x64\\\"}}\\n\" 400 482 bytes 6141 bytes \"-\" \"-\" 0 ms, \"TLSv1.2\" \"ECDHE-RSA-AES256-GCM-SHA384\"",
+        "created": "2025-09-02T19:15:46.750Z",
+        "ingested": "2025-09-02T20:07:05.295+00:00",
+        "duration": "0",
+        "outcome": "failure"
+      },
+      "agent": {
+        "name": "fluent-bit.0",
+        "type": "fluentbit",
+        "version": "2.2.2"
+      },
+      "@metadata": {
+        "keyAsPath": "true",
+        "hash": "host.hostname,basename(log.file.path),event.sequence,event.original",
+        "docId": "basename(log.file.path),event.sequence,event.hash",
+        "index": "nrm-access-external-<%=YYYY.MM.DD=%>",
+        "indexPreprodQualifier": true,
+        "timestampFormat": "DD/MMM/YYYY:HH:mm:ss Z",
+        "timestampGuard": "P8D",
+        "apacheAccessLog": true,
+        "appClassification": true,
+        "deslash": true,
+        "environmentStandardize": true,
+        "urlExplode": true,
+        "geoIp": true,
+        "httpStatusOutcome": true,
+        "threatPhp": true,
+        "userAgent": true
+      },
+      "log": {
+        "file": {
+          "path": "/sw_ux/httpd01/logs/hot/deputy-httpd01-default-443-access-20250901.log"
+        }
+      },
+      "ecs": {
+        "version": "8.9"
+      },
+      "service": {
+        "type": "apache",
+        "environment": "production",
+        "name": "apache-reverse-proxy",
+        "version": "20120211"
+      },
+      "source": {
+        "ip": "152.32.189.121",
+        "geo": {
+          "continent_name": "Asia",
+          "continent_code": "AS",
+          "country_name": "Hong Kong",
+          "country_iso_code": "HK",
+          "location": {
+            "lat": 22.2842,
+            "lon": 114.1759
+          },
+          "timezone": "Asia/Hong_Kong",
+          "city_name": "Hong Kong"
+        },
+        "as": {
+          "number": 135377,
+          "organization": {
+            "name": "UCLOUD INFORMATION TECHNOLOGY HK LIMITED"
+          }
+        }
+      },
+      "tls": {
+        "version_protocol": "TLSv1.2",
+        "cipher": "ECDHE-RSA-AES256-GCM-SHA384"
+      },
+      "labels": {
+        "environment_alias": "wfprd"
+      }
+    }

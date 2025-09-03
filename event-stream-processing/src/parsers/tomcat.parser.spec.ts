@@ -1,10 +1,14 @@
+import { HttpRequestService } from '../shared/http-request.service';
 import { RegexService } from '../shared/regex.service';
 import { OsDocument } from '../types/os-document';
 import { TomcatParser } from './tomcat.parser';
 
 describe('TomcatParser', () => {
   it('matches using metadata', () => {
-    const parser = new TomcatParser({} as unknown as RegexService);
+    const parser = new TomcatParser(
+      {} as unknown as RegexService,
+      new HttpRequestService(),
+    );
 
     expect(
       parser.matches({
@@ -20,7 +24,7 @@ describe('TomcatParser', () => {
     const service = {
       applyRegex: jest.fn().mockReturnValue({}),
     } as unknown as RegexService;
-    const parser = new TomcatParser(service);
+    const parser = new TomcatParser(service, new HttpRequestService());
     const testDoc = {} as unknown as OsDocument;
 
     parser.apply(testDoc);

@@ -23,7 +23,6 @@
     "ecs_host_8.11",
     "ecs_http_8.11",
     "ecs_log_8.11",
-    "ecs_network_8.11",
     "ecs_organization_8.11",
     "ecs_service_8.11",
     "ecs_source_8.11",
@@ -33,6 +32,7 @@
     "ecs_nrm_base_1.0",
     "ecs_nrm_etc_1.0",
     "ecs_nrm_kinesis_1.0",
+    "ecs_nrm_network_otel_1.0",
     "ecs_nrm_user_agent_1.0",
     "ecs_nrm_url_context_1.0",
     "ecs_nrm_url_aggregate_1.0"

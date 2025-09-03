@@ -9,6 +9,7 @@ import { EcsTransformService } from './ecs-transform.service';
 import { FieldExtractorService } from './shared/field-extractor.service';
 import { GeoIpService } from './util/geoip.service';
 import { GeoIpMaxmindService } from './util/geoip-maxmind.service';
+import { HttpRequestService } from './shared/http-request.service';
 import { OpenSearchService } from './open-search.service';
 import { OpenSearchDummyService } from './open-search-dummy.service';
 import { OpenSearchPostService } from './open-search-post.service';
@@ -65,6 +66,9 @@ function create(): Container {
     .bind<FieldExtractorService>(TYPES.FieldExtractorService)
     .to(FieldExtractorService);
   myContainer.bind<GeoIpService>(TYPES.GeoIpService).to(GeoIpMaxmindService);
+  myContainer
+    .bind<HttpRequestService>(TYPES.HttpRequestService)
+    .to(HttpRequestService);
   myContainer
     .bind<MaxmindCityLookupService>(TYPES.MaxmindCityLookupService)
     .to(MaxmindCityLookupService);

@@ -15,7 +15,7 @@ Reference: [Elastic Common Schema](https://www.elastic.co/guide/en/ecs/current/i
 - Disk Usage Metrics
 - Memory Usage Metrics
 - Tomcat Access Logs
-All these use cases have index naming patterns that must be adhered to. The naming pattern allows us to utilize [index templates](https://github.com/BCDevOps/nr-apm-stack/tree/main/workflow-cli/configuration-opensearch/index_template) to define the schema for the use case and policies to manage their lifecycle. All new use cases will start with the creation of a new index template and associated lifecycle.
+All these use cases have index naming patterns that must be adhered to. The naming pattern allows us to utilize [index templates](https://github.com/bcgov/nr-apm-stack/tree/main/workflow-cli/configuration-opensearch/index_template) to define the schema for the use case and policies to manage their lifecycle. All new use cases will start with the creation of a new index template and associated lifecycle.
 
 ## Style
 - Lower case for static/constant values
@@ -163,8 +163,11 @@ Reference: [https://www.elastic.co/guide/en/ecs/current/ecs-log.html](https://ww
 | Field             | Mandatory | Type      | Description | Values          |
 |-------------------|-----------|-----------|-------------|-----------------|
 | [network.direction](https://www.elastic.co/guide/en/ecs/1.10/ecs-network.html#field-network-direction) |           | keyword[] |             | ingress egress  |
+| network.protocol.name      |           | keyword   | The application protocol name (lowercase) | http jsonrpc |
+| network.protocol.version      |           | keyword   | The version of the protocol | 1.2 |
 | [network.vlan.id](https://www.elastic.co/guide/en/ecs/1.10/ecs-vlan.html#field-vlan-id)   |           | keyword   |             |                 |
 | network.zone      |           | keyword   |             | DMZ ZoneB ZoneA |
+
 
 ### Organization Fields
 | Field             | Mandatory | Type    | Description                                                                                                                                | Values |

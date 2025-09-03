@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { injectable } from 'inversify';
 import lodash from 'lodash';
 import * as path from 'path';
@@ -38,7 +37,6 @@ export class UrlExplodeParser implements Parser {
 
     try {
       if (urlOriginal.startsWith('/')) {
-        // eslint-disable-next-line max-len
         if (
           !lodash.isNil(lodash.get(document.data, 'url.scheme')) &&
           !lodash.isNil(lodash.get(document.data, 'url.domain')) &&

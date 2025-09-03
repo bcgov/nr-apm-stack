@@ -1,10 +1,14 @@
+import { HttpRequestService } from '../shared/http-request.service';
 import { RegexService } from '../shared/regex.service';
 import { OsDocument } from '../types/os-document';
 import { ApacheParser } from './apache.parser';
 
 describe('ApacheParser', () => {
   it('matches using metadata', () => {
-    const parser = new ApacheParser({} as unknown as RegexService);
+    const parser = new ApacheParser(
+      {} as unknown as RegexService,
+      new HttpRequestService(),
+    );
 
     expect(
       parser.matches({
@@ -20,7 +24,7 @@ describe('ApacheParser', () => {
     const service = {
       applyRegex: jest.fn().mockReturnValue({}),
     } as unknown as RegexService;
-    const parser = new ApacheParser(service);
+    const parser = new ApacheParser(service, new HttpRequestService());
     const testDoc = {} as unknown as OsDocument;
 
     parser.apply(testDoc);
@@ -36,7 +40,7 @@ describe('ApacheParser', () => {
   it('should parse a standard HTTP request line', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const regexService = new RegexService({ debug: () => {} } as any);
-    const parser = new ApacheParser(regexService);
+    const parser = new ApacheParser(regexService, new HttpRequestService());
     const doc: OsDocument = {
       data: {
         '@metadata': { apacheAccessLog: true },
@@ -58,7 +62,7 @@ describe('ApacheParser', () => {
   it('should parse a JSON-RPC body', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const regexService = new RegexService({ debug: () => {} } as any);
-    const parser = new ApacheParser(regexService);
+    const parser = new ApacheParser(regexService, new HttpRequestService());
     const doc: OsDocument = {
       data: {
         '@metadata': { apacheAccessLog: true },
@@ -75,7 +79,7 @@ describe('ApacheParser', () => {
     expect(doc.data.http?.request?.body?.content).toBe(
       '{"id":1,"jsonrpc":"2.0","method":"login","params":{"param1":"blue1","param2":"none","agent":"Windows NT 6.1; Win64; x64"}}\n',
     );
-    expect(doc.data.network?.protocol).toBe('rpc');
-    expect(doc.data.network?.application).toBe('jsonrpc');
+    expect(doc.data.network?.protocol?.name).toBe('jsonrpc');
+    expect(doc.data.network?.protocol?.version).toBe('2.0');
   });
 });
