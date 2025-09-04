@@ -32,7 +32,7 @@ export default class OpenSearchTemplateService extends AwsService {
       }
       const basename = path.basename(filePath, '.json');
       // Read ECS file
-      // Replaces match_only_text with text as OpenSearch does not support it.
+      // Replace unsupported types with OpenSearch supported ones
       const text = fs
         .readFileSync(path.resolve(componentDir, filePath), {
           encoding: 'utf8',

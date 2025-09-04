@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
-import { Parser } from '../types/parser';
+import lodash from 'lodash';
 import { inject } from 'inversify';
+import { Parser } from '../types/parser';
 import { TYPES } from '../inversify.types';
 import { OsDocument } from '../types/os-document';
 import { RegexService } from '../shared/regex.service';
-import lodash from 'lodash';
 
 /* eslint-disable max-len,camelcase,@typescript-eslint/no-unsafe-call */
 const regex_IIS_standard01 =
@@ -54,11 +54,10 @@ export class IISParser implements Parser {
     if (!lodash.isNil(extractedFields.httpVersion)) {
       const fullVerStr = extractedFields.httpVersion;
       if (fullVerStr.toUpperCase().startsWith('HTTP/')) {
-        lodash.set(
-          document.data,
-          'http.version',
-          fullVerStr.substring('HTTP/'.length),
-        );
+        const version = fullVerStr.substring('HTTP/'.length);
+        lodash.set(document.data, 'network.protocol.name', 'http');
+        lodash.set(document.data, 'network.protocol.version', version);
+        lodash.set(document.data, 'http.version', version);
       }
     }
     if (
@@ -76,7 +75,6 @@ export class IISParser implements Parser {
             .trim()
             .toLowerCase(),
         );
-        // eslint-disable-next-line max-len
         lodash.set(
           document.data,
           'user.id',

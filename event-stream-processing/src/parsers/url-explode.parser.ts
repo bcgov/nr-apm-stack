@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { injectable } from 'inversify';
-import { Parser } from '../types/parser';
 import lodash from 'lodash';
 import * as path from 'path';
 import { format as formatUrl, URL } from 'url';
+import { Parser } from '../types/parser';
 import { OsDocument } from '../types/os-document';
 import { ParserError } from '../util/parser.error';
 
@@ -38,7 +37,6 @@ export class UrlExplodeParser implements Parser {
 
     try {
       if (urlOriginal.startsWith('/')) {
-        // eslint-disable-next-line max-len
         if (
           !lodash.isNil(lodash.get(document.data, 'url.scheme')) &&
           !lodash.isNil(lodash.get(document.data, 'url.domain')) &&
@@ -56,7 +54,7 @@ export class UrlExplodeParser implements Parser {
           lodash.unset(document.data.url, 'domain');
           lodash.unset(document.data.url, 'full');
         }
-      } else if (urlOriginal === '*') {
+      } else if (urlOriginal === '*' || urlOriginal === '%.') {
         // Do nothing
       } else if (regexUrlWithProtocol.exec(urlOriginal)) {
         lodash.merge(document.data.url, this.explodeURL(new URL(urlOriginal)));
