@@ -1,0 +1,38 @@
+{
+  "index_patterns": [
+    "nrm-audit-vault-preprod*"
+  ],
+  "template": {
+    "aliases": {
+      "nrm-audit": {},
+      "nrm-audit-vault": {},
+      "nrm-audit-vault-preprod": {}
+    },
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "dynamic": "strict"
+    }
+  },
+  "priority": 400,
+  "composed_of": [
+    "ecs_agent_8.11",
+    "ecs_base_8.11",
+    "ecs_ecs_8.11",
+    "ecs_event_8.11",
+    "ecs_host_8.11",
+    "ecs_group_8.11",
+    "ecs_log_8.11",
+    "ecs_service_8.11",
+    "ecs_source_8.11",
+    "ecs_nrm_audit_vault_1.0",
+    "ecs_nrm_base_1.0",
+    "ecs_nrm_kinesis_1.0"
+  ],
+  "version": 3,
+  "_meta": {
+    "description": "NRM Audit Vault Preprod indices"
+  }
+}
