@@ -1,7 +1,7 @@
 {
   "policy": {
-    "policy_id": "nrm-type-app-generic-policy",
-    "description": "NRM app generic policy",
+    "policy_id": "nrm-type-audit-vault-preprod-policy",
+    "description": "NRM Vault audit preprod policy",
     "schema_version": 1,
     "last_updated_time": 1628803063474,
     "error_notification": null,
@@ -32,9 +32,9 @@
     "ism_template": [
       {
         "index_patterns": [
-          "nrm-app-generic-*"
+          "nrm-audit-vault-preprod*"
         ],
-        "priority": 0
+        "priority": 10
       }
     ]
   }
