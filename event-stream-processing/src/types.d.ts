@@ -1,0 +1,3 @@
+interface ErrorOptions {
+  cause?: unknown;
+}
