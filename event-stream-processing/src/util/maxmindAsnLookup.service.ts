@@ -6,9 +6,7 @@ import * as fs from 'fs';
 import { MaxmindLookupService } from './maxmindLookup.service';
 
 @injectable()
-export class MaxmindAsnLookupService
-  implements MaxmindLookupService<AsnResponse>
-{
+export class MaxmindAsnLookupService implements MaxmindLookupService<AsnResponse> {
   private cityLookup: Reader<AsnResponse> | null = null;
   public constructor() {
     const dbPath =

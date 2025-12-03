@@ -1,4 +1,4 @@
-import { Container, BindingScopeEnum } from 'inversify';
+import { Container, BindingScope } from 'inversify';
 import { TYPES } from './inversify.types';
 
 // Services
@@ -56,7 +56,7 @@ import { DeadLetterQueueService } from './dead-letter-queue.service';
  */
 function create(): Container {
   const myContainer = new Container({
-    defaultScope: BindingScopeEnum.Singleton,
+    defaultScope: 'Singleton' as BindingScope,
   });
   myContainer.bind<LoggerService>(TYPES.LoggerService).to(LoggerConsoleService);
   myContainer
