@@ -1,3 +1,0 @@
-interface ErrorOptions {
-  cause?: unknown;
-}
