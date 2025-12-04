@@ -192,7 +192,7 @@ Resources:
       CodeUri: event-stream-processing/
       Handler: !Ref LambdaHandler
       Role: !GetAtt LambdaStreamRole.Arn
-      Runtime: nodejs20.x
+      Runtime: nodejs24.x
       Architectures:
       - x86_64
       Environment:
