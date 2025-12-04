@@ -179,7 +179,7 @@ Resources:
     Type: AWS::Serverless::LayerVersion
     Properties:
       CompatibleRuntimes:
-        - nodejs20.x
+        - nodejs24.x
       ContentUri: ./layer/maxmind-geoip-db
       LayerName: maxmind-geoip-db
       RetentionPolicy: Delete
