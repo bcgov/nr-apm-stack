@@ -255,6 +255,7 @@ export const FINGERPRINTS: OsDocumentFingerprint[] = [
         deslash: true,
         environmentStandardize: true,
         urlExplode: true,
+        geoIp: true,
         httpStatusOutcome: true,
         timestampGuard: 'P14D',
         userAgent: true,
