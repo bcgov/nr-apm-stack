@@ -1,0 +1,10 @@
+{
+  "id": "wf-geoserver-msteams",
+  "name": "WF Geoserver Alerts Channel",
+  "description": "MS Teams channel (APM Deployment Managed)",
+  "configType": "microsoft_teams",
+  "isEnabled": true,
+  "microsoft_teams": {
+    "url": "<%= url %>"
+  }
+}

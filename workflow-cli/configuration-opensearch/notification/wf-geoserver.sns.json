@@ -1,0 +1,17 @@
+{
+  "id": "wildfire-geoserver-sns",
+  "entity": "SnsWildfireGeoServer",
+  "name": "Wildfire GeoServer SNS",
+  "description": "SNS destination (APM Deployment Managed)",
+  "configType": "sns",
+  "isEnabled": true,
+  "sns": {
+    "topicArn": "nress-prod-wildfire-geoserver",
+    "roleArn": "opensearch_sns_nress-prod",
+    "subscriptions": [{
+      "entity": "SnsWildfireGeoServerEmailWf",
+      "endpoint": "BCWILDFIREGEO@gov.bc.ca",
+      "protocol": "email"
+    }]
+  }
+}
