@@ -61,8 +61,8 @@
   },
   "dependencies": {
     "@aws-crypto/sha256-js": "^5.2.0",
-    "@aws-sdk/client-firehose": "^3.943.0",
-    "@aws-sdk/credential-provider-node": "^3.943.0",
+    "@aws-sdk/client-firehose": "^3.987.0",
+    "@aws-sdk/credential-provider-node": "^3.972.6",
     "@nestjs/common": "^11.1.9",
     "@nestjs/core": "^11.1.9",
     "@nestjs/platform-express": "^11.1.9",
