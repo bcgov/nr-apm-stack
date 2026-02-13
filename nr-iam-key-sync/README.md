@@ -30,8 +30,6 @@ await service.syncKeyToVault(
 );
 ```
 
-See [IAM_KEY_SYNC.md](IAM_KEY_SYNC.md) for basic usage.
-
 ### Enhanced Mode
 
 With S3 state tracking and automatic token management:
@@ -50,8 +48,6 @@ const service = createEnhancedIamKeySyncService({
 await service.initialize();
 const result = await service.runSync(['john.doe', 'jane.smith']);
 ```
-
-See [ENHANCED_USAGE.md](ENHANCED_USAGE.md) for complete documentation.
 
 ## Architecture
 
