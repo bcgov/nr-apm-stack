@@ -214,11 +214,6 @@ npm test
 npm run test:cov
 ```
 
-## Documentation
-
-- [Basic Usage](IAM_KEY_SYNC.md) - Simple stateless syncing
-- [Enhanced Usage](ENHANCED_USAGE.md) - S3-backed state and token management
-
 ## Security Considerations
 
 1. **Vault Token Storage**: Never store tokens in code or environment variables in production. Use S3 with encryption.
