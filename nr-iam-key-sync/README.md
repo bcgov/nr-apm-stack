@@ -214,6 +214,38 @@ npm test
 npm run test:cov
 ```
 
+### Local Integration Testing
+
+Test against real AWS services and Vault instance:
+
+1. **Setup environment**:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your AWS credentials and Vault details
+   ```
+
+2. **Create AWS resources** (S3 bucket):
+   ```bash
+   ./scripts/setup-aws-test-resources.sh
+   ```
+
+3. **Create Vault resources** (policy and tokens):
+   ```bash
+   export S3_BUCKET_NAME=<bucket-from-step-2>
+   ./scripts/setup-vault-test-resources.sh
+   ```
+
+4. **Run tests**:
+   ```bash
+   npm run build
+   npx ts-node scripts/test-basic-local.ts      # Basic mode
+   npx ts-node scripts/test-enhanced-local.ts   # Enhanced mode
+   ```
+
+See [scripts/README.md](scripts/README.md) for detailed testing instructions.
+
+**Prerequisites**: SSM parameters must exist at `/iam_users/<username>_keys` (created by external IAM rotation process).
+
 ## Security Considerations
 
 1. **Write-Only Vault Access**: The service only requires write permissions to Vault, never read. This minimizes attack surface.
