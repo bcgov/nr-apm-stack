@@ -40,7 +40,8 @@ export class IamKeySyncService {
 
     /**
      * Read rotated IAM access key from SSM Parameter Store and sync to Vault
-     * Checks if Vault has the pending_deletion key - if so, writes the current key from SSM
+     * This service is write-only - it always writes to Vault without reading existing values
+     * Use EnhancedIamKeySyncService for smart syncing with change detection
      * Note: This service syncs already-rotated keys; rotation is handled externally
      * @param userName The IDIR username
      * @param vaultMount The Vault KV mount path (e.g., 'secret')
@@ -65,57 +66,17 @@ export class IamKeySyncService {
                 );
             }
 
-            // Check if Vault has a key stored
-            let shouldSync = false;
-            try {
-                const vaultData = await this.vaultService.getKv<{
-                    accessKeyId: string;
-                }>(vaultMount, vaultPath);
+            // Write current key to Vault (write-only, no read/compare)
+            await this.vaultService.postKv(vaultMount, vaultPath, {
+                accessKeyId: storedKeys.current.AccessKeyID,
+                secretAccessKey: storedKeys.current.SecretAccessKey,
+                userName,
+                syncedAt: new Date().toISOString(),
+            });
 
-                // If Vault has the pending_deletion key, sync the current key
-                if (
-                    storedKeys.pending_deletion &&
-                    vaultData.accessKeyId ===
-                        storedKeys.pending_deletion.AccessKeyID
-                ) {
-                    this.logger.info(
-                        `Vault has pending_deletion key for ${userName}, syncing current key`,
-                    );
-                    shouldSync = true;
-                } else if (
-                    vaultData.accessKeyId !== storedKeys.current.AccessKeyID
-                ) {
-                    // Vault has a different key, sync the current one
-                    this.logger.info(
-                        `Vault has outdated key for ${userName}, syncing current key`,
-                    );
-                    shouldSync = true;
-                } else {
-                    this.logger.info(
-                        `Vault already has current key for ${userName}, skipping sync`,
-                    );
-                }
-            } catch (error) {
-                // Vault doesn't have the key yet, sync it
-                this.logger.info(
-                    `No key found in Vault for ${userName}, syncing current key`,
-                );
-                shouldSync = true;
-            }
-
-            if (shouldSync) {
-                // Write current key to Vault
-                await this.vaultService.postKv(vaultMount, vaultPath, {
-                    accessKeyId: storedKeys.current.AccessKeyID,
-                    secretAccessKey: storedKeys.current.SecretAccessKey,
-                    userName,
-                    syncedAt: new Date().toISOString(),
-                });
-
-                this.logger.info(
-                    `Successfully synced key ${storedKeys.current.AccessKeyID} for user ${userName} to Vault at ${vaultMount}/${vaultPath}`,
-                );
-            }
+            this.logger.info(
+                `Successfully synced key ${storedKeys.current.AccessKeyID} for user ${userName} to Vault at ${vaultMount}/${vaultPath}`,
+            );
 
             return {
                 userName,

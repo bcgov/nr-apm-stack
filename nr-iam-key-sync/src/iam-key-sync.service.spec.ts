@@ -21,13 +21,13 @@ describe('IamKeySyncService', () => {
             debug: jest.fn(),
         } as any;
 
-        // Create mock Vault service
+        // Create mock Vault service (write-only, no read operations)
         mockVaultService = {
             postKv: jest.fn().mockResolvedValue(undefined),
-            getKv: jest.fn().mockResolvedValue({}),
             patchKv: jest.fn().mockResolvedValue(undefined),
             deleteKv: jest.fn().mockResolvedValue(undefined),
             hasValidToken: jest.fn().mockReturnValue(true),
+            setToken: jest.fn(),
         } as any;
 
         // Create mock SSM client
@@ -43,7 +43,7 @@ describe('IamKeySyncService', () => {
     });
 
     describe('syncKeyToVault', () => {
-        it('should sync key when Vault has no key', async () => {
+        it('should always write key to Vault (write-only, no read)', async () => {
             const userName = 'john.doe';
             const vaultMount = 'secret';
             const vaultPath = 'aws/iam-keys/john.doe';
@@ -60,11 +60,6 @@ describe('IamKeySyncService', () => {
                     }),
                 },
             });
-
-            // Mock Vault getKv to throw (no key exists)
-            mockVaultService.getKv = jest
-                .fn()
-                .mockRejectedValue(new Error('Not found'));
 
             const result = await service.syncKeyToVault(
                 userName,
@@ -86,7 +81,7 @@ describe('IamKeySyncService', () => {
             );
         });
 
-        it('should sync current key when Vault has pending_deletion key', async () => {
+        it('should write key with pending_deletion in SSM', async () => {
             const userName = 'john.doe';
             const vaultMount = 'secret';
             const vaultPath = 'aws/iam-keys/john.doe';
@@ -109,11 +104,6 @@ describe('IamKeySyncService', () => {
                 },
             });
 
-            // Mock Vault has pending_deletion key
-            mockVaultService.getKv = jest.fn().mockResolvedValue({
-                accessKeyId: 'AKIAI44QH8DHBEXAMPLE',
-            });
-
             const result = await service.syncKeyToVault(
                 userName,
                 vaultMount,
@@ -127,87 +117,6 @@ describe('IamKeySyncService', () => {
                 expect.objectContaining({
                     accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
                 }),
-            );
-            expect(mockLogger.info).toHaveBeenCalledWith(
-                expect.stringContaining('Vault has pending_deletion key'),
-            );
-        });
-
-        it('should skip sync when Vault already has current key', async () => {
-            const userName = 'john.doe';
-            const vaultMount = 'secret';
-            const vaultPath = 'aws/iam-keys/john.doe';
-
-            // Mock SSM response
-            mockSsmClient.send = jest.fn().mockResolvedValue({
-                Parameter: {
-                    Value: JSON.stringify({
-                        current: {
-                            AccessKeyID: 'AKIAIOSFODNN7EXAMPLE',
-                            SecretAccessKey:
-                                'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-                        },
-                    }),
-                },
-            });
-
-            // Mock Vault already has current key
-            mockVaultService.getKv = jest.fn().mockResolvedValue({
-                accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-            });
-
-            const result = await service.syncKeyToVault(
-                userName,
-                vaultMount,
-                vaultPath,
-            );
-
-            expect(result.success).toBe(true);
-            expect(mockVaultService.postKv).not.toHaveBeenCalled();
-            expect(mockLogger.info).toHaveBeenCalledWith(
-                expect.stringContaining('already has current key'),
-            );
-        });
-
-        it('should sync when Vault has outdated key', async () => {
-            const userName = 'john.doe';
-            const vaultMount = 'secret';
-            const vaultPath = 'aws/iam-keys/john.doe';
-
-            // Mock SSM response
-            mockSsmClient.send = jest.fn().mockResolvedValue({
-                Parameter: {
-                    Value: JSON.stringify({
-                        current: {
-                            AccessKeyID: 'AKIAIOSFODNN7EXAMPLE',
-                            SecretAccessKey:
-                                'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-                        },
-                    }),
-                },
-            });
-
-            // Mock Vault has different key
-            mockVaultService.getKv = jest.fn().mockResolvedValue({
-                accessKeyId: 'AKIASOMEOTHERKEY',
-            });
-
-            const result = await service.syncKeyToVault(
-                userName,
-                vaultMount,
-                vaultPath,
-            );
-
-            expect(result.success).toBe(true);
-            expect(mockVaultService.postKv).toHaveBeenCalledWith(
-                vaultMount,
-                vaultPath,
-                expect.objectContaining({
-                    accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-                }),
-            );
-            expect(mockLogger.info).toHaveBeenCalledWith(
-                expect.stringContaining('outdated key'),
             );
         });
 

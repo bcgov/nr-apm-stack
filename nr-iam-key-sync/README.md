@@ -216,12 +216,13 @@ npm run test:cov
 
 ## Security Considerations
 
-1. **Vault Token Storage**: Never store tokens in code or environment variables in production. Use S3 with encryption.
-2. **S3 Encryption**: Always enable AES-256 or KMS encryption for state bucket.
-3. **Hash-Based State**: Sync state stores SHA-256 hashes of secrets, never actual credentials.
-4. **Network Security**: Use DirectConnect for Vault traffic, never public internet.
-5. **IAM Permissions**: Follow least privilege - only grant access to required SSM parameters and S3 paths.
-6. **Audit Logging**: Enable CloudTrail and Vault audit logs.
+1. **Write-Only Vault Access**: The service only requires write permissions to Vault, never read. This minimizes attack surface.
+2. **Vault Token Storage**: Never store tokens in code or environment variables in production. Use S3 with encryption.
+3. **S3 Encryption**: Always enable AES-256 or KMS encryption for state bucket.
+4. **Hash-Based State**: Sync state stores SHA-256 hashes of secrets, never actual credentials.
+5. **Network Security**: Use DirectConnect for Vault traffic, never public internet.
+6. **IAM Permissions**: Follow least privilege - only grant access to required SSM parameters and S3 paths.
+7. **Audit Logging**: Enable CloudTrail and Vault audit logs.
 
 ## Background
 
