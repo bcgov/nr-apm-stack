@@ -1,0 +1,54 @@
+{
+  "name": "nr-iam-key-sync",
+  "version": "1.0.0",
+  "description": "Service to read IAM access keys from SSM Parameter Store and sync them to HashiCorp Vault",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "!lib/**/*.test.js",
+    "!lib/**/*.test.js.map",
+    "!*.zip"
+  ],
+  "scripts": {
+    "clean": "rimraf lib coverage",
+    "compile": "tsc -p tsconfig.build.json",
+    "lint": "eslint \"src/**/*.{js,ts}\" --quiet --fix",
+    "check-lint": "eslint \"src/**/*.{js,ts}\" --quiet",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "build": "npm run clean && npm run compile"
+  },
+  "keywords": [
+    "iam",
+    "aws",
+    "vault",
+    "ssm",
+    "sync"
+  ],
+  "author": "BC Government",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^30.2.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.1.2",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.989.0",
+    "@aws-sdk/client-ssm": "^3.943.0",
+    "@aws-sdk/credential-provider-node": "^3.943.0",
+    "dotenv": "^16.6.1"
+  }
+}
