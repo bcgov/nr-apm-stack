@@ -10,7 +10,7 @@ permissions:
 jobs:
   build-workflow:
     name: Run APM Workflow
-    environment: production
+    environment: lza-production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
