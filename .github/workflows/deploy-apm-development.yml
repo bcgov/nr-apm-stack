@@ -35,6 +35,8 @@ jobs:
       - name: Generate aws template
         run: ./bin/dev aws-render
         working-directory: ./workflow-cli
+        env:
+          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}
 
       - name: Setup AWS SAM
         uses: aws-actions/setup-sam@v2
@@ -63,7 +65,6 @@ jobs:
       #   env:
       #     AWS_OPENSEARCH_URL: ${{ vars.AWS_OPENSEARCH_URL }}
       #     AWS_KINESIS_STREAM_SHARD_COUNT: ${{ vars.AWS_KINESIS_STREAM_SHARD_COUNT }}
-      #     AWS_KINESIS_PUT_ROLE_ARNS: ${{ vars.AWS_KINESIS_PUT_ROLE_ARNS }}
       #   run: |
       #     sam deploy \
       #       --stack-name nr-apm-stack \
@@ -72,14 +73,12 @@ jobs:
       #       --parameter-overrides \
       #       "LambdaHandler=index.kinesisStreamDummyHandler" \
       #       "KinesisStreamShardCount=$AWS_KINESIS_STREAM_SHARD_COUNT" \
-      #       "OpensearchUrl=$AWS_OPENSEARCH_URL" \
-      #       "KinesisPutRoleArns=$AWS_KINESIS_PUT_ROLE_ARNS"
+      #       "OpensearchUrl=$AWS_OPENSEARCH_URL"
 
       - name: SAM deploy
         env:
           AWS_OPENSEARCH_URL: ${{ vars.AWS_OPENSEARCH_URL }}
           AWS_KINESIS_STREAM_SHARD_COUNT: ${{ vars.AWS_KINESIS_STREAM_SHARD_COUNT }}
-          AWS_KINESIS_PUT_ROLE_ARNS: ${{ vars.AWS_KINESIS_PUT_ROLE_ARNS }}
         run: |
           sam deploy \
             --stack-name nr-apm-stack \
@@ -88,5 +87,4 @@ jobs:
             --parameter-overrides \
             "LambdaHandler=index.kinesisStreamDummyHandler" \
             "KinesisStreamShardCount=$AWS_KINESIS_STREAM_SHARD_COUNT" \
-            "OpensearchUrl=$AWS_OPENSEARCH_URL" \
-            "KinesisPutRoleArns=$AWS_KINESIS_PUT_ROLE_ARNS"
+            "OpensearchUrl=$AWS_OPENSEARCH_URL"
