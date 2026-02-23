@@ -152,7 +152,7 @@ Resources:
   # Access to push documents to kinesis stream consumed by lambda
   # Users allowed to add documents to Opensearch should be defined in template ENV
   # Once rendered, this will be the list of ARNs that can add documents to Opensearch
- KinesisPutRole:
+  KinesisPutRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
