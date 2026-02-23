@@ -186,14 +186,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS:
-                - !Join
-                  - ''
-                  - - "arn:aws:iam:"
-                    - !Ref AWS::Region
-                    - ':'
-                    - !Ref AWS::AccountId
-                    - ':user/
-                    - !Ref IamRotatorUsername
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:user/${IamRotatorUsername}'
             Action:
               - 'sts:AssumeRole'
       Policies:
@@ -206,7 +199,8 @@ Resources:
                   - ssm:GetParameters
                 Resource:<% kinesisPutUsers.forEach((user) => { %>
                   - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/<%= user %>_keys'<% }); %>
-                  - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/${Username}_keys'
+                  - !Sub
+                    - 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/${Username}_keys'
                     - Username: !Ref IamRotatorUsername
                 Effect: Allow
 
