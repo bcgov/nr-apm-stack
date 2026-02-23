@@ -65,6 +65,7 @@ jobs:
       #   env:
       #     AWS_OPENSEARCH_URL: ${{ vars.AWS_OPENSEARCH_URL }}
       #     AWS_KINESIS_STREAM_SHARD_COUNT: ${{ vars.AWS_KINESIS_STREAM_SHARD_COUNT }}
+      #     IAM_ROTATOR_USERNAME: ${{ vars.IAM_ROTATOR_USERNAME }}
       #   run: |
       #     sam deploy \
       #       --stack-name nr-apm-stack \
@@ -73,12 +74,14 @@ jobs:
       #       --parameter-overrides \
       #       "LambdaHandler=index.kinesisStreamDummyHandler" \
       #       "KinesisStreamShardCount=$AWS_KINESIS_STREAM_SHARD_COUNT" \
-      #       "OpensearchUrl=$AWS_OPENSEARCH_URL"
+      #       "OpensearchUrl=$AWS_OPENSEARCH_URL" \
+      #       "IamRotatorUsername=$IAM_ROTATOR_USERNAME"
 
       - name: SAM deploy
         env:
           AWS_OPENSEARCH_URL: ${{ vars.AWS_OPENSEARCH_URL }}
           AWS_KINESIS_STREAM_SHARD_COUNT: ${{ vars.AWS_KINESIS_STREAM_SHARD_COUNT }}
+          IAM_ROTATOR_USERNAME: ${{ vars.IAM_ROTATOR_USERNAME }}
         run: |
           sam deploy \
             --stack-name nr-apm-stack \
@@ -87,4 +90,5 @@ jobs:
             --parameter-overrides \
             "LambdaHandler=index.kinesisStreamDummyHandler" \
             "KinesisStreamShardCount=$AWS_KINESIS_STREAM_SHARD_COUNT" \
-            "OpensearchUrl=$AWS_OPENSEARCH_URL"
+            "OpensearchUrl=$AWS_OPENSEARCH_URL" \
+            "IamRotatorUsername=$IAM_ROTATOR_USERNAME"
