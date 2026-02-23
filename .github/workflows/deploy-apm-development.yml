@@ -63,6 +63,7 @@ jobs:
       #   env:
       #     AWS_OPENSEARCH_URL: ${{ vars.AWS_OPENSEARCH_URL }}
       #     AWS_KINESIS_STREAM_SHARD_COUNT: ${{ vars.AWS_KINESIS_STREAM_SHARD_COUNT }}
+      #     AWS_KINESIS_PUT_ROLE_ARNS: ${{ vars.AWS_KINESIS_PUT_ROLE_ARNS }}
       #   run: |
       #     sam deploy \
       #       --stack-name nr-apm-stack \
@@ -71,12 +72,14 @@ jobs:
       #       --parameter-overrides \
       #       "LambdaHandler=index.kinesisStreamDummyHandler" \
       #       "KinesisStreamShardCount=$AWS_KINESIS_STREAM_SHARD_COUNT" \
-      #       "OpensearchUrl=$AWS_OPENSEARCH_URL"
+      #       "OpensearchUrl=$AWS_OPENSEARCH_URL" \
+      #       "KinesisPutRoleArns=$AWS_KINESIS_PUT_ROLE_ARNS"
 
       - name: SAM deploy
         env:
           AWS_OPENSEARCH_URL: ${{ vars.AWS_OPENSEARCH_URL }}
           AWS_KINESIS_STREAM_SHARD_COUNT: ${{ vars.AWS_KINESIS_STREAM_SHARD_COUNT }}
+          AWS_KINESIS_PUT_ROLE_ARNS: ${{ vars.AWS_KINESIS_PUT_ROLE_ARNS }}
         run: |
           sam deploy \
             --stack-name nr-apm-stack \
@@ -85,4 +88,5 @@ jobs:
             --parameter-overrides \
             "LambdaHandler=index.kinesisStreamDummyHandler" \
             "KinesisStreamShardCount=$AWS_KINESIS_STREAM_SHARD_COUNT" \
-            "OpensearchUrl=$AWS_OPENSEARCH_URL"
+            "OpensearchUrl=$AWS_OPENSEARCH_URL" \
+            "KinesisPutRoleArns=$AWS_KINESIS_PUT_ROLE_ARNS"

@@ -34,6 +34,10 @@ Parameters:
   OpensearchUrl:
     Type: String
     Default: ""
+  KinesisPutRoleArns:
+    Type: CommaDelimitedList
+    Default: ""
+    Description: "List of IAM user/role ARNs allowed to assume KinesisPutRole"
 
 Resources:
 
@@ -145,31 +149,30 @@ Resources:
                       - ':log-stream:DestinationDelivery'
                 Effect: Allow
 
-  ## Policies
-
   # Access to push documents to kinesis stream consumed by lambda
-  # Roles created for team access to add documents to Opensearch should attach this policy.
-  # (Would) replace nress-prod-nrm-agents policy
-  # Disabled because we can't manage PBMMOps-BCGOV_ roles
-  # AgentPolicy:
-  #   Type: AWS::IAM::Policy
-  #   Properties:
-  #     PolicyName: nr-apm-stack-stream-put-document
-  #     PolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         - Action:
-  #           - kinesis:PutRecord
-  #           - kinesis:PutRecords
-  #           Resource:
-  #           - !GetAtt Stream.Arn
-  #           Effect: Allow
-  #     Roles:
-  #       - !Join
-  #         - ''
-  #         - - PBMMOps-BCGOV_
-  #           - !Ref Environment
-  #           - _Project_Role_ES_Role
+  # ARNS allowed to add documents to Opensearch should be defined in parameters
+  KinesisPutRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Ref KinesisPutRoleArns
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'kinesis-put-record'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - kinesis:PutRecord
+                - kinesis:PutRecords
+                Resource:
+                - !GetAtt Stream.Arn
+                Effect: Allow
 
   ## Opensearch
 
