@@ -4,6 +4,14 @@ export const help = {
   help: Flags.help({ char: 'h' }),
 };
 
+export const awsParameterVaultConfig = {
+  awsParameterVaultConfig: Flags.string({
+    required: true,
+    description: 'The path to the AWS parameter vault config file',
+    env: 'AWS_PARAMETER_VAULT_CONFIG_FILE',
+  }),
+};
+
 export const brokerApiUrl = {
   'broker-api-url': Flags.string({
     default: 'https://broker.io.nrs.gov.bc.ca/',

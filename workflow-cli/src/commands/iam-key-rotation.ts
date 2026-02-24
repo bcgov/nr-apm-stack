@@ -12,6 +12,7 @@ import {
   vaultAddr,
   vaultToken,
   help,
+  awsParameterVaultConfig,
 } from '../flags';
 import AwsSystemsManagerService from '../services/aws-systems-manager.service';
 
@@ -28,6 +29,7 @@ export default class IamKeyRotation extends Command {
     ...arn,
     ...vaultAddr,
     ...vaultToken,
+    ...awsParameterVaultConfig,
     ...help,
   };
 
