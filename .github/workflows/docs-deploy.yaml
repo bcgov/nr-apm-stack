@@ -34,14 +34,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Run Loop Script
-        run: sh ./.github/workflows/loop-script.sh
+        uses: actions/configure-pages@v5
+      - name: Run Preparation Script
+        if: hashFiles('.github/workflows/docs-deploy-prep.sh') != ''
+        run: sh ./.github/workflows/docs-deploy-prep.sh
       - name: Upload Docs
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           # Upload the docs folder
           path: './docs'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

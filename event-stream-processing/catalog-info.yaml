@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+spec:
+  system: apm-stack
+  type: service
+  lifecycle: production
+  owner: ""
+metadata:
+  name: apm-stack-event-stream-processing
+  description: Tool for transforming and annotating documents
+  title: Event Stream Processing
+  annotations:
+    license: Apache-2.0
+    github.com/project-slug: bcgov/nr-apm-stack
+    composer.io.nrs.gov.bc.ca/generators: backstage
