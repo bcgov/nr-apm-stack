@@ -37,6 +37,7 @@ USAGE
 <!-- commands -->
 * [`workflow-cli automation-message`](#workflow-cli-automation-message)
 * [`workflow-cli aws-render [FILE]`](#workflow-cli-aws-render-file)
+* [`workflow-cli iam-key-rotation`](#workflow-cli-iam-key-rotation)
 * [`workflow-cli lambda-asset-download [FILE]`](#workflow-cli-lambda-asset-download-file)
 * [`workflow-cli opensearch-index-usage ACTION`](#workflow-cli-opensearch-index-usage-action)
 * [`workflow-cli opensearch-sync`](#workflow-cli-opensearch-sync)
@@ -84,6 +85,30 @@ DESCRIPTION
 
 EXAMPLES
   $ workflow-cli aws-render
+```
+
+## `workflow-cli iam-key-rotation`
+
+IAM key rotation tool
+
+```
+USAGE
+  $ workflow-cli iam-key-rotation --region <value> --accessId <value> --accessKey <value> --accountNumber <value>
+    [--arn <value>] [-h]
+
+FLAGS
+  -h, --help                   Show CLI help.
+      --accessId=<value>       (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
+      --accessKey=<value>      (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
+      --accountNumber=<value>  (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
+      --arn=<value>            [env: AWS_ASSUME_ROLE] AWS ARN
+      --region=<value>         (required) [env: AWS_REGION] AWS region
+
+DESCRIPTION
+  IAM key rotation tool
+
+EXAMPLES
+  $ workflow-cli iam-key-rotation
 ```
 
 ## `workflow-cli lambda-asset-download [FILE]`

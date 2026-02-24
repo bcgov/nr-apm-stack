@@ -10,6 +10,7 @@
     "@aws-crypto/sha256-js": "^5.2.0",
     "@aws-sdk/client-elasticsearch-service": "^3.996.0",
     "@aws-sdk/client-sqs": "^3.996.0",
+    "@aws-sdk/client-ssm": "^3.996.0",
     "@aws-sdk/client-sts": "^3.996.0",
     "@aws-sdk/credential-provider-node": "^3.972.11",
     "@oclif/core": "^4.8.1",

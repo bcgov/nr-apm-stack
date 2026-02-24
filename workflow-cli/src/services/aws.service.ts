@@ -9,8 +9,6 @@ import { HttpsProxyAgent } from 'hpagent';
 
 import { injectable } from 'inversify';
 export interface settings {
-  hostname: string;
-  domainName: string;
   region: string;
   accessId: string;
   accessKey: string;

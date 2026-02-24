@@ -35,4 +35,15 @@ export default class VaultApi {
   public async read(path: string): Promise<any> {
     return (await axios.get(path, this.axiosOptions)).data;
   }
+
+  public async patch(path: string, data: any): Promise<any> {
+    return (await axios.patch(path, data, this.axiosOptions)).data;
+  }
+
+  /**
+   * Write vault path
+   */
+  public async write(path: string, data: any): Promise<any> {
+    return (await axios.post(path, data, this.axiosOptions)).data;
+  }
 }

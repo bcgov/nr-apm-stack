@@ -5,6 +5,8 @@ import ora from 'ora';
 import * as tp from 'timers/promises';
 
 interface ReindexSettings extends settings {
+  hostname: string;
+  domainName: string;
   config: string;
 }
 
@@ -109,7 +111,7 @@ export default class ReindexService extends AwsService {
     destinationIndex: string,
     script: string,
     prototype: any,
-    settings: settings,
+    settings: ReindexSettings,
   ): Promise<string> {
     prototype.source.index = [sourceIndex];
     prototype.dest.index = destinationIndex;
@@ -136,7 +138,7 @@ export default class ReindexService extends AwsService {
       });
   }
 
-  private async checkTask(taskId: string, settings: settings) {
+  private async checkTask(taskId: string, settings: ReindexSettings) {
     return await this.executeSignedHttpRequest({
       method: 'GET',
       headers: {
@@ -157,7 +159,7 @@ export default class ReindexService extends AwsService {
       });
   }
 
-  private async getIndices(indexPrefix: string, settings: settings) {
+  private async getIndices(indexPrefix: string, settings: ReindexSettings) {
     return await this.executeSignedHttpRequest({
       method: 'GET',
       headers: {
@@ -184,7 +186,7 @@ export default class ReindexService extends AwsService {
       });
   }
 
-  private async deleteIndex(index: string, settings: settings) {
+  private async deleteIndex(index: string, settings: ReindexSettings) {
     return await this.executeSignedHttpRequest({
       method: 'DELETE',
       headers: {
