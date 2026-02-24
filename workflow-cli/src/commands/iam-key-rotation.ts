@@ -37,6 +37,8 @@ export default class IamKeyRotation extends Command {
     await AwsService.assumeIdentity(flags);
     bindVault(flags['vault-addr'], flags['vault-token']);
 
-    await vsContainer.get<AwsSystemsManagerService>(TYPES.AwsSystemsManagerService).syncParameters(flags);
+    await vsContainer
+      .get<AwsSystemsManagerService>(TYPES.AwsSystemsManagerService)
+      .syncParameters(flags);
   }
 }

@@ -1,8 +1,8 @@
-import {GetParametersCommand, SSMClient} from "@aws-sdk/client-ssm";
-import AwsService from "./aws.service";
-import {inject} from "inversify";
-import {TYPES} from "../inversify.types";
-import VaultApi from "../vault/vault.api";
+import { GetParametersCommand, SSMClient } from '@aws-sdk/client-ssm';
+import { inject } from 'inversify';
+import AwsService from './aws.service';
+import { TYPES } from '../inversify.types';
+import VaultApi from '../vault/vault.api';
 
 export interface settings {
   region: string;
@@ -15,18 +15,20 @@ export interface settings {
 const parameters = [
   {
     name: '/iam_users/b03a55-dev-apm-iam-user-rotator_keys',
-    targets: [{
-      mount: 'apps',
-      path: 'prod/fluent/fluent-bit',
-    }],
+    targets: [
+      {
+        mount: 'apps',
+        path: 'prod/fluent/fluent-bit',
+      },
+    ],
   },
 ];
 
 export default class AwsSystemsManagerService extends AwsService {
-
   constructor(
     @inject(TYPES.VaultApi)
-    private vault: VaultApi) {
+    private vault: VaultApi,
+  ) {
     super();
   }
 
@@ -35,11 +37,11 @@ export default class AwsSystemsManagerService extends AwsService {
       AwsService.configureClientProxy({ region: settings.region }),
     );
     const command = new GetParametersCommand({
-      Names: parameters.map(p => p.name),
+      Names: parameters.map((p) => p.name),
       WithDecryption: false,
     });
     const nameToTargets: Record<string, { mount: string; path: string }[]> = {};
-    parameters.forEach(p => {
+    parameters.forEach((p) => {
       nameToTargets[p.name] = p.targets;
     });
     const response = await client.send(command);
@@ -49,8 +51,12 @@ export default class AwsSystemsManagerService extends AwsService {
         if (parameterValue) {
           const targets = nameToTargets[parameter.Name!];
           for (const target of targets) {
-            console.log(`Syncing parameter ${parameter.Name} to vault at mount ${target.mount} and path ${target.path}`);
-            const value = await this.vault.read(`${target.mount}/metadata/${target.path}`);
+            console.log(
+              `Syncing parameter ${parameter.Name} to vault at mount ${target.mount} and path ${target.path}`,
+            );
+            const value = await this.vault.read(
+              `${target.mount}/metadata/${target.path}`,
+            );
             if (value.data) {
               await this.vault.patch(`${target.mount}/data/${target.path}`, {
                 data: {
