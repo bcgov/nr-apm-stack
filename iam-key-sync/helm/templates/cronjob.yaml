@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "iam-key-sync.fullname" . }}
+  labels:
+    {{- include "iam-key-sync.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.cronjob.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.cronjob.failedJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{- include "iam-key-sync.labels" . | nindent 12 }}
+        spec:
+          restartPolicy: {{ .Values.cronjob.restartPolicy }}
+          containers:
+            - name: {{ include "iam-key-sync.name" . }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                - name: BROKER_JWT
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "iam-key-sync.fullname" . }}-secret
+                      key: BROKER_JWT
+                - name: BROKER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "iam-key-sync.fullname" . }}-secret
+                      key: BROKER_URL
+                - name: VAULT_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "iam-key-sync.fullname" . }}-secret
+                      key: VAULT_URL
+                - name: SYNC_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "iam-key-sync.fullname" . }}-secret
+                      key: SYNC_URL
+                - name: TARGET_ENV
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ include "iam-key-sync.fullname" . }}-config
+                      key: TARGET_ENV
