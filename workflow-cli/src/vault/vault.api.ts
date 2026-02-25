@@ -8,6 +8,7 @@ import { TYPES } from '../inversify.types';
  */
 export default class VaultApi {
   private axiosOptions!: AxiosRequestConfig;
+  private axiosPatchOptions!: AxiosRequestConfig;
 
   /**
    * Constructor
@@ -27,6 +28,13 @@ export default class VaultApi {
         'Content-Type': 'application/json',
       },
     };
+    this.axiosPatchOptions = {
+      baseURL: this.vaultApiUrl,
+      headers: {
+        'X-Vault-Token': this.vaultToken,
+        'Content-Type': 'application/merge-patch+json',
+      },
+    };
   }
 
   /**
@@ -36,8 +44,35 @@ export default class VaultApi {
     return (await axios.get(path, this.axiosOptions)).data;
   }
 
+  public async readKvMetadata(mount: string, path: string): Promise<any> {
+    try {
+      return (
+        await axios.get(`v1/${mount}/metadata/${path}`, this.axiosOptions)
+      ).data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 404) {
+        return null; // Metadata not found
+      }
+      throw error; // Rethrow other errors
+    }
+  }
+
+  public async patchKvMetadata(
+    mount: string,
+    path: string,
+    customMetadata: any,
+  ): Promise<any> {
+    return (
+      await axios.patch(
+        `v1/${mount}/metadata/${path}`,
+        { custom_metadata: customMetadata },
+        this.axiosPatchOptions,
+      )
+    ).data;
+  }
+
   public async patch(path: string, data: any): Promise<any> {
-    return (await axios.patch(path, data, this.axiosOptions)).data;
+    return (await axios.patch(path, data, this.axiosPatchOptions)).data;
   }
 
   /**

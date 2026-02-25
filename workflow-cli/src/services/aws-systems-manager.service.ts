@@ -40,7 +40,7 @@ export default class AwsSystemsManagerService extends AwsService {
     const client = new SSMClient(AwsService.configureClientProxy({ region }));
     const command = new GetParametersCommand({
       Names: names,
-      WithDecryption: false,
+      WithDecryption: true,
     });
     return await client.send(command);
   }
@@ -55,7 +55,7 @@ export default class AwsSystemsManagerService extends AwsService {
     );
 
     if (!response.Parameters || response.Parameters.length === 0) {
-      console.log('Parameter not found');
+      console.log('Parameters not found');
       return;
     }
 
@@ -73,12 +73,15 @@ export default class AwsSystemsManagerService extends AwsService {
         const targets = nameToTargets[parameter.Name!];
         const parameterVersion = String(parameter.Version);
         for (const target of targets) {
-          const metadataPath = `${target.mount}/metadata/${target.path}`;
-          const value = await this.vault.read(metadataPath);
+          const metadata = await this.vault.readKvMetadata(
+            target.mount,
+            target.path,
+          );
 
           // Skip if the stored parameter version matches
           if (
-            value.data?.custom_metadata?.parameter_version === parameterVersion
+            metadata?.data?.custom_metadata?.aws_ssm_parameter_version ===
+            parameterVersion
           ) {
             console.log(
               `Skipping parameter ${parameter.Name} (version ${parameterVersion}) — vault already up to date at mount ${target.mount} and path ${target.path}`,
@@ -90,26 +93,33 @@ export default class AwsSystemsManagerService extends AwsService {
             `Syncing parameter ${parameter.Name} (version ${parameterVersion}) to vault at mount ${target.mount} and path ${target.path}`,
           );
           const parameterValueObj: ParameterValue = JSON.parse(parameterValue);
-          if (value.data) {
-            await this.vault.patch(`${target.mount}/data/${target.path}`, {
-              data: {
-                ...parameterValueObj.current,
-              },
-            });
+          const dataToWrite = {
+            data: {
+              AWS_ACCESS_KEY_ID: parameterValueObj.current.AccessKeyID,
+              AWS_SECRET_ACCESS_KEY: parameterValueObj.current.SecretAccessKey,
+            },
+          };
+          if (metadata) {
+            console.log(
+              `Updating vault entry at mount ${target.mount} and path ${target.path} for parameter ${parameter.Name}`,
+            );
+            await this.vault.patch(
+              `v1/${target.mount}/data/${target.path}`,
+              dataToWrite,
+            );
           } else {
-            await this.vault.write(`${target.mount}/data/${target.path}`, {
-              data: {
-                ...parameterValueObj.current,
-              },
-            });
+            console.log(
+              `Creating new vault entry at mount ${target.mount} and path ${target.path} for parameter ${parameter.Name}`,
+            );
+            await this.vault.write(
+              `v1/${target.mount}/data/${target.path}`,
+              dataToWrite,
+            );
           }
 
           // Store the parameter version as custom metadata
-          await this.vault.write(metadataPath, {
-            custom_metadata: {
-              ...value.data?.custom_metadata,
-              parameter_version: parameterVersion,
-            },
+          await this.vault.patchKvMetadata(target.mount, target.path, {
+            aws_ssm_parameter_version: parameterVersion,
           });
         }
       }

@@ -60,7 +60,7 @@ If you want to run SAM locally, you will need to install the CLI in addition to 
 
 ### AWS - Environment Variables
 
-The environment variables that SAM uses are documented in the [AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html). They can be obtained from the [Cloud PathFinder login page](https://login.nimbus.cloud.gov.bc.ca/) and clicking on "Click for Credentials" of the appropriate project/environment.
+The environment variables that SAM uses are documented in the [AWS CLI documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html). They can be obtained from the [login page](https://bcgov.awsapps.com/start) and clicking on "Click for Credentials" of the appropriate project/environment.
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
