@@ -17,7 +17,6 @@ This service performs IAM key synchronization for the NR APM Stack. It follows t
 
 ```
 iam-key-sync/
-├── Dockerfile
 ├── setenv-tmpl.sh              # Environment variable template (copy and fill in locally)
 ├── helm/
 │   ├── Chart.yaml
@@ -50,9 +49,9 @@ iam-key-sync/
    # edit setenv.sh
    ```
 
-2. Build the image:
+2. Build the image using the workflow-cli Dockerfile (from the **repo root**):
    ```sh
-   docker build -t iam-key-sync .
+   docker build -f workflow-cli/Dockerfile -t iam-key-sync .
    ```
 
 3. Run the container:
@@ -62,7 +61,6 @@ iam-key-sync/
      -e BROKER_JWT="$BROKER_JWT" \
      -e BROKER_URL="$BROKER_URL" \
      -e VAULT_URL="$VAULT_URL" \
-     -e SYNC_URL="$SYNC_URL" \
      -e TARGET_ENV="$TARGET_ENV" \
      iam-key-sync
    ```
@@ -83,7 +81,6 @@ iam-key-sync/
      --set secret.brokerJwt="$BROKER_JWT" \
      --set secret.brokerUrl="$BROKER_URL" \
      --set secret.vaultUrl="$VAULT_URL" \
-     --set secret.syncUrl="$SYNC_URL" \
      --set config.targetEnv="production"
    ```
 
@@ -109,7 +106,6 @@ iam-key-sync/
 | BROKER_JWT  | JWT for authenticating with NR Broker                    | Secret    |
 | BROKER_URL  | NR Broker base URL                                       | Secret    |
 | VAULT_URL   | HashiCorp Vault base URL                                 | Secret    |
-| SYNC_URL    | nr-apm-stack IAM sync endpoint (receives `X-Vault-Token`)| Secret    |
 | TARGET_ENV  | Target environment name (e.g. `production`)              | ConfigMap |
 
 ## License

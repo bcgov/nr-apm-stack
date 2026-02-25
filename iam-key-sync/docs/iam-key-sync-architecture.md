@@ -1,10 +1,10 @@
 # Architecture and script flow
 
-This document describes the architecture and script flow of the IAM key sync service. It follows the same base pattern as [nr-broker-knox-cronjob](https://github.com/bcgov-nr/nr-broker-knox-cronjob) — see [its architecture doc](https://github.com/bcgov-nr/nr-broker-knox-cronjob/blob/main/docs/nr-broker-knox-cronjob.md) for a detailed explanation of the shared scripts.
+This document describes the architecture and script flow of the IAM key sync service. It follows the same base pattern as [nr-broker-knox-cronjob](https://github.com/bcgov/nr-broker-knox-cronjob) — see [its architecture doc](https://github.com/bcgov/nr-broker-knox-cronjob/blob/main/docs/nr-broker-knox-cronjob.md) for a detailed explanation of the shared scripts.
 
 ## Container startup
 
-The `Dockerfile` uses `alpine:3.22.1` and installs `curl`, `bash`, and `jq`. The entrypoint is:
+The `workflow-cli/Dockerfile` (built from the repo root) uses `node:lts-alpine`, installs `curl`, `bash`, and `jq`, builds the workflow-cli, and copies the iam-key-sync scripts. The entrypoint is:
 
 ```sh
 ./mask-runner.sh ./iam-key-sync-cron.sh
@@ -87,18 +87,13 @@ Declares a single action with `"id": "sync"` and `"provision": ["token/self"]`, 
 
 ## iam-key-sync-runner.sh — the sync step
 
-This is the only script specific to the IAM sync operation. It receives `VAULT_TOKEN` (provisioned by `vault-login.sh` via `$GITHUB_ENV`) and POSTs it to the nr-apm-stack IAM sync endpoint:
+This is the only script specific to the IAM sync operation. It receives `VAULT_TOKEN` (provisioned by `vault-login.sh` via `$GITHUB_ENV`) and invokes the `iam-key-rotation` command from the `workflow-cli`:
 
 ```sh
-RESPONSE=$(curl -s -X POST "$SYNC_URL" \
-  -H "X-Vault-Token: $VAULT_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "{\"environment\":\"$TARGET_ENV\"}")
+cd /workflow-cli && ./bin/dev iam-key-rotation
 ```
 
-- `SYNC_URL` — the nr-apm-stack IAM sync endpoint (provided via Helm secret)
-- `VAULT_TOKEN` — the short-lived token provisioned via Broker; nr-apm-stack uses it to read the IAM keys it needs from Vault
-- `TARGET_ENV` — the environment to sync keys for (e.g. `production`), provided via Helm configmap
+`VAULT_TOKEN` and `TARGET_ENV` are available as environment variables. The workflow-cli uses `VAULT_TOKEN` to authenticate with Vault and perform the key rotation.
 
 ---
 
@@ -111,7 +106,7 @@ Container starts
             1. intention-open     → get INTENTION_TOKEN + ACTION_TOKEN_SYNC from Broker
             2. action-start       → tell Broker the sync action began
             3. vault-login        → exchange ACTION_TOKEN_SYNC for VAULT_TOKEN via Broker → Vault
-            4. iam-key-sync-runner→ POST VAULT_TOKEN + TARGET_ENV to nr-apm-stack SYNC_URL
+            4. iam-key-sync-runner→ cd /workflow-cli && ./bin/dev iam-key-rotation (VAULT_TOKEN in env)
             5. action-end         → tell Broker the sync action succeeded
             6. vault-token-revoke → revoke VAULT_TOKEN in Vault
             7. intention-close    → finalise audit trail in Broker

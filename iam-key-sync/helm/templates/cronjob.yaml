@@ -37,11 +37,6 @@ spec:
                     secretKeyRef:
                       name: {{ include "iam-key-sync.fullname" . }}-secret
                       key: VAULT_URL
-                - name: SYNC_URL
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ include "iam-key-sync.fullname" . }}-secret
-                      key: SYNC_URL
                 - name: TARGET_ENV
                   valueFrom:
                     configMapKeyRef:

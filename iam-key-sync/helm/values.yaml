@@ -20,5 +20,3 @@ secret:
   brokerJwt: ""
   brokerUrl: ""
   vaultUrl: ""
-  # syncUrl is the nr-apm-stack IAM sync endpoint (receives X-Vault-Token)
-  syncUrl: ""

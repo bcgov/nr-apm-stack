@@ -1,12 +1,19 @@
-FROM alpine:3.22.1
+FROM node:lts-alpine
 
 RUN apk add --no-cache curl bash jq
+
+# Build workflow-cli
+# NOTE: build context must be the repo root:
+#   docker build -f iam-key-sync/Dockerfile -t iam-key-sync .
+COPY workflow-cli /workflow-cli
+WORKDIR /workflow-cli
+RUN npm ci && npm run build
 
 RUN mkdir /app
 WORKDIR /app
 
-COPY ./src/app /app
-COPY --chmod=666 ./src/ENV /tmp/ENV
+COPY iam-key-sync/src/app /app
+COPY --chmod=666 iam-key-sync/src/ENV /tmp/ENV
 
 ENV GITHUB_ENV=/tmp/ENV
 ENV GITHUB_OUTPUT=/tmp/OUT
