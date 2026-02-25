@@ -18,14 +18,6 @@ This service performs IAM key synchronization for the NR APM Stack. It follows t
 ```
 iam-key-sync/
 ├── setenv-tmpl.sh              # Environment variable template (copy and fill in locally)
-├── helm/
-│   ├── Chart.yaml
-│   ├── values.yaml             # Default values — override sensitive fields at deploy time
-│   └── templates/
-│       ├── _helpers.tpl
-│       ├── cronjob.yaml
-│       ├── secret.yaml
-│       └── configmap.yaml
 └── src/
     ├── ENV                     # Sets INTENTION_PATH for the container
     └── app/
@@ -65,39 +57,11 @@ iam-key-sync/
      iam-key-sync
    ```
 
-## Running in OpenShift with Helm
+## Deploying to OpenShift
 
-1. Log in to OpenShift and set your namespace:
-   ```sh
-   oc login ...
-   oc project <namespace>
-   ```
+Deployment is managed via the GitOps repo. See the `iam-key-sync/` directory in the tenant GitOps repository for the Helm chart and CronJob manifest.
 
-2. Install (or upgrade) the release, passing secrets at the command line (never commit real values):
-   ```sh
-   helm upgrade --install iam-key-sync ./helm \
-     --set image.repository="image-registry.openshift-image-registry.svc:5000/<namespace>/iam-key-sync" \
-     --set image.tag="<tag>" \
-     --set secret.brokerJwt="$BROKER_JWT" \
-     --set secret.brokerUrl="$BROKER_URL" \
-     --set secret.vaultUrl="$VAULT_URL" \
-     --set config.targetEnv="production"
-   ```
-
-3. To trigger a one-off run:
-   ```sh
-   oc create job --from=cronjob/iam-key-sync iam-key-sync-manual-$(date +%s)
-   ```
-
-4. Check logs:
-   ```sh
-   oc logs job/<job-name>
-   ```
-
-5. Uninstall:
-   ```sh
-   helm uninstall iam-key-sync
-   ```
+The secret `iam-key-sync-prod` must exist in the target namespace with the key `BROKER_JWT` before deploying.
 
 ## Configuration
 
