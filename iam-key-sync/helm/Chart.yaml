@@ -1,6 +1,0 @@
-apiVersion: v2
-name: iam-key-sync
-description: Performs IAM key synchronization for NR APM Stack via NR Broker and Vault
-type: application
-version: 0.1.0
-appVersion: "latest"

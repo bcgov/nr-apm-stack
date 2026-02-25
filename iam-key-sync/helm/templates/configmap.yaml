@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "iam-key-sync.fullname" . }}-config
-  labels:
-    {{- include "iam-key-sync.labels" . | nindent 4 }}
-data:
-  TARGET_ENV: {{ .Values.config.targetEnv | quote }}
