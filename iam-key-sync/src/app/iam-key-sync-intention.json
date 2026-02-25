@@ -11,8 +11,8 @@
       "id": "sync",
       "provision": ["token/self"],
       "service": {
-        "name": "nr-apm-stack",
-        "project": "nr-apm-stack",
+        "name": "nr-iam-key-sync",
+        "project": "apm",
         "environment": "production"
       }
     }

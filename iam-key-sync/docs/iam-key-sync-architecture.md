@@ -40,7 +40,7 @@ env $(cat $GITHUB_ENV | xargs) OUTCOME=success ./intention-close.sh
 
 ## Intention — iam-key-sync-intention.json
 
-Declares a single action with `"id": "sync"` and `"provision": ["token/self"]`, targeting the `nr-apm-stack` service:
+Declares a single action with `"id": "sync"` and `"provision": ["token/self"]`, targeting the `nr-iam-key-sync` service:
 
 ```json
 {
@@ -55,8 +55,8 @@ Declares a single action with `"id": "sync"` and `"provision": ["token/self"]`, 
       "id": "sync",
       "provision": ["token/self"],
       "service": {
-        "name": "nr-apm-stack",
-        "project": "nr-apm-stack",
+        "name": "nr-iam-key-sync",
+        "project": "apm",
         "environment": "production"
       }
     }
