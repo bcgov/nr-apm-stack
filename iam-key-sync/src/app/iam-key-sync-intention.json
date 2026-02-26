@@ -1,6 +1,6 @@
 {
   "event": {
-    "provider": "nr-apm-stack-iam-key-sync",
+    "provider": "knox-iam-key-sync",
     "reason": "Job triggered",
     "url": "JOB_URL",
     "transient": true
@@ -11,8 +11,8 @@
       "id": "sync",
       "provision": ["token/self"],
       "service": {
-        "name": "nr-iam-key-sync",
-        "project": "apm",
+        "name": "knox-iam-key-sync",
+        "project": "vault",
         "environment": "production"
       }
     }
