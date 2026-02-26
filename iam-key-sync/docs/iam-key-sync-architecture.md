@@ -45,7 +45,7 @@ Declares a single action with `"id": "sync"` and `"provision": ["token/self"]`, 
 ```json
 {
   "event": {
-    "provider": "nr-apm-stack-iam-key-sync",
+    "provider": "knox-iam-key-sync",
     "reason": "Job triggered",
     "transient": true
   },
@@ -55,8 +55,8 @@ Declares a single action with `"id": "sync"` and `"provision": ["token/self"]`, 
       "id": "sync",
       "provision": ["token/self"],
       "service": {
-        "name": "nr-iam-key-sync",
-        "project": "apm",
+        "name": "knox-iam-key-sync",
+        "project": "vault",
         "environment": "production"
       }
     }
