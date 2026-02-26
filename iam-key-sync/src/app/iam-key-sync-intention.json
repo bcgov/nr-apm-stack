@@ -1,0 +1,23 @@
+{
+  "event": {
+    "provider": "nr-apm-stack-iam-key-sync",
+    "reason": "Job triggered",
+    "url": "JOB_URL",
+    "transient": true
+  },
+  "actions": [
+    {
+      "action": "provision",
+      "id": "sync",
+      "provision": ["token/self"],
+      "service": {
+        "name": "nr-iam-key-sync",
+        "project": "apm",
+        "environment": "production"
+      }
+    }
+  ],
+  "user": {
+    "name": "iam-key-sync@internal"
+  }
+}
