@@ -299,7 +299,7 @@ Resources:
   SnsRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: "opensearch_sns_nress-prod"
+      RoleName: "opensearch_sns_apm-prod"
       Policies:
         - PolicyName: "opensearch_sns_role_policy"
           PolicyDocument:

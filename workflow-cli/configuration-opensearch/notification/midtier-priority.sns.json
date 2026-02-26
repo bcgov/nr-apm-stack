@@ -6,7 +6,7 @@
   "configType": "sns",
   "isEnabled": true,
   "sns": {
-    "topicArn": "nress-prod-midtier-priority",
-    "roleArn": "opensearch_sns_nress-prod"
+    "topicArn": "apm-prod-midtier-priority",
+    "roleArn": "opensearch_sns_apm-prod"
   }
 }
