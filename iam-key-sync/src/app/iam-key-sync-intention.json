@@ -7,7 +7,7 @@
   },
   "actions": [
     {
-      "action": "provision",
+      "action": "database-access",
       "id": "sync",
       "provision": ["token/self"],
       "service": {
