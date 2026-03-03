@@ -6,11 +6,11 @@
   "configType": "sns",
   "isEnabled": true,
   "sns": {
-    "topicArn": "nress-prod-message-queue",
-    "roleArn": "opensearch_sns_nress-prod",
+    "topicArn": "apm-prod-message-queue",
+    "roleArn": "opensearch_sns_apm-prod",
     "subscriptions": [{
       "entity": "SqsAutomation",
-      "endpoint": "nress-prod-message-queue",
+      "endpoint": "apm-prod-message-queue",
       "protocol": "sqs"
     }]
   }

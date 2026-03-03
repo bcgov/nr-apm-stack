@@ -34,6 +34,10 @@ Parameters:
   OpensearchUrl:
     Type: String
     Default: ""
+  IamRotatorUsername:
+    Type: String
+    Default: "apm-iam-user-rotator"
+    Description: "IAM username allowed to assume ParameterStoreReaderRole"
 
 Resources:
 
@@ -145,31 +149,60 @@ Resources:
                       - ':log-stream:DestinationDelivery'
                 Effect: Allow
 
-  ## Policies
-
   # Access to push documents to kinesis stream consumed by lambda
-  # Roles created for team access to add documents to Opensearch should attach this policy.
-  # (Would) replace nress-prod-nrm-agents policy
-  # Disabled because we can't manage PBMMOps-BCGOV_ roles
-  # AgentPolicy:
-  #   Type: AWS::IAM::Policy
-  #   Properties:
-  #     PolicyName: nr-apm-stack-stream-put-document
-  #     PolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         - Action:
-  #           - kinesis:PutRecord
-  #           - kinesis:PutRecords
-  #           Resource:
-  #           - !GetAtt Stream.Arn
-  #           Effect: Allow
-  #     Roles:
-  #       - !Join
-  #         - ''
-  #         - - PBMMOps-BCGOV_
-  #           - !Ref Environment
-  #           - _Project_Role_ES_Role
+  # Users allowed to add documents to Opensearch should be defined in template ENV
+  # Once rendered, this will be the list of ARNs that can add documents to Opensearch
+  KinesisPutRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:<% kinesisPutUsers.forEach((user) => { %>
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:user/<%= user %>'<% }); %>
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'kinesis-put-record'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - kinesis:PutRecord
+                - kinesis:PutRecords
+                Resource:
+                - !GetAtt Stream.Arn
+                Effect: Allow
+
+  # Role assumed via STS to read IAM user keys from Parameter Store
+  ParameterStoreReaderRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:user/${IamRotatorUsername}'
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'parameter-store-read'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - ssm:GetParameter
+                  - ssm:GetParameters
+                Resource:<% kinesisPutUsers.forEach((user) => { %>
+                  - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/<%= user %>_keys'<% }); %>
+                  - !Sub
+                    - 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/${Username}_keys'
+                    - Username: !Ref IamRotatorUsername
+                Effect: Allow
 
   ## Opensearch
 
@@ -266,7 +299,7 @@ Resources:
   SnsRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: "opensearch_sns_nress-prod"
+      RoleName: "opensearch_sns_apm-prod"
       Policies:
         - PolicyName: "opensearch_sns_role_policy"
           PolicyDocument:

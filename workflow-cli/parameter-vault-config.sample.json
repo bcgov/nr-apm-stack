@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/iam_users/username_key",
+    "targets": [
+      {
+        "mount": "apps",
+        "path": "prod/project/service/aws-ssm-sync/kinesis"
+      }
+    ]
+  },
+  {
+    "name": "/iam_users/username_key2",
+    "targets": [
+      {
+        "mount": "apps",
+        "path": "prod/project/shared/aws-ssm-sync/kinesis"
+      }
+    ]
+  }
+]

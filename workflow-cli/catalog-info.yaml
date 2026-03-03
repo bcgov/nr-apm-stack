@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+spec:
+  system: apm-stack
+  type: service
+  lifecycle: production
+  owner: ""
+metadata:
+  name: apm-stack-workflow-cli
+  description: CLI tool for managing the OpenSearch deployment
+  title: APM Stack Workflow CLI
+  annotations:
+    license: Apache-2.0
+    github.com/project-slug: bcgov/nr-apm-stack
+    composer.io.nrs.gov.bc.ca/generators: backstage

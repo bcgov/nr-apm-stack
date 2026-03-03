@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: apm-stack
+  annotations:
+    composer.io.nrs.gov.bc.ca/generators: gh-docs-deploy
+spec:
+  targets:
+    - ./event-stream-processing/catalog-info.yaml
+    - ./workflow-cli/catalog-info.yaml
+  type: path

@@ -12,3 +12,4 @@ intention.json
 
 /local/*creds
 !/local/*example.creds
+/parameter-vault-config.json

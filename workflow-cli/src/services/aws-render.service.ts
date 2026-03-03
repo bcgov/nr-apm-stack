@@ -6,6 +6,7 @@ import NotificationService from './notification.service';
 import { TYPES } from '../inversify.types';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../..');
+const KINESIS_PUT_USERNAMES = process.env.KINESIS_PUT_USERNAMES;
 
 @injectable()
 export default class AwsRenderService {
@@ -22,6 +23,7 @@ export default class AwsRenderService {
 
     const val = ejs.render(templateStr, {
       notifications: this.notificationService.renderConfigs({}),
+      kinesisPutUsers: KINESIS_PUT_USERNAMES?.split(',') || [],
     });
 
     console.log(val);

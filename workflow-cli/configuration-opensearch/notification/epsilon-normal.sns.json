@@ -6,7 +6,7 @@
   "configType": "sns",
   "isEnabled": true,
   "sns": {
-    "topicArn": "nress-prod-epsilon-normal",
-    "roleArn": "opensearch_sns_nress-prod"
+    "topicArn": "apm-prod-epsilon-normal",
+    "roleArn": "opensearch_sns_apm-prod"
   }
 }

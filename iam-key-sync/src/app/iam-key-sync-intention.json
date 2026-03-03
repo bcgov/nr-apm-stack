@@ -1,0 +1,23 @@
+{
+  "event": {
+    "provider": "knox-iam-key-sync",
+    "reason": "Job triggered",
+    "url": "JOB_URL",
+    "transient": true
+  },
+  "actions": [
+    {
+      "action": "database-access",
+      "id": "sync",
+      "provision": ["token/self"],
+      "service": {
+        "name": "knox-iam-key-sync",
+        "project": "vault",
+        "environment": "production"
+      }
+    }
+  ],
+  "user": {
+    "name": "iam-key-sync@internal"
+  }
+}

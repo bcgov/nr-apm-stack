@@ -6,8 +6,8 @@
   "configType": "sns",
   "isEnabled": true,
   "sns": {
-    "topicArn": "nress-prod-wildfire-normal",
-    "roleArn": "opensearch_sns_nress-prod",
+    "topicArn": "apm-prod-wildfire-normal",
+    "roleArn": "opensearch_sns_apm-prod",
     "subscriptions": [{
       "entity": "SnsWildfireNormalEmailWf",
       "endpoint": "CSNRINFRAWMB@Victoria1.gov.bc.ca",

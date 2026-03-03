@@ -6,8 +6,8 @@
   "configType": "sns",
   "isEnabled": true,
   "sns": {
-    "topicArn": "nress-prod-appdlvr-priority",
-    "roleArn": "opensearch_sns_nress-prod",
+    "topicArn": "apm-prod-appdlvr-priority",
+    "roleArn": "opensearch_sns_apm-prod",
     "subscriptions": [{
       "entity": "SnsAppDlvrPriorityEmailApp",
       "endpoint": "nrids.applicationdelivery@gov.bc.ca",
