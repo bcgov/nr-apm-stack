@@ -13,9 +13,9 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY iam-key-sync/src/app /app
-COPY --chmod=666 iam-key-sync/src/ENV /tmp/ENV
 
 ENV GITHUB_ENV=/tmp/ENV
 ENV GITHUB_OUTPUT=/tmp/OUT
+ENV INTENTION_PATH=/app/iam-key-sync-intention.json
 
 ENTRYPOINT [ "./mask-runner.sh", "./iam-key-sync-cron.sh" ]

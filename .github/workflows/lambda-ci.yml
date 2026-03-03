@@ -3,9 +3,6 @@ name: APM Lambda Continuous Intergation
 # Controls when the action will run.
 on: [push, pull_request]
 
-env:
-  TF_VERSION: 0.15.3
-  TG_VERSION: 0.29.2
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "test"
