@@ -2,6 +2,10 @@
 
 > $GITHUB_ENV
 
+# Set environment variables for workflow-cli
+echo "BROKER_API_URL=$BROKER_URL" >> $GITHUB_ENV
+echo "VAULT_ADDR=$VAULT_URL" >> $GITHUB_ENV
+
 env $(cat $GITHUB_ENV | xargs) ./intention-open.sh
 if [ $? -ne 0 ]; then
   echo "Error: intention-open.sh failed"

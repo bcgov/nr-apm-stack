@@ -9,7 +9,7 @@ echo "===> IAM key sync start"
 echo "Fetching secrets from $KV_PATH"
 KV_JSON=$(curl -s --fail \
   -H "X-Vault-Token: $VAULT_TOKEN" \
-  "$VAULT_ADDR/v1/$KV_PATH")
+  "$VAULT_URL/v1/$KV_PATH")
 
 if [ $? -ne 0 ] || [ -z "$KV_JSON" ]; then
   echo "Error: Failed to fetch KV data from $KV_PATH"
