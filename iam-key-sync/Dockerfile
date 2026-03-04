@@ -17,5 +17,6 @@ COPY iam-key-sync/src/app /app
 ENV GITHUB_ENV=/tmp/ENV
 ENV GITHUB_OUTPUT=/tmp/OUT
 ENV INTENTION_PATH=/app/iam-key-sync-intention.json
+ENV KV_PATH=apps/data/prod/vault/knox-iam-key-sync/lza
 
 ENTRYPOINT [ "./mask-runner.sh", "./iam-key-sync-cron.sh" ]
