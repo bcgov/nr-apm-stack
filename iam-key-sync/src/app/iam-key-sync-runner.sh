@@ -6,7 +6,7 @@ echo "===> IAM key sync start"
 # TARGET_ENV is the environment to sync keys for
 
 # Fetch KV secrets from Vault and export as environment variables
-echo "Fetching secrets from $KV_PATH"
+echo "Fetching secrets from $VAULT_URL/v1/$KV_PATH"
 KV_JSON=$(curl -s --fail \
   -H "X-Vault-Token: $VAULT_TOKEN" \
   "$VAULT_URL/v1/$KV_PATH")
