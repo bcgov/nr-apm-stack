@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+> $GITHUB_ENV
 
 env $(cat $GITHUB_ENV | xargs) ./intention-open.sh
 if [ $? -ne 0 ]; then
