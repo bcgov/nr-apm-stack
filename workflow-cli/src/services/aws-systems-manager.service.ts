@@ -73,6 +73,9 @@ export default class AwsSystemsManagerService extends AwsService {
         const targets = nameToTargets[parameter.Name!];
         const parameterVersion = String(parameter.Version);
         for (const target of targets) {
+          console.log(
+            `Processing parameter ${parameter.Name} (version ${parameterVersion}) to vault at mount ${target.mount} and path ${target.path}`,
+          );
           const metadata = await this.vault.readKvMetadata(
             target.mount,
             target.path,
@@ -84,14 +87,11 @@ export default class AwsSystemsManagerService extends AwsService {
             parameterVersion
           ) {
             console.log(
-              `Skipping parameter ${parameter.Name} (version ${parameterVersion}) — vault already up to date at mount ${target.mount} and path ${target.path}`,
+              `Skipping parameter ${parameter.Name} (version ${parameterVersion}): vault already up to date at mount ${target.mount} and path ${target.path}`,
             );
             continue;
           }
 
-          console.log(
-            `Syncing parameter ${parameter.Name} (version ${parameterVersion}) to vault at mount ${target.mount} and path ${target.path}`,
-          );
           const parameterValueObj: ParameterValue = JSON.parse(parameterValue);
           const dataToWrite = {
             data: {
@@ -99,22 +99,21 @@ export default class AwsSystemsManagerService extends AwsService {
               AWS_SECRET_ACCESS_KEY: parameterValueObj.current.SecretAccessKey,
             },
           };
-          if (metadata) {
+          const vaultDataPath = `v1/${target.mount}/data/${target.path}`;
+          try {
             console.log(
               `Updating vault entry at mount ${target.mount} and path ${target.path} for parameter ${parameter.Name}`,
             );
-            await this.vault.patch(
-              `v1/${target.mount}/data/${target.path}`,
-              dataToWrite,
-            );
-          } else {
-            console.log(
-              `Creating new vault entry at mount ${target.mount} and path ${target.path} for parameter ${parameter.Name}`,
-            );
-            await this.vault.write(
-              `v1/${target.mount}/data/${target.path}`,
-              dataToWrite,
-            );
+            await this.vault.patch(vaultDataPath, dataToWrite);
+          } catch (error: any) {
+            if (error.response && error.response.status === 404) {
+              console.log(
+                `Creating new vault entry at mount ${target.mount} and path ${target.path} for parameter ${parameter.Name}`,
+              );
+              await this.vault.write(vaultDataPath, dataToWrite);
+            } else {
+              throw error;
+            }
           }
 
           // Store the parameter version as custom metadata
