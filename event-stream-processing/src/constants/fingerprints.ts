@@ -504,6 +504,7 @@ export const FINGERPRINTS: OsDocumentFingerprint[] = [
       '@metadata': {
         docId: 'kinesis.eventID',
         index: 'nrm-audit-broker-<%=YYYY.MM.DD=%>',
+        indexPreprodQualifier: true,
         environmentStandardize: true,
         geoIp: true,
         timestampGuard: 'PT300M',

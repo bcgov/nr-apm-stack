@@ -1,0 +1,174 @@
+{
+  "_meta": {
+    "version": "1.0"
+  },
+  "template": {
+    "mappings": {
+      "properties": {
+        "auth": {
+          "properties": {
+            "client_id": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "client_token": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "exp": {
+              "type": "long"
+            },
+            "exp_timestamp": {
+              "type": "date"
+            },
+            "iat": {
+              "type": "long"
+            },
+            "iat_timestamp": {
+              "type": "date"
+            },
+            "nbf": {
+              "type": "long"
+            },
+            "nbf_timestamp": {
+              "type": "date"
+            },
+            "jti": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "sub": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            }
+          }
+        },
+        "error": {
+          "properties": {
+            "structured_data": {
+              "type": "flat_object"
+            }
+          }
+        },
+        "cloud": {
+          "properties": {
+            "origin": {
+              "properties": {
+                "prop": {
+                  "type": "flat_object"
+                },
+                "propStrategy": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            },
+            "target": {
+              "properties": {
+                "prop": {
+                  "type": "flat_object"
+                },
+                "propStrategy": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "graph": {
+          "properties": {
+            "edge": {
+              "properties": {
+                "source": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "target": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            },
+            "id": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "name": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "prop": {
+              "type": "flat_object"
+            },
+            "set": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "vertex": {
+              "properties": {
+                "collection": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "labels": {
+          "type": "object",
+          "properties": {
+            "action_id": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            }
+          }
+        },
+        "package": {
+          "properties": {
+            "id": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "build_guid": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "build_number": {
+              "type": "long"
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "intention": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "trace": {
+                  "properties": {
+                    "id": {
+                      "ignore_above": 1024,
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "transaction": {
+                  "properties": {
+                    "id": {
+                      "ignore_above": 1024,
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
