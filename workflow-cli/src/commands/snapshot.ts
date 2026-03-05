@@ -10,7 +10,7 @@ import {
   accessId,
   accessKey,
   accountNumber,
-  arn,
+  roleArn,
 } from '../flags';
 
 const ACTION_SETUP = 'setup';
@@ -38,7 +38,7 @@ export default class Snapshot extends Command {
     ...accessId,
     ...accessKey,
     ...accountNumber,
-    ...arn,
+    ...roleArn,
   };
 
   public async run(): Promise<void> {

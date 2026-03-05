@@ -52,7 +52,7 @@ Automation message receive tool
 ```
 USAGE
   $ workflow-cli automation-message -u <value> -d <value> --region <value> --accessId <value> --accessKey <value>
-    --accountNumber <value> [--arn <value>] [--dryRun] [--maxBatches <value>]
+    --accountNumber <value> [--roleArn <value>] [--dryRun] [--maxBatches <value>]
 
 FLAGS
   -d, --domainName=<value>     (required) [env: OS_DOMAIN] OpenSearch Domain
@@ -60,10 +60,10 @@ FLAGS
       --accessId=<value>       (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
       --accessKey=<value>      (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
       --accountNumber=<value>  (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
-      --arn=<value>            [env: AWS_ASSUME_ROLE] AWS ARN
       --dryRun                 [env: DRY_RUN] Enables dry run
       --maxBatches=<value>     [default: 10, env: AWS_SQS_MAX_BATCH_COUNT] Number of times to request batch of messages
       --region=<value>         (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>        [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
 
 DESCRIPTION
   Automation message receive tool
@@ -94,15 +94,19 @@ IAM key rotation tool
 ```
 USAGE
   $ workflow-cli iam-key-rotation --region <value> --accessId <value> --accessKey <value> --accountNumber <value>
-    [--arn <value>] [-h]
+    --awsParameterVaultConfig <value> [--roleArn <value>] [--vault-addr <value>] [--vault-token <value>] [-h]
 
 FLAGS
-  -h, --help                   Show CLI help.
-      --accessId=<value>       (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
-      --accessKey=<value>      (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
-      --accountNumber=<value>  (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
-      --arn=<value>            [env: AWS_ASSUME_ROLE] AWS ARN
-      --region=<value>         (required) [env: AWS_REGION] AWS region
+  -h, --help                             Show CLI help.
+      --accessId=<value>                 (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
+      --accessKey=<value>                (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
+      --accountNumber=<value>            (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
+      --awsParameterVaultConfig=<value>  (required) [env: AWS_PARAMETER_VAULT_CONFIG_FILE] The path to the AWS parameter
+                                         vault config file
+      --region=<value>                   (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>                  [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
+      --vault-addr=<value>               [default: http://127.0.0.1:8200, env: VAULT_ADDR] The vault address
+      --vault-token=<value>              [default: myroot, env: VAULT_TOKEN] The vault token
 
 DESCRIPTION
   IAM key rotation tool
@@ -136,7 +140,7 @@ Index usage generator tool
 ```
 USAGE
   $ workflow-cli opensearch-index-usage ACTION -u <value> -d <value> --region <value> --accessId <value> --accessKey <value>
-    --accountNumber <value> --indicesname <value> --fieldname <value> [--arn <value>]
+    --accountNumber <value> --indicesname <value> --fieldname <value> [--roleArn <value>]
 
 ARGUMENTS
   ACTION  [default: _search] Search indices usage
@@ -147,10 +151,10 @@ FLAGS
       --accessId=<value>       (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
       --accessKey=<value>      (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
       --accountNumber=<value>  (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
-      --arn=<value>            [env: AWS_ASSUME_ROLE] AWS ARN
       --fieldname=<value>      (required) [default: organization.id, env: OS_USAGE_FIELD] field name
       --indicesname=<value>    (required) [env: OS_USAGE_INDICES] indices name
       --region=<value>         (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>        [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
 
 DESCRIPTION
   Index usage generator tool
@@ -166,7 +170,7 @@ Sync OpenSearch settings
 ```
 USAGE
   $ workflow-cli opensearch-sync -u <value> -d <value> --region <value> --accessId <value> --accessKey <value>
-    --accountNumber <value> --broker-token <value> [--arn <value>] [--broker-api-url <value>] [--vault-addr <value>]
+    --accountNumber <value> --broker-token <value> [--roleArn <value>] [--broker-api-url <value>] [--vault-addr <value>]
     [--vault-token <value>] [-h]
 
 FLAGS
@@ -176,10 +180,10 @@ FLAGS
       --accessId=<value>        (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
       --accessKey=<value>       (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
       --accountNumber=<value>   (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
-      --arn=<value>             [env: AWS_ASSUME_ROLE] AWS ARN
       --broker-api-url=<value>  [default: https://broker.io.nrs.gov.bc.ca/, env: BROKER_API_URL] The broker api base url
       --broker-token=<value>    (required) [env: BROKER_TOKEN] The broker JWT
       --region=<value>          (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>         [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
       --vault-addr=<value>      [default: http://127.0.0.1:8200, env: VAULT_ADDR] The vault address
       --vault-token=<value>     [default: myroot, env: VAULT_TOKEN] The vault token
 
@@ -197,7 +201,7 @@ Sync OpenSearch settings
 ```
 USAGE
   $ workflow-cli opensearch-sync-monitors -u <value> -d <value> --region <value> --accessId <value> --accessKey <value>
-    --accountNumber <value> --broker-token <value> [--arn <value>] [--broker-api-url <value>] [--vault-addr <value>]
+    --accountNumber <value> --broker-token <value> [--roleArn <value>] [--broker-api-url <value>] [--vault-addr <value>]
     [--vault-token <value>] [-h] [--dryRun]
 
 FLAGS
@@ -207,11 +211,11 @@ FLAGS
       --accessId=<value>        (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
       --accessKey=<value>       (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
       --accountNumber=<value>   (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
-      --arn=<value>             [env: AWS_ASSUME_ROLE] AWS ARN
       --broker-api-url=<value>  [default: https://broker.io.nrs.gov.bc.ca/, env: BROKER_API_URL] The broker api base url
       --broker-token=<value>    (required) [env: BROKER_TOKEN] The broker JWT
       --dryRun                  [env: DRY_RUN] Enables dry run
       --region=<value>          (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>         [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
       --vault-addr=<value>      [default: http://127.0.0.1:8200, env: VAULT_ADDR] The vault address
       --vault-token=<value>     [default: myroot, env: VAULT_TOKEN] The vault token
 
@@ -229,7 +233,7 @@ Bulk reindex runner
 ```
 USAGE
   $ workflow-cli reindex -u <value> -d <value> --region <value> --accessId <value> --accessKey <value> -c
-    <value> [--arn <value>]
+    <value> [--roleArn <value>]
 
 FLAGS
   -c, --config=<value>      (required) [env: REINDEX_CONFIG_NAME] The configuration file name (without .json)
@@ -237,8 +241,8 @@ FLAGS
   -u, --hostname=<value>    (required) [env: OS_URL] OpenSearch url
       --accessId=<value>    (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
       --accessKey=<value>   (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
-      --arn=<value>         [env: AWS_ASSUME_ROLE] AWS ARN
       --region=<value>      (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>     [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
 
 DESCRIPTION
   Bulk reindex runner
@@ -254,7 +258,7 @@ Snapshot setup and creation tool
 ```
 USAGE
   $ workflow-cli snapshot ACTION -u <value> -d <value> --region <value> --accessId <value> --accessKey <value>
-    --accountNumber <value> [--arn <value>]
+    --accountNumber <value> [--roleArn <value>]
 
 ARGUMENTS
   ACTION  (setup|create) [default: create] Snapshot action
@@ -265,8 +269,8 @@ FLAGS
       --accessId=<value>       (required) [env: AWS_ACCESS_KEY_ID] AWS access key id
       --accessKey=<value>      (required) [env: AWS_SECRET_ACCESS_KEY] AWS secret access key
       --accountNumber=<value>  (required) [env: AWS_ACCOUNT_NUMBER] AWS account number
-      --arn=<value>            [env: AWS_ASSUME_ROLE] AWS ARN
       --region=<value>         (required) [env: AWS_REGION] AWS region
+      --roleArn=<value>        [env: AWS_ROLE_ARN] AWS ROLE ARN to assume
 
 DESCRIPTION
   Snapshot setup and creation tool

@@ -9,7 +9,7 @@ export interface settings {
   accessId: string;
   accessKey: string;
   accountNumber: string;
-  arn: string | undefined;
+  roleArn?: string;
   indicesname: string;
   fieldname: string;
 }

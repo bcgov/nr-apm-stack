@@ -11,7 +11,7 @@ export interface WorkflowSettings {
   region: string;
   accessId: string;
   accessKey: string;
-  arn: string | undefined;
+  roleArn?: string;
   dryRun?: boolean;
 }
 

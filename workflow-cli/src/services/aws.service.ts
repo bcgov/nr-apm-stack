@@ -12,7 +12,7 @@ export interface settings {
   region: string;
   accessId: string;
   accessKey: string;
-  arn: string | undefined;
+  roleArn?: string;
 }
 
 @injectable()
@@ -24,12 +24,13 @@ export default class AwsService {
    * @param settings
    */
   public static async assumeIdentity(settings: settings): Promise<void> {
-    if (!AwsService.identityAssumed && settings.arn) {
+    const arnToAssume = settings.roleArn;
+    if (!AwsService.identityAssumed && arnToAssume) {
       const stsClient1 = new STSClient(
         this.configureClientProxy({ region: settings.region }),
       );
       const stsAssumeRoleCommand = new AssumeRoleCommand({
-        RoleArn: settings.arn,
+        RoleArn: arnToAssume,
         RoleSessionName: 'nrdk',
       });
       const stsAssumedRole = await stsClient1.send(stsAssumeRoleCommand);

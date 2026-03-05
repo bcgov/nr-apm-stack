@@ -9,7 +9,7 @@ import {
   accessId,
   accessKey,
   accountNumber,
-  arn,
+  roleArn,
   dryRun,
 } from '../flags';
 
@@ -25,7 +25,7 @@ export default class AutomationMessage extends Command {
     ...accessId,
     ...accessKey,
     ...accountNumber,
-    ...arn,
+    ...roleArn,
     ...dryRun,
     maxBatches: Flags.integer({
       description: 'Number of times to request batch of messages',
