@@ -12,7 +12,7 @@ export interface settings {
   accessId: string;
   accessKey: string;
   accountNumber: string;
-  arn: string | undefined;
+  roleArn?: string;
 }
 
 export default class AwsSqsService extends AwsService {

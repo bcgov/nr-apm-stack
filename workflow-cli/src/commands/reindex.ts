@@ -9,7 +9,7 @@ import {
   region,
   accessId,
   accessKey,
-  arn,
+  roleArn,
 } from '../flags';
 
 export default class Reindex extends Command {
@@ -23,7 +23,7 @@ export default class Reindex extends Command {
     ...region,
     ...accessId,
     ...accessKey,
-    ...arn,
+    ...roleArn,
     config: Flags.string({
       char: 'c',
       description: 'The configuration file name (without .json)',

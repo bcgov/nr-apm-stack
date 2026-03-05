@@ -78,8 +78,11 @@ export const accountNumber = {
   }),
 };
 
-export const arn = {
-  arn: Flags.string({ description: 'AWS ARN', env: 'AWS_ASSUME_ROLE' }),
+export const roleArn = {
+  roleArn: Flags.string({
+    description: 'AWS ROLE ARN to assume',
+    env: 'AWS_ROLE_ARN',
+  }),
 };
 
 export const vaultAddr = {

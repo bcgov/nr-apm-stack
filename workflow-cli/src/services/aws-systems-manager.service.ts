@@ -5,18 +5,35 @@ import AwsService from './aws.service';
 import { TYPES } from '../inversify.types';
 import VaultApi from '../vault/vault.api';
 
+const AWS_PARAMETER_VERSION_METADATA_KEY_DEFAULT = 'aws_parameter_version';
+
 export interface settings {
   region: string;
   accessId: string;
   accessKey: string;
   accountNumber: string;
-  arn: string | undefined;
+  roleArn?: string;
   awsParameterVaultConfig: string;
+}
+
+interface ParameterTargetConfig {
+  region?: string;
+  roleArn?: string;
+}
+
+interface ParameterVaultConfig extends ParameterTargetConfig {
+  metadata?: string;
+  parameters: Parameter[];
+}
+
+interface ParameterTarget extends ParameterTargetConfig {
+  mount: string;
+  path: string;
 }
 
 interface Parameter {
   name: string;
-  targets: { mount: string; path: string }[];
+  targets: ParameterTarget[];
 }
 
 interface ParameterSecret {
@@ -46,9 +63,10 @@ export default class AwsSystemsManagerService extends AwsService {
   }
 
   async syncParameters(settings: settings) {
-    const parameters: Parameter[] = JSON.parse(
+    const config: ParameterVaultConfig = JSON.parse(
       fs.readFileSync(settings.awsParameterVaultConfig, 'utf-8'),
     );
+    const parameters = config.parameters;
     const response = await this.retrieveParameters(
       settings.region,
       parameters.map((p) => p.name),
@@ -59,14 +77,13 @@ export default class AwsSystemsManagerService extends AwsService {
       return;
     }
 
-    const nameToTargets: Record<string, { mount: string; path: string }[]> =
-      parameters.reduce(
-        (acc, p) => {
-          acc[p.name] = p.targets;
-          return acc;
-        },
-        {} as Record<string, { mount: string; path: string }[]>,
-      );
+    const nameToTargets: Record<string, ParameterTarget[]> = parameters.reduce(
+      (acc, p) => {
+        acc[p.name] = p.targets;
+        return acc;
+      },
+      {} as Record<string, ParameterTarget[]>,
+    );
     for (const parameter of response.Parameters) {
       const parameterValue = parameter.Value;
       if (parameterValue) {
@@ -83,8 +100,9 @@ export default class AwsSystemsManagerService extends AwsService {
 
           // Skip if the stored parameter version matches
           if (
-            metadata?.data?.custom_metadata?.aws_ssm_parameter_version ===
-            parameterVersion
+            metadata?.data?.custom_metadata?.[
+              config.metadata || AWS_PARAMETER_VERSION_METADATA_KEY_DEFAULT
+            ] === parameterVersion
           ) {
             console.log(
               `Skipping parameter ${parameter.Name} (version ${parameterVersion}): vault already up to date at mount ${target.mount} and path ${target.path}`,
@@ -93,12 +111,19 @@ export default class AwsSystemsManagerService extends AwsService {
           }
 
           const parameterValueObj: ParameterValue = JSON.parse(parameterValue);
-          const dataToWrite = {
-            data: {
-              AWS_ACCESS_KEY_ID: parameterValueObj.current.AccessKeyID,
-              AWS_SECRET_ACCESS_KEY: parameterValueObj.current.SecretAccessKey,
-            },
+          const data: Record<string, string> = {
+            AWS_ACCESS_KEY_ID: parameterValueObj.current.AccessKeyID,
+            AWS_SECRET_ACCESS_KEY: parameterValueObj.current.SecretAccessKey,
           };
+          const region = target.region || config.region;
+          const roleArn = target.roleArn || config.roleArn;
+          if (region) {
+            data.AWS_DEFAULT_REGION = region;
+          }
+          if (roleArn) {
+            data.AWS_ROLE_ARN = roleArn;
+          }
+          const dataToWrite = { data };
           const vaultDataPath = `v1/${target.mount}/data/${target.path}`;
           try {
             console.log(
@@ -118,7 +143,8 @@ export default class AwsSystemsManagerService extends AwsService {
 
           // Store the parameter version as custom metadata
           await this.vault.patchKvMetadata(target.mount, target.path, {
-            aws_ssm_parameter_version: parameterVersion,
+            [config.metadata || AWS_PARAMETER_VERSION_METADATA_KEY_DEFAULT]:
+              parameterVersion,
           });
         }
       }

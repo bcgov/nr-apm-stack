@@ -10,7 +10,7 @@ import {
   accessId,
   accessKey,
   accountNumber,
-  arn,
+  roleArn,
 } from '../flags';
 
 const ACTION_SEARCH = '_search';
@@ -36,7 +36,7 @@ export default class OpensearchIndexUsage extends Command {
     ...accessId,
     ...accessKey,
     ...accountNumber,
-    ...arn,
+    ...roleArn,
     indicesname: Flags.string({
       description: 'indices name',
       env: 'OS_USAGE_INDICES',

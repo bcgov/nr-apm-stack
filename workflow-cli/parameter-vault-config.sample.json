@@ -1,20 +1,36 @@
-[
-  {
-    "name": "/iam_users/username_key",
-    "targets": [
-      {
-        "mount": "apps",
-        "path": "prod/project/service/aws-ssm-sync/kinesis"
-      }
-    ]
-  },
-  {
-    "name": "/iam_users/username_key2",
-    "targets": [
-      {
-        "mount": "apps",
-        "path": "prod/project/shared/aws-ssm-sync/kinesis"
-      }
-    ]
-  }
-]
+{
+  "region": "ca-central-1",
+  "roleArn": "arn:aws:iam::123456789012:role/ExampleRole",
+  "metadata": "aws_ssm_parameter_version",
+  "parameters": [
+    {
+      "name": "/iam_users/username_key",
+      "targets": [
+        {
+          "mount": "apps",
+          "path": "prod/project/service/sync-creds",
+          "roleArn": null,
+          "region": null
+        }
+      ]
+    },
+    {
+      "name": "/iam_users/username2_key",
+      "targets": [
+        {
+          "mount": "apps",
+          "path": "prod/project/shared/aws-ssm-sync/kinesis"
+        }
+      ]
+    },
+    {
+      "name": "/iam_users/username2_key",
+      "targets": [
+        {
+          "mount": "apps",
+          "path": "prod/project/service/aws-ssm-sync/lza"
+        }
+      ]
+    }
+  ]
+}
