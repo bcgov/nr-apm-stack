@@ -58,7 +58,7 @@ jobs:
         working-directory: ./workflow-cli
         env:
           AWS_REGION: ${{ vars.AWS_REGION }}
-          OS_URL: apm.io.nrs.gov.bc.ca
+          OS_URL: ${{ vars.AWS_OPENSEARCH_HOSTNAME }}
           OS_DOMAIN: apm-prod
           AWS_ACCOUNT_NUMBER: ${{ secrets.AWS_ACCOUNT_NUMBER }}
           VAULT_ADDR: https://knox.io.nrs.gov.bc.ca
@@ -75,7 +75,7 @@ jobs:
         working-directory: ./workflow-cli
         env:
           AWS_REGION: ${{ vars.AWS_REGION }}
-          OS_URL: apm.io.nrs.gov.bc.ca
+          OS_URL: ${{ vars.AWS_OPENSEARCH_HOSTNAME }}
           OS_DOMAIN: apm-prod
           AWS_ACCOUNT_NUMBER: ${{ secrets.AWS_ACCOUNT_NUMBER }}
         run: |
