@@ -13,13 +13,18 @@
           "ignore_above": 1024,
           "type": "keyword"
         },
+        "forwarded": {
+          "type": "boolean"
+        },
+        "forwarded_from": {
+          "ignore_above": 1024,
+          "type": "keyword"
+        },
         "auth": {
           "properties": {
-            "token_issue_time": {
-              "type": "date"
-            },
-            "remaining_uses": {
-              "type": "long"
+            "accessor": {
+              "ignore_above": 1024,
+              "type": "keyword"
             },
             "client_token": {
               "ignore_above": 1024,
@@ -37,13 +42,12 @@
             "entity_created": {
               "type": "boolean"
             },
-            "policies": {
+            "entity_id": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "token_policies": {
-              "ignore_above": 1024,
-              "type": "keyword"
+            "external_namespace_policies": {
+              "type": "flat_object"
             },
             "identity_policies": {
               "ignore_above": 1024,
@@ -77,66 +81,65 @@
                 }
               }
             },
-            "entity_id": {
+            "no_default_policy": {
+              "type": "boolean"
+            },
+            "num_uses": {
+              "type": "long"
+            },
+            "policies": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "accessor": {
-              "ignore_above": 1024,
-              "type": "keyword"
+            "policy_results": {
+              "properties": {
+                "allowed": {
+                  "type": "boolean"
+                },
+                "granting_policies": {
+                  "type": "flat_object"
+                }
+              }
             },
-            "token_type": {
+            "remaining_uses": {
+              "type": "long"
+            },
+            "token_issue_time": {
+              "type": "date"
+            },
+            "token_policies": {
               "ignore_above": 1024,
               "type": "keyword"
             },
             "token_ttl": {
               "type": "long"
+            },
+            "token_type": {
+              "ignore_above": 1024,
+              "type": "keyword"
             }
           }
         },
         "request": {
           "properties": {
-            "id": {
+            "client_certificate_serial_number": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "operation": {
+            "client_id": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "mount_point": {
+            "client_token": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "mount_type": {
+            "client_token_accessor": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "mount_class": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "mount_running_version": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "mount_accessor": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "namespace": {
-              "properties": {
-                "id": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
-                }
-              }
-            },
-            "remote_address": {
-              "type": "ip"
-            },
-            "remote_port": {
-              "type": "long"
+            "data": {
+              "type": "flat_object"
             },
             "headers": {
               "properties": {
@@ -145,41 +148,7 @@
                 }
               }
             },
-            "client_id": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "path": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "client_token_accessor": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "client_token": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "data": {
-              "type": "flat_object"
-            },
-            "wrap_ttl": {
-              "type": "long"
-            },
-            "request_uri": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            }
-          }
-        },
-        "response": {
-          "properties": {
-            "mount_point": {
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
-            "mount_type": {
+            "id": {
               "ignore_above": 1024,
               "type": "keyword"
             },
@@ -187,66 +156,80 @@
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "mount_running_plugin_version":{
-              "ignore_above": 1024,
-              "type": "keyword"
-            },
             "mount_class": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-            "data": {
-              "type": "flat_object"
+            "mount_is_external_plugin": {
+              "type": "boolean"
             },
-            "secret": {
-              "properties": {
-                "lease_id": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
-                }
-              }
-            },
-            "warnings": {
+            "mount_point": {
               "ignore_above": 1024,
               "type": "keyword"
             },
-
-            "wrap_info": {
+            "mount_running_sha256": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_running_version": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_type": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "namespace": {
               "properties": {
-                "ttl": {
-                  "type": "long"
-                },
-                "token": {
+                "id": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
-                "accessor": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
-                },
-                "creation_time": {
-                  "type": "date"
-                },
-                "creation_path": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
-                },
-                "wrapped_accessor": {
+                "path": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 }
               }
             },
+            "operation": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "path": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "policy_override": {
+              "type": "boolean"
+            },
+            "remote_address": {
+              "type": "ip"
+            },
+            "remote_port": {
+              "type": "long"
+            },
+            "replication_cluster": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "request_uri": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "wrap_ttl": {
+              "type": "long"
+            }
+          }
+        },
+        "response": {
+          "properties": {
             "auth": {
               "properties": {
-                "client_token": {
+                "accessor": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
-                "token_issue_time": {
-                  "type": "date"
-                },
-                "accessor": {
+                "client_token": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
@@ -254,18 +237,17 @@
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
+                "entity_created": {
+                  "type": "boolean"
+                },
+                "entity_id": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "external_namespace_policies": {
+                  "type": "flat_object"
+                },
                 "identity_policies": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
-                },
-                "policies": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
-                },
-                "remaining_uses": {
-                  "type": "long"
-                },
-                "token_policies": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
@@ -297,7 +279,33 @@
                     }
                   }
                 },
-                "entity_id": {
+                "no_default_policy": {
+                  "type": "boolean"
+                },
+                "num_uses": {
+                  "type": "long"
+                },
+                "policies": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "policy_results": {
+                  "properties": {
+                    "allowed": {
+                      "type": "boolean"
+                    },
+                    "granting_policies": {
+                      "type": "flat_object"
+                    }
+                  }
+                },
+                "remaining_uses": {
+                  "type": "long"
+                },
+                "token_issue_time": {
+                  "type": "date"
+                },
+                "token_policies": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 },
@@ -305,6 +313,81 @@
                   "type": "long"
                 },
                 "token_type": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            },
+            "data": {
+              "type": "flat_object"
+            },
+            "headers": {
+              "type": "flat_object"
+            },
+            "mount_accessor": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_class": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_is_external_plugin": {
+              "type": "boolean"
+            },
+            "mount_point": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_running_plugin_version": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_running_sha256": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "mount_type": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "redirect": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "secret": {
+              "properties": {
+                "lease_id": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                }
+              }
+            },
+            "warnings": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "wrap_info": {
+              "properties": {
+                "accessor": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "creation_path": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "creation_time": {
+                  "type": "date"
+                },
+                "token": {
+                  "ignore_above": 1024,
+                  "type": "keyword"
+                },
+                "ttl": {
+                  "type": "long"
+                },
+                "wrapped_accessor": {
                   "ignore_above": 1024,
                   "type": "keyword"
                 }
