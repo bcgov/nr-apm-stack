@@ -65,7 +65,7 @@
     "@aws-sdk/credential-provider-node": "^3.943.0",
     "@nestjs/common": "^11.1.9",
     "@nestjs/core": "^11.1.9",
-    "@nestjs/platform-express": "^11.1.9",
+    "@nestjs/platform-express": "^11.1.16",
     "@smithy/node-http-handler": "^4.4.5",
     "@smithy/protocol-http": "^5.3.5",
     "@smithy/signature-v4": "^5.3.5",
