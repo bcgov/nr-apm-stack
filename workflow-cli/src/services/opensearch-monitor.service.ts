@@ -217,14 +217,14 @@ export default class OpenSearchMonitorService extends AwsService {
       }
     } while (searchAfter);
     const removeHits = existingMonitorHits.filter(
-      (hit: any) => !monitorNameSet.has(hit._source.monitor.name),
+      (hit: any) => !monitorNameSet.has(hit._source.name),
     );
 
     // console.log(removeHits);
     // console.log(JSON.stringify(monitors));
     // return;
     for (const removeHit of removeHits) {
-      console.log(`Remove monitor: ${removeHit._source.monitor.name}`);
+      console.log(`Remove monitor: ${removeHit._source.name}`);
       if (!settings.dryRun) {
         // DELETE _plugins/_alerting/monitors/<monitor_id>
         await this.executeSignedHttpRequest({
@@ -242,7 +242,7 @@ export default class OpenSearchMonitorService extends AwsService {
     // Build a lookup of existing monitors by exact name
     const existingMonitorByName = new Map<string, any>();
     for (const hit of existingMonitorHits) {
-      existingMonitorByName.set(hit._source.monitor.name, hit);
+      existingMonitorByName.set(hit._source.name, hit);
     }
 
     for (const monitor of monitors) {
@@ -269,7 +269,7 @@ export default class OpenSearchMonitorService extends AwsService {
         // PUT _plugins/_alerting/monitors/<monitor_id>
         console.log(`Update monitor: ${monitor.name}`);
         if (!settings.dryRun) {
-          if (!existingHit._source.monitor.enabled) {
+          if (!existingHit._source.enabled) {
             // Do not re-enable
             monitor.enabled = false;
           }
