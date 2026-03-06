@@ -256,6 +256,36 @@ Resources:
         EntryPoints:
         - src/index.ts
 
+  ## Metric filters
+
+  EventStreamProcessingLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${EventStreamProcessing}"
+      RetentionInDays: 30
+
+  ReceivedMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    DependsOn: EventStreamProcessingLogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${EventStreamProcessing}"
+      FilterPattern: '{ $.received = * }'  # Matches JSON status logs
+      MetricTransformations:
+        - MetricNamespace: !Sub "${EventStreamProcessing}"
+          MetricName: "ReceivedCount"
+          MetricValue: "$.received"  # Extracts the "received" field as the metric value
+
+  FailedMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    DependsOn: EventStreamProcessingLogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${EventStreamProcessing}"
+      FilterPattern: '{ $.received = * }'  # Matches JSON status logs
+      MetricTransformations:
+        - MetricNamespace: !Sub "${EventStreamProcessing}"
+          MetricName: "FailedCount"
+          MetricValue: "$.failed"  # Extracts the "failed" field as the metric value
+
   ## S3 Buckets
   DlqBucket:
     Type: AWS::S3::Bucket
