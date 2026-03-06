@@ -258,8 +258,15 @@ Resources:
 
   ## Metric filters
 
+  EventStreamProcessingLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${EventStreamProcessing}"
+      RetentionInDays: 30
+
   ReceivedMetricFilter:
     Type: AWS::Logs::MetricFilter
+    DependsOn: EventStreamProcessingLogGroup
     Properties:
       LogGroupName: !Sub "/aws/lambda/${EventStreamProcessing}"
       FilterPattern: '{ $.received = * }'  # Matches JSON status logs
@@ -270,6 +277,7 @@ Resources:
 
   FailedMetricFilter:
     Type: AWS::Logs::MetricFilter
+    DependsOn: EventStreamProcessingLogGroup
     Properties:
       LogGroupName: !Sub "/aws/lambda/${EventStreamProcessing}"
       FilterPattern: '{ $.received = * }'  # Matches JSON status logs
