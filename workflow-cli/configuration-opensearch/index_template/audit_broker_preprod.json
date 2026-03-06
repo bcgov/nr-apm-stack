@@ -1,11 +1,12 @@
 {
   "index_patterns": [
-    "nrm-audit-broker-*"
+    "nrm-audit-broker-preprod*"
   ],
   "template": {
     "aliases": {
       "nrm-audit": {},
-      "nrm-audit-broker": {}
+      "nrm-audit-broker": {},
+      "nrm-audit-broker-preprod": {}
     },
     "settings": {
       "number_of_shards": 1,
@@ -15,7 +16,7 @@
       "dynamic": "strict"
     }
   },
-  "priority": 300,
+  "priority": 400,
   "composed_of": [
     "ecs_agent_8.11",
     "ecs_base_8.11",
@@ -37,6 +38,6 @@
   ],
   "version": 3,
   "_meta": {
-    "description": "NRM audit broker indices"
+    "description": "NRM Audit Broker Preprod indices"
   }
 }
