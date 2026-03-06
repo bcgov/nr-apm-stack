@@ -182,33 +182,49 @@ export default class OpenSearchMonitorService extends AwsService {
 
     const monitorNameSet = new Set(monitors.map((monitor) => monitor.name));
 
-    const existingMonitorReq = await this.executeSignedHttpRequest({
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        host: settings.hostname,
-      },
-      hostname: settings.hostname,
-      path: '/_plugins/_alerting/monitors/_search',
-      body: JSON.stringify({
+    let existingMonitorHits: any[] = [];
+    let searchAfter: any[] | undefined;
+    // Paginate through all existing monitors using search_after
+    do {
+      const searchBody: any = {
         size: 1000,
+        sort: [{ _id: 'asc' }],
         query: {
           match_bool_prefix: {
             'monitor.name': MONITORS_PREFIX,
           },
         },
-      }),
-    }).then((res) => this.waitAndReturnResponseBody(res, [404]));
-    const existingMonitorHits = JSON.parse(existingMonitorReq.body).hits.hits;
+      };
+      if (searchAfter) {
+        searchBody.search_after = searchAfter;
+      }
+      const existingMonitorReq = await this.executeSignedHttpRequest({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          host: settings.hostname,
+        },
+        hostname: settings.hostname,
+        path: '/_plugins/_alerting/monitors/_search',
+        body: JSON.stringify(searchBody),
+      }).then((res) => this.waitAndReturnResponseBody(res, [404]));
+      const hits = JSON.parse(existingMonitorReq.body).hits.hits;
+      existingMonitorHits = existingMonitorHits.concat(hits);
+      if (hits.length > 0) {
+        searchAfter = hits[hits.length - 1].sort;
+      } else {
+        searchAfter = undefined;
+      }
+    } while (searchAfter);
     const removeHits = existingMonitorHits.filter(
-      (hit: any) => !monitorNameSet.has(hit._source.name),
+      (hit: any) => !monitorNameSet.has(hit._source.monitor.name),
     );
 
     // console.log(removeHits);
     // console.log(JSON.stringify(monitors));
     // return;
     for (const removeHit of removeHits) {
-      console.log(`Remove monitor: ${removeHit._source.name}`);
+      console.log(`Remove monitor: ${removeHit._source.monitor.name}`);
       if (!settings.dryRun) {
         // DELETE _plugins/_alerting/monitors/<monitor_id>
         await this.executeSignedHttpRequest({
@@ -223,30 +239,16 @@ export default class OpenSearchMonitorService extends AwsService {
       }
     }
 
+    // Build a lookup of existing monitors by exact name
+    const existingMonitorByName = new Map<string, any>();
+    for (const hit of existingMonitorHits) {
+      existingMonitorByName.set(hit._source.monitor.name, hit);
+    }
+
     for (const monitor of monitors) {
-      const existing = await this.executeSignedHttpRequest({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          host: settings.hostname,
-        },
-        hostname: settings.hostname,
-        path: '/_plugins/_alerting/monitors/_search',
-        body: JSON.stringify({
-          query: {
-            match: {
-              'monitor.name': {
-                query: monitor.name,
-                operator: 'and',
-              },
-            },
-          },
-        }),
-      }).then((res) => this.waitAndReturnResponseBody(res, [404]));
+      const existingHit = existingMonitorByName.get(monitor.name);
 
-      const body = JSON.parse(existing.body);
-
-      if (body.hits.total.value === 0) {
+      if (!existingHit) {
         // Add
         // POST _plugins/_alerting/monitors
         console.log(`Add monitor: ${monitor.name}`);
@@ -267,7 +269,7 @@ export default class OpenSearchMonitorService extends AwsService {
         // PUT _plugins/_alerting/monitors/<monitor_id>
         console.log(`Update monitor: ${monitor.name}`);
         if (!settings.dryRun) {
-          if (!body.hits.hits[0]._source.enabled) {
+          if (!existingHit._source.monitor.enabled) {
             // Do not re-enable
             monitor.enabled = false;
           }
@@ -278,7 +280,7 @@ export default class OpenSearchMonitorService extends AwsService {
               host: settings.hostname,
             },
             hostname: settings.hostname,
-            path: `/_plugins/_alerting/monitors/${body.hits.hits[0]._id}`,
+            path: `/_plugins/_alerting/monitors/${existingHit._id}`,
             body: JSON.stringify(monitor),
           }).then((res) => this.waitAndReturnResponseBody(res, [404]));
         }
