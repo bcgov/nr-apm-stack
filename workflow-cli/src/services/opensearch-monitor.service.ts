@@ -182,40 +182,24 @@ export default class OpenSearchMonitorService extends AwsService {
 
     const monitorNameSet = new Set(monitors.map((monitor) => monitor.name));
 
-    let existingMonitorHits: any[] = [];
-    let searchAfter: any[] | undefined;
-    // Paginate through all existing monitors using search_after
-    do {
-      const searchBody: any = {
-        size: 1000,
-        sort: [{ _id: 'asc' }],
+    const existingMonitorReq = await this.executeSignedHttpRequest({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        host: settings.hostname,
+      },
+      hostname: settings.hostname,
+      path: '/_plugins/_alerting/monitors/_search',
+      body: JSON.stringify({
+        size: 10000,
         query: {
           match_bool_prefix: {
             'monitor.name': MONITORS_PREFIX,
           },
         },
-      };
-      if (searchAfter) {
-        searchBody.search_after = searchAfter;
-      }
-      const existingMonitorReq = await this.executeSignedHttpRequest({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          host: settings.hostname,
-        },
-        hostname: settings.hostname,
-        path: '/_plugins/_alerting/monitors/_search',
-        body: JSON.stringify(searchBody),
-      }).then((res) => this.waitAndReturnResponseBody(res, [404]));
-      const hits = JSON.parse(existingMonitorReq.body).hits.hits;
-      existingMonitorHits = existingMonitorHits.concat(hits);
-      if (hits.length > 0) {
-        searchAfter = hits[hits.length - 1].sort;
-      } else {
-        searchAfter = undefined;
-      }
-    } while (searchAfter);
+      }),
+    }).then((res) => this.waitAndReturnResponseBody(res, [404]));
+    const existingMonitorHits = JSON.parse(existingMonitorReq.body).hits.hits;
     const removeHits = existingMonitorHits.filter(
       (hit: any) => !monitorNameSet.has(hit._source.name),
     );
@@ -246,7 +230,36 @@ export default class OpenSearchMonitorService extends AwsService {
     }
 
     for (const monitor of monitors) {
-      const existingHit = existingMonitorByName.get(monitor.name);
+      let existingHit = existingMonitorByName.get(monitor.name);
+
+      // Fallback: per-monitor search if not found in bulk lookup
+      if (!existingHit) {
+        const fallbackReq = await this.executeSignedHttpRequest({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            host: settings.hostname,
+          },
+          hostname: settings.hostname,
+          path: '/_plugins/_alerting/monitors/_search',
+          body: JSON.stringify({
+            size: 10,
+            query: {
+              match: {
+                'monitor.name': {
+                  query: monitor.name,
+                  operator: 'and',
+                },
+              },
+            },
+          }),
+        }).then((res) => this.waitAndReturnResponseBody(res, [404]));
+        const fallbackBody = JSON.parse(fallbackReq.body);
+        // Filter client-side for exact name match
+        existingHit = fallbackBody.hits.hits.find(
+          (hit: any) => hit._source.name === monitor.name,
+        );
+      }
 
       if (!existingHit) {
         // Add
