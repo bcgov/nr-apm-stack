@@ -115,8 +115,14 @@ export default class AwsSystemsManagerService extends AwsService {
             AWS_ACCESS_KEY_ID: parameterValueObj.current.AccessKeyID,
             AWS_SECRET_ACCESS_KEY: parameterValueObj.current.SecretAccessKey,
           };
-          const region = target.region || config.region;
-          const roleArn = target.roleArn || config.roleArn;
+          // Override region and roleArn if specified in the target config, otherwise use the global config values
+          // If target is null, do not update the vault entry with region or roleArn.
+          const region =
+            target.region === null ? undefined : target.region || config.region;
+          const roleArn =
+            target.roleArn === null
+              ? undefined
+              : target.roleArn || config.roleArn;
           if (region) {
             data.AWS_DEFAULT_REGION = region;
           }
