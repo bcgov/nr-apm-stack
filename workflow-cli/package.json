@@ -18,7 +18,7 @@
     "@smithy/protocol-http": "^5.3.11",
     "@smithy/signature-v4": "^5.3.11",
     "@types/ejs": "^3.1.5",
-    "axios": "^1.13.6",
+    "axios": "^1.15.0",
     "ejs": "^5.0.1",
     "hpagent": "^1.2.0",
     "inversify": "^6.2.2",
