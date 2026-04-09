@@ -176,6 +176,30 @@ Resources:
                 - !GetAtt Stream.Arn
                 Effect: Allow
 
+  SqsReaderRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:user/<%= sqsReaderUser %>'
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'sqs-message-reader'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - sqs:DeleteMessage
+                - sqs:ReceiveMessage
+                Resource:
+                  - !Sub 'arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:apm-prod-message-queue'
+                Effect: Allow
+
   # Role assumed via STS to read IAM user keys from Parameter Store
   ParameterStoreReaderRole:
     Type: AWS::IAM::Role
