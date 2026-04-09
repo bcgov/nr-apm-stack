@@ -185,7 +185,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS: 
-                - !Sub 'arn:aws:iam::${AWS::AccountId}:user/b03a55-prod-apm-sqs-reader'
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:user/<%= sqsReaderUser %>'
             Action:
               - 'sts:AssumeRole'
       Policies:
