@@ -38,7 +38,8 @@ jobs:
         run: ./bin/dev aws-render
         working-directory: ./workflow-cli
         env:
-          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}
+          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}          
+          SQS_READER_USERNAME: ${{ vars.SQS_READER_USERNAME }}
 
       - name: Setup AWS SAM
         uses: aws-actions/setup-sam@v2
