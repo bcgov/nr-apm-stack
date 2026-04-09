@@ -197,7 +197,7 @@ Resources:
                 - sqs:DeleteMessage
                 - sqs:ReceiveMessage
                 Resource:
-                - arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:apm-prod-message-queue
+                  - !Sub 'arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:apm-prod-message-queue'
                 Effect: Allow
 
   # Role assumed via STS to read IAM user keys from Parameter Store
