@@ -223,6 +223,7 @@ Resources:
                   - ssm:GetParameters
                 Resource:<% kinesisPutUsers.forEach((user) => { %>
                   - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/<%= user %>_keys'<% }); %>
+                  - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/<%= sqsReaderUser %>_keys'
                   - !Sub
                     - 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/iam_users/${Username}_keys'
                     - Username: !Ref IamRotatorUsername
