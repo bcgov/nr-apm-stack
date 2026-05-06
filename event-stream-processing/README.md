@@ -40,8 +40,14 @@ or
 curl -s -X POST -H "Content-Type: application/json" -d @samples/access-logs.json "http://localhost:3000?print=true"
 ```
 
-## Testing with Funbucks
+## Testing with Fluent Bit
 
-Funbucks is tool for generating Fluent Bit templated configurations for servers and Kubernetes (OpenShift) deployments. The Fluent Bit configuration can be setup to read in a sample file and send to a locally running Event Stream Processing Lambda for testing.
+For comprehensive end-to-end testing of Fluent Bit configurations, use the [nr-funbucks](https://github.com/bcgov-nr/nr-funbucks) repository. Funbucks generates Fluent Bit configurations and provides a complete local testing workflow:
 
-You simply start up the Event Stream Processing Lambda as above. In the Funbucks repo, you generate a configuration for your server using the '-l' flag. Finally, you run Fluenbit either locally or in a container to send the output to the Event Stream Processing Lambda. See the Funbucks repository for more details: https://github.com/bcgov-nr/nr-funbucks#readme
+1. **Start the local server** - This lambda processes logs (the command above)
+2. **Generate Fluent Bit config** - Run `./bin/dev gen -l -s <server>` in nr-funbucks
+3. **Prepare test data** - Place log files in `lambda/data/` directory
+4. **Run Fluent Bit container** - Execute `./lambda/podman-run.sh` to send logs to this server
+5. **Verify output** - Monitor this server for processed results
+
+See [nr-funbucks Local Testing Workflow](https://github.com/bcgov-nr/nr-funbucks#local-testing-workflow) for complete step-by-step instructions and troubleshooting.
