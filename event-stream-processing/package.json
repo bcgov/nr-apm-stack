@@ -70,7 +70,7 @@
     "@smithy/protocol-http": "^5.3.11",
     "@smithy/signature-v4": "^5.3.11",
     "clean-deep": "^3.4.0",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.28.1",
     "inversify": "^7.11.0",
     "lodash": "^4.17.23",
     "maxmind": "^5.0.5",
