@@ -1,7 +1,6 @@
 import AwsService, { settings } from './aws.service';
 import * as fs from 'fs';
 import * as path from 'path';
-import ora from 'ora';
 import * as tp from 'timers/promises';
 
 interface ReindexSettings extends settings {
@@ -12,6 +11,7 @@ interface ReindexSettings extends settings {
 
 export default class ReindexService extends AwsService {
   public async reindex(settings: ReindexSettings): Promise<any> {
+    const { default: ora } = await import('ora');
     const spinner = ora('Loading config').start();
     const templateDir = path.resolve(__dirname, '../../configuration-reindex');
     const reindexConfigStr = fs.readFileSync(

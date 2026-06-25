@@ -21,7 +21,7 @@
     "axios": "^1.18.0",
     "ejs": "^6.0.1",
     "hpagent": "^1.2.0",
-    "inversify": "^8.1.1",
+    "inversify": "^7.11.0",
     "ora": "^9.4.0",
     "reflect-metadata": "^0.2.2",
     "tar-stream": "^3.2.0"
