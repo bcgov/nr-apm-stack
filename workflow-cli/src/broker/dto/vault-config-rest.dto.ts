@@ -9,7 +9,6 @@ export class VaultActorPoliciesRestDto {
   };
 }
 
-/* eslint-disable camelcase -- Library code style issue */
 export class VaultConfigApproleRestDto {
   // non-standard
   enabled!: boolean;
@@ -29,7 +28,6 @@ export class VaultConfigApproleRestDto {
   token_period?: number | string;
   token_type?: string;
 }
-/* eslint-enable camelcase */
 
 export class VaultPolicyOptionsRest {
   /** True if an application kv policies should be able to read project kv secrets */

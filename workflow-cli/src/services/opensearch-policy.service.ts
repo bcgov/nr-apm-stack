@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as fs from 'fs';
 import * as path from 'path';
 import AwsService from './aws.service';
@@ -44,7 +42,7 @@ export default class OpenSearchPolicyService extends AwsService {
           path: `/_plugins/_ism/policies/${basename}`,
         })
           .then((res) => this.waitAndReturnResponseBody(res))
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
           .then((res) =>
             console.log(
               `[${res.statusCode}] State Management Policy Added - ${basename}`,
@@ -65,14 +63,13 @@ export default class OpenSearchPolicyService extends AwsService {
           hostname: settings.hostname,
           path: `/_plugins/_ism/policies/${basename}`,
           query: {
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             if_seq_no: `${bodyJson._seq_no}`,
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
             if_primary_term: `${bodyJson._primary_term}`,
           },
         })
           .then((res) => this.waitAndReturnResponseBody(res))
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
           .then((res) =>
             console.log(
               `[${res.statusCode}] State Management Policy Update - ${basename}`,

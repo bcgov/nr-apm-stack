@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as fs from 'fs';
 import * as path from 'path';
 import AwsService from './aws.service';
@@ -52,7 +50,6 @@ export default class OpenSearchTemplateService extends AwsService {
       })
         .then((res) => this.waitAndReturnResponseBody(res))
         .then((res) => {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           console.log(
             `[${res.statusCode}] Component Template Loaded - ecs_${basename}_${version}`,
           );
@@ -85,7 +82,7 @@ export default class OpenSearchTemplateService extends AwsService {
         path: `/_component_template/ecs_nrm_${basename}_1.0`,
       })
         .then((res) => this.waitAndReturnResponseBody(res))
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
         .then((res) =>
           console.log(
             `[${res.statusCode}] Component Template Loaded - ecs_nrm_${basename}_1.0`,
@@ -117,7 +114,7 @@ export default class OpenSearchTemplateService extends AwsService {
         path: `/_index_template/nrm_${basename}`,
       })
         .then((res) => this.waitAndReturnResponseBody(res))
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
         .then((res) =>
           console.log(
             `[${res.statusCode}] Index Template Loaded - nrm_${basename}`,

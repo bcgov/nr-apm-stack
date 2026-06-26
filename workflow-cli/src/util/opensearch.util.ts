@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// eslint-disable-next-line max-len
 import {
   DescribeElasticsearchDomainCommand,
   DescribeElasticsearchDomainCommandOutput,

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /**
  * Example:
 Powershell:
@@ -22,11 +21,10 @@ export default class LambdaAssetDownloadService {
   public async doMaxMindDownload(licenseKey: string): Promise<void> {
     const maxMindDownloadUrl =
       'https://download.maxmind.com/app/geoip_download';
-    // eslint-disable-next-line max-len
+
     const dbAsnUrl = `${maxMindDownloadUrl}?edition_id=GeoLite2-ASN&license_key=${licenseKey}&suffix=tar.gz`;
     const dbAsnPath = path.resolve(BASE_PATH, 'GeoLite2-ASN.mmdb');
 
-    // eslint-disable-next-line max-len
     const dbCityUrl = `${maxMindDownloadUrl}?edition_id=GeoLite2-City&license_key=${licenseKey}&suffix=tar.gz`;
     const dbCityPath = path.resolve(BASE_PATH, 'GeoLite2-City.mmdb');
 

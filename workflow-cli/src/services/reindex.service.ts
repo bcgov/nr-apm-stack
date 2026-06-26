@@ -132,7 +132,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Reindex started`);
         return JSON.parse(res.body).task;
       });
@@ -153,7 +152,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Got indices`);
         return JSON.parse(res.body);
       });
@@ -175,7 +173,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Got indices`);
         return JSON.parse(res.body).map((index: any) => {
           return {
@@ -198,7 +195,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Got indices`);
         return res.statusCode === 200;
       });

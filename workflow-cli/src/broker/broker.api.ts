@@ -10,11 +10,7 @@ import { TYPES } from '../inversify.types';
 export class BrokerApi {
   private axiosOptions!: AxiosRequestConfig;
   private serverInstallsReq: Promise<
-    AxiosResponse<
-      GraphServerInstallsResponseDto[],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      any
-    >
+    AxiosResponse<GraphServerInstallsResponseDto[], any>
   > | null = null;
 
   /**
