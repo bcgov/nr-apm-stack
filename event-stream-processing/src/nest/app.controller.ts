@@ -1,4 +1,3 @@
-/* eslint-disable new-cap */
 import { Body, Controller, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 

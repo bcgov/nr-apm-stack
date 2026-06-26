@@ -1,12 +1,12 @@
 import { injectable } from 'inversify';
-/* eslint-disable max-len */
+
 import {
   OsDocument,
   OsDocumentCommitFailure,
   OsDocumentPipeline,
   OsDocumentProcessingFailure,
 } from './types/os-document';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 import {
   buildOsDocumentPipeline,
   partitionObjectInPipeline,
@@ -86,7 +86,7 @@ export abstract class OpenSearchService {
     const path: string = document.data.log?.file?.path
       ? document.data.log?.file?.path
       : '';
-    // eslint-disable-next-line max-len
+
     return `${type} ${team} ${hostName} ${serviceName} ${path}:${sequence} ${document.fingerprint.name} : ${message}`;
   }
 

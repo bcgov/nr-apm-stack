@@ -6,14 +6,12 @@ import { OsDocument } from '../types/os-document';
 import { RegexService } from '../shared/regex.service';
 import lodash from 'lodash';
 
-/* eslint-disable max-len,camelcase,@typescript-eslint/no-unsafe-call */
 const regex_wso2_v1 =
   /[^ ]+ (?<source__ip>.+[^ ]+) .+- \[(?<extract_timestamp>[^\]]+)\] "(?<extract_httpRequest>([^"]|(?<=\\)")*)" (?<http__response__status_code>(-?|\d+)) (?<http__response__bytes>(-?|\d+)) "(?<http__request__referrer>([^"]|(?<=\\)")*)" "(?<user_agent__original>([^"]|(?<=\\)")*)"$/;
 const regex_wso2_v2 =
   /^(?<source__ip>([^ ]+)) [^ ]+ - (-?|[^ ]+) \[(?<extract_timestamp>[^\]]+)\] "(?<extract_httpRequest>([^"]|(?<=\\)")*)" (?<http__response__status_code>(-?|\d+)) (?<http__response__bytes>(-?|\d+)) "(?<http__request__referrer>([^"]|(?<=\\)")*)" "(?<user_agent__original>([^"]|(?<=\\)")*)"$/;
 const regex_wso2_v3 =
   /^(?<source__ip>([^ ]+)) - (-?|[^ ]+) \[(?<extract_timestamp>[^\]]+)\] "(?<extract_httpRequest>([^"]|(?<=\\)")*)" (?<http__response__status_code>(-?|\d+)) (?<http__response__bytes>(-?|\d+)) "(?<http__request__referrer>([^"]|(?<=\\)")*)" "(?<user_agent__original>([^"]|(?<=\\)")*)"$/;
-/* eslint-enable max-len */
 
 /**
  * reference:

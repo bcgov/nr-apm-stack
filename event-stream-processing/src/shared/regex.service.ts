@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { LoggerService } from '../util/logger.service';
+import type { LoggerService } from '../util/logger.service';
 import { OsDocument } from '../types/os-document';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../inversify.types';

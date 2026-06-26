@@ -1,4 +1,4 @@
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 import { SQSBatchResponse } from 'aws-lambda';
 import { inject, injectable } from 'inversify';
 import { TYPES } from './inversify.types';

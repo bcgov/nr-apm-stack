@@ -47,7 +47,7 @@ describe('HashParser', () => {
         host: { hostname: 'backup' },
         log: { file: { name: 'wfappst.nrs.gov.bc.ca-access.2021.10.21.log' } },
         offset: 3850611,
-        // eslint-disable-next-line max-len
+
         message:
           'v1.0 20120211 "https://wfappst.nrs.gov.bc.ca:443" "142.24.36.36" [21/Oct/2021:08:31:18 -0700] "POST /pub/dispatch-middleware/spring-remoting/organizationService HTTP/1.1" 200 2503 bytes 481 bytes "-" "Apache-HttpClient/4.5.1 (Java/1.8.0_191)" 1 ms, "TLSv1.2" "ECDHE-RSA-AES256-GCM-SHA384"',
         '@metadata': { hash: 'host.hostname,log.file.name,offset,message' },

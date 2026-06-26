@@ -5,7 +5,6 @@ import lodash from 'lodash';
 
 @injectable()
 export class FieldExtractorService {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fieldStringToArray(fieldString: string, document: OsDocument): any[] {
     return fieldString.split(',').map((docPath) => {
       if (docPath.startsWith('basename(')) {

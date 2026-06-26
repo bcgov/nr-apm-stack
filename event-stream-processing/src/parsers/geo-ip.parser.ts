@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Parser } from '../types/parser';
 import { TYPES } from '../inversify.types';
-import { GeoIpService } from '../util/geoip.service';
+import type { GeoIpService } from '../util/geoip.service';
 import { OsDocument } from '../types/os-document';
 
 @injectable()

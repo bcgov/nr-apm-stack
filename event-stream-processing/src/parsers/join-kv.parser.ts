@@ -42,7 +42,7 @@ export class JoinKvParser implements Parser {
    */
   private showQueryParamsAsString(query: OsDocumentData): string {
     const queryString = Object.keys(query)
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+
       .map((key) => `${key}=${query[key]}`)
       .join('&');
     return queryString;
