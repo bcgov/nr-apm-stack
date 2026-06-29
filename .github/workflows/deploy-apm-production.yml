@@ -38,16 +38,16 @@ jobs:
         run: ./bin/dev aws-render
         working-directory: ./workflow-cli
         env:
-          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}          
+          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}
           SQS_READER_USERNAME: ${{ vars.SQS_READER_USERNAME }}
 
       - name: Setup AWS SAM
-        uses: aws-actions/setup-sam@v2
+        uses: aws-actions/setup-sam@v3
         with:
           use-installer: true
 
       - name: Get AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
@@ -55,10 +55,10 @@ jobs:
 
       - name: Cache SAM Build
         id: cache-sam-build
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .aws-sam
-          key: ${{ github.sha }}-sam-cache
+          key: production-${{ github.sha }}-sam-cache
 
       - name: Run SAM build
         if: steps.cache-sam-build.outputs.cache-hit != 'true'

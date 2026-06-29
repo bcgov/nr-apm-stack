@@ -2,7 +2,7 @@ import { KinesisStreamEvent } from 'aws-lambda';
 import { injectable, inject, multiInject } from 'inversify';
 import { Parser } from './types/parser';
 import { TYPES } from './inversify.types';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 import { GenericError } from './util/generic.error';
 
 import {

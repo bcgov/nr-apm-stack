@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import { NodeHttpHandler } from '@smithy/node-http-handler';
 import { HttpRequest } from '@smithy/protocol-http';
@@ -50,7 +49,7 @@ export default class AwsService {
     const signedHttpRequest =
       await this.createSignedHttpRequest(httpRequestParams);
     const nodeHttpHandler = new NodeHttpHandler();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return nodeHttpHandler.handle(signedHttpRequest as any);
   }
 
@@ -91,7 +90,6 @@ export default class AwsService {
     return client;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async createSignedHttpRequest(httpRequestParams: any) {
     const httpRequest = new HttpRequest(httpRequestParams);
     const sigV4Init = {

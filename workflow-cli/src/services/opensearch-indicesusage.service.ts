@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import AwsService from './aws.service';
 import { appendFileSync } from 'fs';
 
@@ -48,10 +47,10 @@ export default class OpenSearchIndicesUsageService extends AwsService {
         const docPercent = Number(
           (bucket.doc_count / eachIndex['docs.count']) * 100,
         ).toFixed(2);
-        // eslint-disable-next-line max-len, @typescript-eslint/restrict-template-expressions
+
         const csv = `${eachIndex.index},${eachIndex.health},${bucket.key},${bucket.doc_count},${eachIndex['docs.count']},${eachIndex['store.size']},${docPercent}\n`;
         this.saveToCSV(csvFileName, csv);
-        // eslint-disable-next-line max-len, @typescript-eslint/restrict-template-expressions
+
         // console.log(`[${arryIndices[i].index}] ${arryIndices[i].health}, ${buckets[j].key}, ${buckets[j].doc_count}, ${arryIndices[i]["docs.count"]},${arryIndices[i]["store.size"]} occupied ${docPercent} `);
       }
     }

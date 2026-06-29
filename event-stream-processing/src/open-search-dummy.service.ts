@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from './inversify.types';
 import { OpenSearchService } from './open-search.service';
 import { OsDocument, OsDocumentPipeline } from './types/os-document';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 
 @injectable()
 /**

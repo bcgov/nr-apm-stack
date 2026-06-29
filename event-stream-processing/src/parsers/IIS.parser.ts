@@ -6,11 +6,8 @@ import { TYPES } from '../inversify.types';
 import { OsDocument } from '../types/os-document';
 import { RegexService } from '../shared/regex.service';
 
-/* eslint-disable max-len,camelcase,@typescript-eslint/no-unsafe-call */
 const regex_IIS_standard01 =
   /^(?<extract_timestamp>\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\s((\S+)\s){3}(?<http__request__method>(\S+))\s(?<url__path>(\S+))\s(\S+)\s(?<url__port>(\S+))\s(?<extract_userName>(\S+))\s(?<source__ip>(-|\S+))\s(?<extract_httpVersion>(\S+))\s(?<extract_userAgent>(\S+))\s(?<extract_cookies>(\S+))\s(?<http__request__referrer>(\S+))\s(?<url__domain>(\S+))\s(?<http__response__status_code>(-|\d+))\s((-|\d+)\s){2}(?<http__request__bytes>(-|\d+))\s(?<http__response__bytes>(-|\d+))\s(?<event__duration>(-|\d+)).?$/;
-
-/* eslint-enable max-len */
 
 /**
  * reference:
@@ -45,7 +42,6 @@ export class IISParser implements Parser {
    * @param document The document to modify
    */
   apply(document: OsDocument): void {
-    // eslint-disable-next-line max-len
     const extractedFields = this.regexService.applyRegex(
       document,
       'event.original',

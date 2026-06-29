@@ -2,14 +2,14 @@ import { injectable, inject } from 'inversify';
 import { URL } from 'url';
 import { TYPES } from './inversify.types';
 import { OpenSearchService } from './open-search.service';
-// eslint-disable-next-line max-len
+
 import {
   OsDocument,
   OsDocumentCommitFailure,
   OsDocumentPipeline,
 } from './types/os-document';
 import { AwsHttpClientService } from './util/aws-http-client.service';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 
 @injectable()
 /**
@@ -51,7 +51,7 @@ export class OpenSearchPostService extends OpenSearchService {
     }
     const query: {
       refresh: string;
-      // eslint-disable-next-line camelcase
+
       filter_path?: string;
     } = { refresh: 'wait_for' };
     if (filterPath.length > 0) {
@@ -81,7 +81,6 @@ export class OpenSearchPostService extends OpenSearchService {
       )
       .then((value: any) => {
         if (value.statusCode !== 200) {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           this.logger.log(`ES_RESPONSE_STATUS_CODE ${value.statusCode}`);
           return {
             documents: [],

@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "declaration": true,
     "importHelpers": true,
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "target": "ES2021",
-    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
-    "experimentalDecorators": true,           /* Enables experimental support for ES7 decorators. */
-    "emitDecoratorMetadata": true,            /* Enables experimental support for emitting type metadata for decorators. */
+    "target": "ES2022",
+    "types": ["node"],
+    "isolatedModules": true,
   },
   "include": [
     "src/**/*"

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Context, KinesisStreamEvent } from 'aws-lambda';
 import { injectable, inject, optional } from 'inversify';
 import { OpenSearchService } from './open-search.service';
 import { TYPES } from './inversify.types';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 import { EcsTransformService } from './ecs-transform.service';
 import { BatchSummaryService } from './batch-summary.service';
 import { DeadLetterQueueService } from './dead-letter-queue.service';

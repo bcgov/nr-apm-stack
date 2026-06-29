@@ -12,7 +12,7 @@ export class GenericError extends ExtendedError {
     if (source) {
       // this.stack_before_rethrow = this.stack
       const messageLines = (this.message.match(/\n/g) || []).length + 1;
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+
       this.stack =
         this.stack
           ?.split('\n')

@@ -3,7 +3,7 @@ import { TYPES } from './inversify.types';
 import { KinesisStreamService } from './kinesis-stream.service';
 import { OsDocumentData } from './types/os-document';
 import { Context, KinesisStreamEvent, KinesisStreamRecord } from 'aws-lambda';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 
 @injectable()
 /**

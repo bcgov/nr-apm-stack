@@ -6,7 +6,7 @@ import {
   PutRecordBatchCommandInput,
 } from '@aws-sdk/client-firehose';
 import { TYPES } from './inversify.types';
-import { LoggerService } from './util/logger.service';
+import type { LoggerService } from './util/logger.service';
 
 @injectable()
 /**

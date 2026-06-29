@@ -14,7 +14,6 @@ const APACHE_ACCESS_LOG_EVENT_SIGNATURE = Object.freeze({
   }),
 });
 
-/* eslint-disable max-len,camelcase,@typescript-eslint/no-unsafe-call */
 const regex_v1 =
   /^(?<labels__format>v1\.0) (?<service__version>[^ ]+) "(?<url__scheme>[^:]+):\/\/(?<url__domain>[^:]+):(?<url__port>\d+)" "(?<source__ip>[^"]+)" \[(?<extract_timestamp>[^\]]+)\] "(?<extract_httpRequest>([^"]|(?<=\\)")*)" (?<http__response__status_code>(-?|\d+)) (?<http__request__bytes>(-?|\d+)) bytes (?<http__response__bytes>(-?|\d+)) bytes "(?<http__request__referrer>([^"]|(?<=\\)")*)" "(?<user_agent__original>([^"]|(?<=\\)")*)" (?<event__duration>\d+) ms, "(?<tls__version_protocol>[^"]+)" "(?<tls__cipher>[^"]+)"$/;
 const regex_apache_standard01 =
@@ -23,8 +22,6 @@ const regex_apache_standard02 =
   /^(?<source__ip>[^ ]+) ([^ ]+) (?<user__name>[^ ]+) \[(?<extract_timestamp>[^\]]+)\] "(?<extract_httpRequest>([^"]|(?<=\\)")*)" (?<http__response__status_code>(-?|\d+)) (?<http__response__bytes>(-?|\d+)) "(?<http__request__referrer>([^"]|(?<=\\)")*)" "(?<user_agent__original>([^"]|(?<=\\)")*)"$/;
 const regex_IIS_standard01 =
   /^(?<extract_timestamp>\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\s((\S+)\s){3}(?<http__request__method>(\S+))\s(?<url__path>(\S+))\s(\S+)\s(?<url__port>(\S+))\s(?<extract_userName>(\S+))\s(?<source__ip>(-|\S+))\s(?<extract_httpVersion>(\S+))\s(?<user_agent__original>(\S+))\s((\S+)\s){2}(?<url__domain>(\S+))\s(?<http__response__status_code>(-|\d+))\s((-|\d+)\s){2}(?<http__request__bytes>(-|\d+))\s(?<http__response__bytes>(-|\d+))\s(?<event__duration>(-|\d+)).?$/;
-
-/* eslint-enable max-len */
 
 const regexArr = [
   regex_v1,
@@ -41,7 +38,7 @@ describe('RegexService', () => {
 
   it('parses suspicious entry - 001', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -52,7 +49,7 @@ describe('RegexService', () => {
       ),
     } as unknown as OsDocument;
     const metaFields = parser.applyRegex(document, 'event.original', regexArr);
-    // eslint-disable-next-line max-len
+
     expect(metaFields).toHaveProperty(
       'httpRequest',
       'GET /WebID/IISWebAgentIF.dll?postdata=\\"><script>foo</script> HTTP/1.1',
@@ -64,7 +61,7 @@ describe('RegexService', () => {
 
   it('parses suspicious entry - 002', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -81,7 +78,7 @@ describe('RegexService', () => {
     );
     expect(document.dataExtractedTimestamp).toBe('25/May/2021:15:51:47 -0700');
     expect(document.data).not.toHaveProperty('http.request.referrer');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'user_agent.original',
       '() { _; } >_[$($())] { echo Content-Type: text/plain ; echo ; echo \\"bash_cve_2014_6278 Output : $((10+12))\\"; }',
@@ -91,7 +88,7 @@ describe('RegexService', () => {
 
   it('parses Apache standard format', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -102,7 +99,7 @@ describe('RegexService', () => {
       ),
     } as unknown as OsDocument;
     const metaFields = parser.applyRegex(document, 'event.original', regexArr);
-    // eslint-disable-next-line max-len
+
     expect(metaFields).toHaveProperty(
       'httpRequest',
       'GET /pub/eirs/viewDocumentDetail.do?fromStatic=true&repository=BDP&documentId=6612 HTTP/1.1',
@@ -118,7 +115,7 @@ describe('RegexService', () => {
 
   it('parses Apache standard format - 2', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -137,12 +134,12 @@ describe('RegexService', () => {
     );
     expect(document.data).not.toHaveProperty('http.response.bytes');
     expect(document.data).toHaveProperty('http.response.status_code', '302');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'http.request.referrer',
       'https://apps.nrs.gov.bc.ca/ext/raad3/map?execution=e1s1',
     );
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'user_agent.original',
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
@@ -153,7 +150,7 @@ describe('RegexService', () => {
 
   it('keeps dash - 3', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -169,7 +166,7 @@ describe('RegexService', () => {
 
   it('parses Windows IIS entry - 001', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -182,14 +179,14 @@ describe('RegexService', () => {
     const metaFields = parser.applyRegex(document, 'event.original', regexArr);
     expect(document.dataExtractedTimestamp).toBe('2023-06-05 00:59:47');
     expect(document.data).toHaveProperty('http.request.method', 'GET');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'url.path',
       '/ftp/HTH/external/!publish/Web/publications/CPRT-Admin-Manual.pdf',
     );
     expect(document.data).toHaveProperty('url.port', '443');
     expect(metaFields.httpVersion).toBe('HTTP/1.1');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'user_agent.original',
       'Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/105.0.0.0+Safari/537.36',
@@ -202,7 +199,7 @@ describe('RegexService', () => {
   });
   it('parses Windows IIS entry - 002', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -215,12 +212,12 @@ describe('RegexService', () => {
     const metaFields = parser.applyRegex(document, 'event.original', regexArr);
     expect(document.dataExtractedTimestamp).toBe('2023-06-05 01:33:04');
     expect(document.data).toHaveProperty('http.request.method', 'GET');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty('url.path', '/');
     expect(document.data).toHaveProperty('url.port', '443');
     expect(document.data).toHaveProperty('source.ip', '65.49.20.69');
     expect(metaFields.httpVersion).toBe('HTTP/1.1');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'user_agent.original',
       'Mozilla/5.0+(Windows+NT+10.0;+rv:109.0)+Gecko/20100101+Firefox/109.0',
@@ -233,7 +230,7 @@ describe('RegexService', () => {
   });
   it('parses Windows IIS entry - 003', () => {
     const parser = new RegexService(logger);
-    // eslint-disable-next-line max-len
+
     const document = {
       data: JSON.parse(
         JSON.stringify({
@@ -247,7 +244,7 @@ describe('RegexService', () => {
     const metaFields = parser.applyRegex(document, 'event.original', regexArr);
     expect(document.dataExtractedTimestamp).toBe('2023-06-22 00:00:21');
     expect(document.data).toHaveProperty('http.request.method', 'GET');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'url.path',
       '/hva/ecas/techdesign/Images/Interior_Log_Trans1.png',
@@ -256,7 +253,7 @@ describe('RegexService', () => {
     expect(metaFields.userName).toBe('IDIRJELINDLE');
     expect(document.data).toHaveProperty('source.ip', '142.29.73.172');
     expect(metaFields.httpVersion).toBe('HTTP/1.1');
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'user_agent.original',
       'Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/114.0.0.0+Safari/537.36+Edg/114.0.1823.51',

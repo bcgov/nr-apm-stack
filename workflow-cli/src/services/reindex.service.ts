@@ -1,7 +1,6 @@
 import AwsService, { settings } from './aws.service';
 import * as fs from 'fs';
 import * as path from 'path';
-import ora from 'ora';
 import * as tp from 'timers/promises';
 
 interface ReindexSettings extends settings {
@@ -12,6 +11,7 @@ interface ReindexSettings extends settings {
 
 export default class ReindexService extends AwsService {
   public async reindex(settings: ReindexSettings): Promise<any> {
+    const { default: ora } = await import('ora');
     const spinner = ora('Loading config').start();
     const templateDir = path.resolve(__dirname, '../../configuration-reindex');
     const reindexConfigStr = fs.readFileSync(
@@ -132,7 +132,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Reindex started`);
         return JSON.parse(res.body).task;
       });
@@ -153,7 +152,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Got indices`);
         return JSON.parse(res.body);
       });
@@ -175,7 +173,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Got indices`);
         return JSON.parse(res.body).map((index: any) => {
           return {
@@ -198,7 +195,6 @@ export default class ReindexService extends AwsService {
     })
       .then((res) => this.waitAndReturnResponseBody(res))
       .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         // console.log(`[${res.statusCode}] Got indices`);
         return res.statusCode === 200;
       });

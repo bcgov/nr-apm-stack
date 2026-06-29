@@ -75,7 +75,7 @@ describe('UrlExplodeParser', () => {
 
   it('url.original - 04', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: {
         url: {
@@ -85,24 +85,24 @@ describe('UrlExplodeParser', () => {
       },
     } as unknown as OsDocument;
     parser.apply(document);
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'url.original',
       '/ext/farm/farm265.do;jsessionid=JA6pko6NolLG_MPnJNoBbx75a-aAV9x99zjo0ECs1tH-VVS0waj4!1029141353',
     );
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'url.path',
       '/ext/farm/farm265.do;jsessionid=JA6pko6NolLG_MPnJNoBbx75a-aAV9x99zjo0ECs1tH-VVS0waj4!1029141353',
     );
-    // eslint-disable-next-line max-len
+
     // expect(document.data).toHaveProperty('url.path_param', 'jsessionid=JA6pko6NolLG_MPnJNoBbx75a-aAV9x99zjo0ECs1tH-VVS0waj4!1029141353');
     expect(document.data).not.toHaveProperty('url.query');
   });
 
   it('url.original - 05', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: {
         url: {
@@ -112,7 +112,7 @@ describe('UrlExplodeParser', () => {
       },
     } as unknown as OsDocument;
     parser.apply(document);
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'url.original',
       '/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true&grant_type=client_credentials&scope=ACTIVEMQ.*',
@@ -121,7 +121,7 @@ describe('UrlExplodeParser', () => {
       'url.path',
       '/pub/oauth2/v1/oauth/token',
     );
-    // eslint-disable-next-line max-len
+
     expect(document.data).toHaveProperty(
       'url.query',
       'disableDeveloperFilter=true&grant_type=client_credentials&scope=ACTIVEMQ.*',
@@ -130,7 +130,7 @@ describe('UrlExplodeParser', () => {
 
   it('url.original - 06', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: {
         url: {
@@ -169,7 +169,7 @@ describe('UrlExplodeParser', () => {
   });
   it('url.original - 08', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: {
         url: {
@@ -191,7 +191,7 @@ describe('UrlExplodeParser', () => {
   });
   it('url.original - 09', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: { url: { original: '*' } },
     } as unknown as OsDocument;
@@ -201,7 +201,7 @@ describe('UrlExplodeParser', () => {
   });
   it('url.original - 10', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: { url: { original: 'http://5.188.210.227/echo.php' } },
     } as unknown as OsDocument;
@@ -214,7 +214,7 @@ describe('UrlExplodeParser', () => {
   });
   it('url.original - 11', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: { url: { original: 'logontest7.gov.bc.ca:598' } },
     } as unknown as OsDocument;
@@ -229,7 +229,7 @@ describe('UrlExplodeParser', () => {
   });
   it('url.original - 12', () => {
     const parser = new UrlExplodeParser();
-    // eslint-disable-next-line max-len
+
     const document = {
       data: { url: { original: '/http://5.188.210.227/echo.php' } },
     } as unknown as OsDocument;

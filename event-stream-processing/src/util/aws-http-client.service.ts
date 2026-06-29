@@ -6,7 +6,7 @@ import { defaultProvider } from '@aws-sdk/credential-provider-node';
 import { SignatureV4 } from '@smithy/signature-v4';
 import { NodeHttpHandler } from '@smithy/node-http-handler';
 import { GenericError } from '../util/generic.error';
-import { LoggerService } from './logger.service';
+import type { LoggerService } from './logger.service';
 import { TYPES } from '../inversify.types';
 import { HttpMessage, URI } from '@smithy/types';
 
