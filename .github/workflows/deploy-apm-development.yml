@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: .aws-sam
-          key: ${{ github.sha }}-sam-cache
+          key: development-${{ github.sha }}-sam-cache
 
       - name: Run SAM build
         if: steps.cache-sam-build.outputs.cache-hit != 'true'

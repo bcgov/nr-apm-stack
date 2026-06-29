@@ -38,7 +38,7 @@ jobs:
         run: ./bin/dev aws-render
         working-directory: ./workflow-cli
         env:
-          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}          
+          KINESIS_PUT_USERNAMES: ${{ vars.KINESIS_PUT_USERNAMES }}
           SQS_READER_USERNAME: ${{ vars.SQS_READER_USERNAME }}
 
       - name: Setup AWS SAM
@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: .aws-sam
-          key: ${{ github.sha }}-sam-cache
+          key: production-${{ github.sha }}-sam-cache
 
       - name: Run SAM build
         if: steps.cache-sam-build.outputs.cache-hit != 'true'
