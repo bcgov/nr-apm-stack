@@ -45,7 +45,7 @@ jobs:
       - name: Open intention
         uses: bcgov-nr/action-broker-intention-open@v2
         with:
-          broker_jwt: ${{ secrets.BROKER_JWT }}
+          broker_jwt: ${{ secrets.BROKER_JWT_7454B405_7A21_41AF_BDA2_B64F947535D8 }}
           intention_path: workflow-cli/intention.json
           quickstart: true
 
@@ -62,7 +62,7 @@ jobs:
           OS_DOMAIN: apm-prod
           AWS_ACCOUNT_NUMBER: ${{ secrets.AWS_ACCOUNT_NUMBER }}
           VAULT_ADDR: https://knox.io.nrs.gov.bc.ca
-          BROKER_TOKEN: ${{ secrets.BROKER_JWT }}
+          BROKER_TOKEN: ${{ secrets.BROKER_JWT_7454B405_7A21_41AF_BDA2_B64F947535D8 }}
         run: |
           ./bin/run opensearch-sync
 
