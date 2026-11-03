@@ -3,7 +3,7 @@ kind: Location
 metadata:
   name: apm-stack
   annotations:
-    composer.io.nrs.gov.bc.ca/generators: gh-docs-deploy
+    composer.io.nrs.gov.bc.ca/generators: gh-docs-deploy,backstage-location
 spec:
   targets:
     - ./event-stream-processing/catalog-info.yaml

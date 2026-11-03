@@ -13,3 +13,6 @@ metadata:
     license: Apache-2.0
     github.com/project-slug: bcgov/nr-apm-stack
     composer.io.nrs.gov.bc.ca/generators: backstage
+    playbook.io.nrs.gov.bc.ca/instances: '[{"env":"development"},{"env":"test"},{"env":"production"}]'
+  tags:
+    - ""
