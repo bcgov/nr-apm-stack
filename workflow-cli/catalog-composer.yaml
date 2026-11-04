@@ -1,0 +1,5 @@
+apiVersion: composer.io.nrs.gov.bc.ca/v1
+kind: NRComposer
+spec:
+  generators:
+    - backstage

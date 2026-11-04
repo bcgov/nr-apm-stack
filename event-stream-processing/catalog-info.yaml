@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 spec:
-  system: apm-stack
+  system: nr-apm-stack
   type: service
   lifecycle: production
   owner: ""
@@ -12,7 +12,5 @@ metadata:
   annotations:
     license: Apache-2.0
     github.com/project-slug: bcgov/nr-apm-stack
-    composer.io.nrs.gov.bc.ca/generators: backstage
-    playbook.io.nrs.gov.bc.ca/instances: '[{"env":"development"},{"env":"test"},{"env":"production"}]'
   tags:
     - ""
