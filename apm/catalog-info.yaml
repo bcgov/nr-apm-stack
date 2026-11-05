@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+spec:
+  system: apm
+  type: website
+  lifecycle: production
+  owner: Oscar
+metadata:
+  name: apm-opensearch-aws
+  description: NR APM (Application Performance and Monitoring) Stack allows teams to
+    tactically respond to potential issues and strategically investigate their
+    KPIs.
+  title: NR APM Stack
+  tags:
+    - ""
+  annotations:
+    license: Apache-2.0
+    github.com/project-slug: bcgov/nr-apm-stack
