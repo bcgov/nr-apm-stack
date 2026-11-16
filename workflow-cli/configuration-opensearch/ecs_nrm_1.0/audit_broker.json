@@ -121,6 +121,30 @@
             "action_id": {
               "ignore_above": 1024,
               "type": "keyword"
+            },
+            "github_organization": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "github_repository": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "repository_id": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "catalog_file": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "catalog_last_scan": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "catalog_queued_repositories": {
+              "ignore_above": 1024,
+              "type": "keyword"
             }
           }
         },
