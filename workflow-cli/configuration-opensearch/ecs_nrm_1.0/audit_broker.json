@@ -139,8 +139,7 @@
               "type": "keyword"
             },
             "catalog_last_scan": {
-              "ignore_above": 1024,
-              "type": "keyword"
+              "type": "date"
             },
             "catalog_queued_repositories": {
               "ignore_above": 1024,
